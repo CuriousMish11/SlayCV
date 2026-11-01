@@ -1,1 +1,742 @@
-index.html
+<title>Git Seekho</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Mukta:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a school copy (notebook) — red margin line down the lesson column, a module index on the side, rough-copy/fair-copy as the running metaphor. */
+:root {
+  --paper: #FBFBF8;
+  --page: #F1F2EE;
+  --ink: #18234F;          /* fountain-pen blue-black */
+  --muted: #5B6180;
+  --rule: #D5D9E6;
+  --pen: #2340B0;          /* blue pen */
+  --margin: #CF3B32;       /* red margin line */
+  --highlight: #FFE98A;    /* highlighter */
+  --ok: #1E7A45;
+  --ok-soft: #DDF1E4;
+  --bad-soft: #FBE1DE;
+  --code-bg: #EEF0F7;
+  --font-display: "Baloo 2", "Trebuchet MS", sans-serif;
+  --font-body: "Mukta", "Segoe UI", system-ui, sans-serif;
+  --font-code: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1B2030; --page: #141824; --ink: #E8EAF4; --muted: #A2A8C4; --rule: #2E3550;
+    --pen: #8EA6FF; --margin: #F07368; --highlight: #5C4E12; --ok: #6FD39A; --ok-soft: #173826;
+    --bad-soft: #42201D; --code-bg: #232A3F;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1B2030; --page: #141824; --ink: #E8EAF4; --muted: #A2A8C4; --rule: #2E3550;
+  --pen: #8EA6FF; --margin: #F07368; --highlight: #5C4E12; --ok: #6FD39A; --ok-soft: #173826;
+  --bad-soft: #42201D; --code-bg: #232A3F;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--page); color: var(--ink); font-family: var(--font-body); font-size: 1.0625rem; line-height: 1.65; }
+.shell {
+  max-width: 1180px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 32px 64px;
+  display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 32px; align-items: start;
+}
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(2.4rem, 6vw, 3.6rem); font-weight: 700; }
+h2 { font-size: 1.85rem; font-weight: 700; }
+h3 { font-size: 1.2rem; font-weight: 600; margin-top: 8px; }
+p { margin: 0; }
+a { color: var(--pen); }
+:focus-visible { outline: 3px solid var(--pen); outline-offset: 2px; }
+code { font-family: var(--font-code); font-size: 0.88em; background: var(--code-bg); padding: 1px 6px; border-radius: 3px; }
+mark { background: var(--highlight); color: var(--ink); padding: 0 3px; }
+.label { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+
+/* Side index */
+.index { position: sticky; top: calc(16px + env(safe-area-inset-top, 0px)); display: grid; gap: 14px; }
+.progress { background: var(--paper); border: 1px solid var(--rule); padding: 14px 16px; display: grid; gap: 8px; }
+.bar { height: 8px; background: var(--rule); border-radius: 4px; overflow: hidden; }
+.bar span { display: block; height: 100%; width: 0; background: var(--ok); transition: width .3s; }
+.progress p { font-size: 0.9rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.index ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.index a {
+  display: grid; grid-template-columns: 26px 1fr; gap: 6px; align-items: baseline;
+  text-decoration: none; color: var(--ink); padding: 5px 8px; border-radius: 4px; font-size: 0.95rem; line-height: 1.3;
+}
+.index a:hover { background: var(--paper); }
+.index a .n { font-family: var(--font-display); font-weight: 700; color: var(--margin); font-variant-numeric: tabular-nums; }
+.index a.done .t { text-decoration: line-through; text-decoration-color: var(--ok); color: var(--muted); }
+
+/* Notebook column */
+.copy { background: var(--paper); border: 1px solid var(--rule); min-width: 0; position: relative; }
+.copy::before { content: ""; position: absolute; top: 0; bottom: 0; left: 56px; width: 2px; background: var(--margin); opacity: .55; }
+.copy > * { padding: 40px 48px 40px 84px; border-bottom: 1px dashed var(--rule); }
+.copy > *:last-child { border-bottom: 0; }
+
+.hero { display: grid; gap: 18px; }
+.hero .lede { font-size: 1.25rem; max-width: 56ch; color: var(--muted); }
+.meta { display: flex; gap: 10px 28px; flex-wrap: wrap; font-size: 0.95rem; }
+.meta b { font-family: var(--font-display); font-size: 1.4rem; display: block; line-height: 1.1; }
+
+.depth { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.depth > div { border-top: 4px solid var(--rule); padding-top: 12px; display: grid; gap: 6px; align-content: start; }
+.depth .deep { border-color: var(--margin); }
+.depth .know { border-color: var(--pen); }
+.depth ul { margin: 0; padding-left: 18px; font-size: 0.95rem; }
+.tag { display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 1px 8px; border-radius: 999px; border: 1.5px solid currentColor; }
+.tag.deep { color: var(--margin); }
+.tag.know { color: var(--pen); }
+.tag.later { color: var(--muted); }
+
+/* Module */
+.mod { display: grid; gap: 16px; }
+.mod-head { display: grid; gap: 6px; position: relative; }
+.mod-head .num {
+  position: absolute; left: -72px; top: -2px; width: 44px; text-align: right;
+  font-family: var(--font-display); font-weight: 700; font-size: 1.9rem; color: var(--margin); line-height: 1;
+}
+.mod-head .info { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; font-size: 0.9rem; color: var(--muted); }
+.mod p, .mod li { max-width: 66ch; }
+.mod ul, .mod ol { margin: 0; padding-left: 22px; display: grid; gap: 4px; }
+.analogy { background: var(--highlight); padding: 12px 16px; max-width: 66ch; }
+.analogy b { font-family: var(--font-display); }
+
+.term { position: relative; background: var(--code-bg); border-left: 3px solid var(--pen); overflow-x: auto; }
+.term pre { margin: 0; padding: 14px 16px; padding-right: 72px; font-family: var(--font-code); font-size: 0.88rem; line-height: 1.7; }
+.term .c { color: var(--muted); }
+.copy-btn {
+  position: absolute; top: 8px; right: 8px; font: 600 0.78rem var(--font-body); color: var(--pen);
+  background: var(--paper); border: 1px solid var(--rule); border-radius: 4px; padding: 3px 10px; cursor: pointer;
+}
+.try { border: 1.5px solid var(--pen); padding: 16px 18px; display: grid; gap: 10px; }
+.try > .label { color: var(--pen); }
+.remember { border-left: 4px solid var(--margin); padding: 4px 0 4px 16px; display: grid; gap: 4px; }
+.remember .label { color: var(--margin); }
+
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 0.95rem; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+thead th { font-size: 0.75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+td code { white-space: nowrap; }
+
+.diagram { overflow-x: auto; }
+.diagram svg { display: block; min-width: 620px; width: 100%; height: auto; }
+.d-box { fill: var(--paper); stroke: var(--ink); stroke-width: 1.5; }
+.d-cloud { fill: var(--code-bg); stroke: var(--pen); stroke-width: 1.5; }
+.d-title { font: 700 15px var(--font-display); fill: var(--ink); }
+.d-sub { font: 13px var(--font-body); fill: var(--muted); }
+.d-cmd { font: 600 13px var(--font-code); fill: var(--pen); }
+.d-line { stroke: var(--ink); stroke-width: 1.5; fill: none; }
+.d-pen { stroke: var(--pen); stroke-width: 1.5; fill: none; }
+.d-red { stroke: var(--margin); stroke-width: 2.5; fill: none; }
+.d-dot { fill: var(--ink); }
+.d-dot-red { fill: var(--margin); }
+.d-arrow { fill: var(--ink); }
+.d-arrow-pen { fill: var(--pen); }
+
+/* Quiz */
+.quiz { background: var(--page); padding: 16px 18px; display: grid; gap: 10px; }
+.quiz .q { font-weight: 700; }
+.opts { display: grid; gap: 6px; }
+.opt {
+  font: inherit; text-align: left; color: var(--ink); background: var(--paper);
+  border: 1px solid var(--rule); border-radius: 4px; padding: 8px 12px; cursor: pointer;
+}
+.opt:hover { border-color: var(--pen); }
+.opt.right { background: var(--ok-soft); border-color: var(--ok); }
+.opt.wrong { background: var(--bad-soft); border-color: var(--margin); }
+.why { font-size: 0.95rem; }
+
+.done-row { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+.done-row input { width: 20px; height: 20px; accent-color: var(--ok); }
+
+.cheat td:first-child { white-space: nowrap; }
+footer.copy-foot { font-size: 0.9rem; color: var(--muted); }
+
+@media (max-width: 920px) {
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .index { position: static; }
+  .index ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .copy::before { left: 22px; }
+  .copy > * { padding: 28px 16px 28px 40px; }
+  .mod-head .num { position: static; width: auto; text-align: left; font-size: 1.5rem; }
+  .depth { grid-template-columns: minmax(0, 1fr); }
+  .index ol { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="shell">
+  <aside class="index" aria-label="Course modules">
+    <div class="progress">
+      <span class="label">Aapki progress</span>
+      <div class="bar"><span id="bar"></span></div>
+      <p id="progress-text">0 / 11 modules complete</p>
+    </div>
+    <ol id="index-list"></ol>
+  </aside>
+
+  <main class="copy">
+    <header class="hero">
+      <span class="label">Zero se shuru · Simple Hinglish mein</span>
+      <h1>Git Seekho</h1>
+      <p class="lede">Git aur GitHub ko aasaan bhasha mein samjhiye, apne Dishā Vaastu website ke example ke saath. Har module mein ek chhota sa kaam hai aur ek quiz.</p>
+      <div class="meta">
+        <div><b>11</b>modules</div>
+        <div><b>~20 min</b>har module</div>
+        <div><b>2 hafte</b>roz ek module</div>
+      </div>
+    </header>
+
+    <section aria-labelledby="depth-h" class="mod">
+      <h2 id="depth-h">Kya kitna gehra seekhna hai</h2>
+      <p>Git mein sau se zyada commands hain. Aapko shuru mein sirf 10–12 chahiye. Yeh list batati hai kis par zyada time lagana hai.</p>
+      <div class="depth">
+        <div class="deep">
+          <span class="tag deep">Gehraai se</span>
+          <ul>
+            <li>commit (save point)</li>
+            <li>status aur diff</li>
+            <li>push aur pull</li>
+            <li>branch aur merge</li>
+            <li>Pull Request</li>
+            <li>.gitignore</li>
+            <li>galti undo karna</li>
+          </ul>
+        </div>
+        <div class="know">
+          <span class="tag know">Basic pata ho</span>
+          <ul>
+            <li>clone</li>
+            <li>log (history dekhna)</li>
+            <li>README</li>
+            <li>Issues</li>
+            <li>GitHub Pages</li>
+            <li>Public vs Private</li>
+          </ul>
+        </div>
+        <div>
+          <span class="tag later">Baad mein</span>
+          <ul>
+            <li>rebase</li>
+            <li>stash</li>
+            <li>GitHub Actions</li>
+            <li>tags aur releases</li>
+            <li>cherry-pick</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1 -->
+    <section class="mod" id="m1" data-title="Git kyun chahiye?">
+      <div class="mod-head"><span class="num">1</span><h2>Git kyun chahiye?</h2>
+        <div class="info"><span class="tag know">Samajh</span><span>15 min</span></div></div>
+      <p>Kya aapne kabhi files aise save ki hain?</p>
+      <div class="term"><pre>website.html
+website_final.html
+website_final_v2.html
+website_final_PAKKA.html
+website_final_PAKKA_sahi_wala.html</pre></div>
+      <p>Thodi der baad yaad hi nahi rehta ki kaunsi file sahi hai, kal kya badla tha, aur purana wala version kaise wapas laayein. <b>Git yahi problem solve karta hai.</b></p>
+      <div class="analogy"><b>Dukaan ka khata:</b> Jaise dukaandar har lena-dena date ke saath khate mein likhta hai, waise hi Git aapke project ka har badlav likh kar rakhta hai: kya badla, kab badla, kisne badla. Ek hi file rehti hai, par uski poori history Git ke paas hoti hai.</div>
+      <h3>Git aapko 4 cheezein deta hai</h3>
+      <ul>
+        <li><b>History:</b> har save point ki list, kabhi bhi dekh sakte hain.</li>
+        <li><b>Undo:</b> kuch toot gaya? Pichhle achhe version par wapas.</li>
+        <li><b>Backup:</b> GitHub par copy, laptop kharab ho jaaye tab bhi code safe.</li>
+        <li><b>Teamwork:</b> kai log ek saath ek project par kaam kar sakte hain.</li>
+      </ul>
+      <div class="quiz" data-answer="1">
+        <p class="q">Git ka sabse bada fayda kya hai?</p>
+        <div class="opts">
+          <button class="opt" type="button">Website ko sundar banana</button>
+          <button class="opt" type="button">Har badlav ki history rakhna aur undo karne dena</button>
+          <button class="opt" type="button">Internet speed badhana</button>
+        </div>
+        <p class="why" hidden>Sahi! Git ek khata hai jo har badlav yaad rakhta hai, taaki aap kabhi bhi peeche ja sakein.</p>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="mod" id="m2" data-title="Git aur GitHub mein farak">
+      <div class="mod-head"><span class="num">2</span><h2>Git aur GitHub mein farak</h2>
+        <div class="info"><span class="tag deep">Gehraai se</span><span>15 min</span></div></div>
+      <p>Log aksar dono ko ek samajh lete hain. Yeh do alag cheezein hain jo saath kaam karti hain.</p>
+      <div class="analogy"><b>Diary aur bank locker:</b> Git aapki <i>diary</i> hai jo aapke laptop par rehti hai. GitHub ek <i>bank locker</i> hai internet par, jahan aap diary ki copy safe rakhte ho, aur chaho to doosron ko bhi dikha sakte ho.</div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col"></th><th scope="col">Git</th><th scope="col">GitHub</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Kya hai</th><td>Ek software (tool)</td><td>Ek website / service</td></tr>
+            <tr><th scope="row">Kahan chalta hai</th><td>Aapke laptop par</td><td>Internet par (github.com)</td></tr>
+            <tr><th scope="row">Internet chahiye?</th><td>Nahi</td><td>Haan</td></tr>
+            <tr><th scope="row">Kaam</th><td>History rakhna, save points banana</td><td>Backup, sharing, teamwork, website hosting</td></tr>
+            <tr><th scope="row">Kharcha</th><td>Free</td><td>Free plan kaafi hai</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>GitHub jaisi aur services bhi hain (GitLab, Bitbucket), par sabse zyada log GitHub use karte hain, isliye hum wahi seekhenge.</p>
+      <div class="quiz" data-answer="0">
+        <p class="q">Bina internet ke kya chalega?</p>
+        <div class="opts">
+          <button class="opt" type="button">Git</button>
+          <button class="opt" type="button">GitHub</button>
+          <button class="opt" type="button">Dono nahi chalenge</button>
+        </div>
+        <p class="why" hidden>Sahi! Git laptop par chalta hai. Sirf GitHub par bhejne (push) ke liye internet chahiye.</p>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="mod" id="m3" data-title="Mac par setup">
+      <div class="mod-head"><span class="num">3</span><h2>Mac par setup</h2>
+        <div class="info"><span class="tag know">Ek baar ka kaam</span><span>30 min</span></div></div>
+      <p>Yeh sirf ek baar karna hai. Commands <b>Terminal</b> app mein chalani hain (Spotlight mein "Terminal" search karein). Har line copy karke paste karein aur Enter dabayein.</p>
+      <h3>Step 1: Git install karein</h3>
+      <div class="term"><button class="copy-btn" type="button">Copy</button><pre>xcode-select --install</pre></div>
+      <p>Ek pop-up aayega, <b>Install</b> dabayein. 5–10 minute lagenge. Check karne ke liye <code>git --version</code> chalayein.</p>
+      <h3>Step 2: Git ko apna naam batayein</h3>
+      <div class="term"><button class="copy-btn" type="button">Copy</button><pre>git config --global user.name "Aapka Naam"
+git config --global user.email "aapka-email@example.com"
+git config --global init.defaultBranch main</pre></div>
+      <p>Har save point par yahi naam likha jaayega. Email wahi rakhein jo GitHub account mein hai.</p>
+      <h3>Step 3: GitHub account</h3>
+      <p>Aapka account <code>CuriousMish11</code> pehle se bana hua hai. Bas <a href="https://github.com" target="_blank" rel="noopener">github.com</a> par sign in rehna hai.</p>
+      <h3>Step 4: GitHub CLI (laptop aur GitHub ko jodne ke liye)</h3>
+      <p>Pehle Homebrew (Mac ka app-store jaisa tool), phir GitHub CLI, phir login:</p>
+      <div class="term"><button class="copy-btn" type="button">Copy</button><pre>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install gh
+gh auth login</pre></div>
+      <p>Homebrew install aapka Mac password maangega. <code>gh auth login</code> mein yeh chunein: <b>GitHub.com → HTTPS → Yes → Login with a web browser</b>. Browser mein code daal kar approve karein.</p>
+      <div class="remember"><span class="label">Yaad rakhein</span><p>Password aur login hamesha aap khud karte hain. Claude ya koi bhi aur aapki taraf se password nahi daalta.</p></div>
+      <div class="quiz" data-answer="2">
+        <p class="q"><code>git config user.name</code> kyun set karte hain?</p>
+        <div class="opts">
+          <button class="opt" type="button">GitHub ka password set karne ke liye</button>
+          <button class="opt" type="button">Website ka naam rakhne ke liye</button>
+          <button class="opt" type="button">Taaki har save point par likha ho ki badlav kisne kiya</button>
+        </div>
+        <p class="why" hidden>Sahi! Jaise khate mein entry ke saath naam likha hota hai, waise hi har commit par aapka naam judta hai.</p>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="mod" id="m4" data-title="Pehla repository">
+      <div class="mod-head"><span class="num">4</span><h2>Pehla repository</h2>
+        <div class="info"><span class="tag deep">Gehraai se</span><span>20 min</span></div></div>
+      <p><b>Repository</b> (chhota naam: <b>repo</b>) matlab woh folder jiski history Git rakh raha hai. Har project = ek repo.</p>
+      <div class="analogy"><b>Naya khata kholna:</b> <code>git init</code> ek folder ko bolta hai, "aaj se tumhara hisaab-kitaab rakha jaayega." Folder ke andar ek chhupa hua <code>.git</code> folder ban jaata hai. Wahi khata hai. Use kabhi haath mat lagaiye.</div>
+      <div class="try">
+        <span class="label">Khud karke dekhiye</span>
+        <div class="term"><button class="copy-btn" type="button">Copy</button><pre><span class="c"># apne website folder mein jaayein</span>
+cd ~/"Claude work/vaastu-website"
+
+<span class="c"># khata kholein</span>
+git init
+
+<span class="c"># dekhein Git kya soch raha hai</span>
+git status</pre></div>
+        <p><code>git status</code> laal rang mein files dikhayega: "Untracked files". Matlab Git ne files dekhi hain par abhi unka hisaab nahi rakh raha.</p>
+      </div>
+      <div class="remember"><span class="label">Sabse kaam ki command</span><p><code>git status</code> ko apna dost bana lijiye. Jab bhi confuse ho, yahi chalaiye. Yeh batata hai abhi kya badla hai aur aage kya karna hai.</p></div>
+      <div class="quiz" data-answer="1">
+        <p class="q">Repository kya hai?</p>
+        <div class="opts">
+          <button class="opt" type="button">GitHub ka password</button>
+          <button class="opt" type="button">Ek project folder jiski history Git rakhta hai</button>
+          <button class="opt" type="button">Ek tarah ka virus</button>
+        </div>
+        <p class="why" hidden>Sahi! Repo = project folder + uska khata (.git).</p>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="mod" id="m5" data-title="Save point: add aur commit">
+      <div class="mod-head"><span class="num">5</span><h2>Save point: add aur commit</h2>
+        <div class="info"><span class="tag deep">Gehraai se</span><span>30 min · sabse zaroori</span></div></div>
+      <p>Git mein save karna do steps mein hota hai. Yeh course ka sabse important module hai.</p>
+      <div class="analogy"><b>Shaadi ki group photo:</b> Pehle photographer logon ko stage par khada karta hai (<code>git add</code>). Phir "cheese!" bol kar photo kheenchta hai (<code>git commit</code>). Jo stage par nahi tha, woh photo mein nahi aayega. Photo album mein hamesha ke liye lag jaati hai.</div>
+      <div class="diagram" role="img" aria-label="Files move from your folder to staging with git add, to history with git commit, and to GitHub with git push. git pull brings changes back.">
+        <svg viewBox="0 0 760 190">
+          <defs>
+            <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" class="d-arrow"/></marker>
+            <marker id="ahp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" class="d-arrow-pen"/></marker>
+          </defs>
+          <rect class="d-box" x="10" y="30" width="150" height="80" rx="4"/>
+          <text class="d-title" x="85" y="62" text-anchor="middle">Aapka folder</text>
+          <text class="d-sub" x="85" y="84" text-anchor="middle">jahan kaam hota hai</text>
+          <rect class="d-box" x="210" y="30" width="150" height="80" rx="4"/>
+          <text class="d-title" x="285" y="62" text-anchor="middle">Staging</text>
+          <text class="d-sub" x="285" y="84" text-anchor="middle">stage par khade log</text>
+          <rect class="d-box" x="410" y="30" width="150" height="80" rx="4"/>
+          <text class="d-title" x="485" y="62" text-anchor="middle">History</text>
+          <text class="d-sub" x="485" y="84" text-anchor="middle">photo album (laptop)</text>
+          <rect class="d-cloud" x="610" y="30" width="140" height="80" rx="18"/>
+          <text class="d-title" x="680" y="62" text-anchor="middle">GitHub</text>
+          <text class="d-sub" x="680" y="84" text-anchor="middle">internet par</text>
+          <line class="d-line" x1="160" y1="70" x2="208" y2="70" marker-end="url(#ah)"/>
+          <text class="d-cmd" x="184" y="22" text-anchor="middle">git add</text>
+          <line class="d-line" x1="360" y1="70" x2="408" y2="70" marker-end="url(#ah)"/>
+          <text class="d-cmd" x="384" y="22" text-anchor="middle">git commit</text>
+          <line class="d-pen" x1="560" y1="62" x2="608" y2="62" marker-end="url(#ahp)"/>
+          <text class="d-cmd" x="584" y="22" text-anchor="middle">git push</text>
+          <path class="d-pen" d="M680 110 V150 H85 V112" marker-end="url(#ahp)"/>
+          <text class="d-cmd" x="382" y="174" text-anchor="middle">git pull (GitHub se naye badlav laptop par)</text>
+        </svg>
+      </div>
+      <div class="try">
+        <span class="label">Khud karke dekhiye</span>
+        <div class="term"><button class="copy-btn" type="button">Copy</button><pre><span class="c"># sab badli hui files ko stage par laayein</span>
+git add .
+
+<span class="c"># photo kheenchein, saath mein ek chhota sa message</span>
+git commit -m "Pehla version: Vaastu website"
+
+<span class="c"># album dekhein</span>
+git log --oneline</pre></div>
+        <p>Ab <code>index.html</code> mein koi chhota badlav karein, phir <code>git diff</code> chalayein. Yeh dikhata hai kaunsi line hati (laal) aur kaunsi judi (hari).</p>
+      </div>
+      <h3>Achha commit message kaise likhein</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Kharab</th><th scope="col">Achha</th></tr></thead>
+          <tbody>
+            <tr><td>"changes"</td><td>"Kundli booking form joda"</td></tr>
+            <tr><td>"fix"</td><td>"Mobile par room table ka overflow theek kiya"</td></tr>
+            <tr><td>"final final"</td><td>"Rashifal ka 9–15 Nov wala text daala"</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="remember"><span class="label">Yaad rakhein</span><p>Chhote-chhote commits karein, har ek kaam ke baad ek. 6 mahine baad aap khud ko dhanyavaad denge.</p></div>
+      <div class="quiz" data-answer="2">
+        <p class="q"><code>git add</code> ke baad bina <code>git commit</code> kiye laptop band kar diya. Save point bana?</p>
+        <div class="opts">
+          <button class="opt" type="button">Haan, add se save ho jaata hai</button>
+          <button class="opt" type="button">Haan, GitHub par chala gaya</button>
+          <button class="opt" type="button">Nahi, log stage par khade hain par photo nahi kheenchi</button>
+        </div>
+        <p class="why" hidden>Sahi! Save point sirf commit se banta hai. Add sirf taiyaari hai.</p>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="mod" id="m6" data-title="GitHub par bhejna: push, pull, clone">
+      <div class="mod-head"><span class="num">6</span><h2>GitHub par bhejna: push, pull, clone</h2>
+        <div class="info"><span class="tag deep">Gehraai se</span><span>25 min</span></div></div>
+      <p>Ab tak sab kuch laptop par tha. Ab copy GitHub ke locker mein rakhte hain.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Command</th><th scope="col">Matlab</th><th scope="col">Kab</th></tr></thead>
+          <tbody>
+            <tr><td><code>git push</code></td><td>Laptop ke naye commits GitHub par bhejo</td><td>Kaam khatam karke</td></tr>
+            <tr><td><code>git pull</code></td><td>GitHub ke naye commits laptop par lao</td><td>Kaam shuru karne se pehle</td></tr>
+            <tr><td><code>git clone</code></td><td>GitHub ke project ki poori copy laptop par lao</td><td>Naye laptop par, ya kisi aur ka project</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="try">
+        <span class="label">Khud karke dekhiye</span>
+        <div class="term"><button class="copy-btn" type="button">Copy</button><pre><span class="c"># GitHub par naya repo banao aur sab bhej do (ek command mein)</span>
+gh repo create dishavaastu --public --source=. --push
+
+<span class="c"># aage se, har baar kaam ke baad</span>
+git push</pre></div>
+        <p>Phir <code>github.com/CuriousMish11/dishavaastu</code> kholiye. Aapki files wahan dikhengi.</p>
+      </div>
+      <div class="analogy"><b>Roz ka niyam:</b> Subah chai ke saath <code>git pull</code>, shaam ko band karne se pehle <code>git push</code>.</div>
+      <div class="quiz" data-answer="0">
+        <p class="q">Aapne naye laptop par kaam shuru karna hai. Pehli command?</p>
+        <div class="opts">
+          <button class="opt" type="button">git clone</button>
+          <button class="opt" type="button">git push</button>
+          <button class="opt" type="button">git init</button>
+        </div>
+        <p class="why" hidden>Sahi! Clone poora project history ke saath le aata hai. Init naya khaali khata kholta hai.</p>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="mod" id="m7" data-title="Branch: rough copy, fair copy">
+      <div class="mod-head"><span class="num">7</span><h2>Branch: rough copy, fair copy</h2>
+        <div class="info"><span class="tag deep">Gehraai se</span><span>30 min</span></div></div>
+      <div class="analogy"><b>School wali yaad:</b> Sawaal pehle <i>rough copy</i> mein karte the, sahi ho jaaye to <i>fair copy</i> mein utaarte the. Git mein fair copy ka naam hai <code>main</code> branch. Har naye kaam ke liye ek rough copy (nayi branch) banaiye.</div>
+      <div class="diagram" role="img" aria-label="The main branch continues while a branch called rashifal splits off, gets two commits, and merges back into main.">
+        <svg viewBox="0 0 640 150">
+          <line class="d-line" x1="30" y1="50" x2="610" y2="50"/>
+          <path class="d-red" d="M170 50 C 210 50, 210 110, 250 110 L 410 110 C 450 110, 450 50, 490 50"/>
+          <circle class="d-dot" cx="60" cy="50" r="8"/><circle class="d-dot" cx="170" cy="50" r="8"/>
+          <circle class="d-dot" cx="330" cy="50" r="8"/>
+          <circle class="d-dot-red" cx="280" cy="110" r="8"/><circle class="d-dot-red" cx="380" cy="110" r="8"/>
+          <circle class="d-dot" cx="490" cy="50" r="9"/><circle class="d-dot" cx="590" cy="50" r="8"/>
+          <text class="d-title" x="30" y="30">main (fair copy)</text>
+          <text class="d-cmd" x="330" y="140" text-anchor="middle">rashifal (rough copy)</text>
+          <text class="d-sub" x="490" y="30" text-anchor="middle">merge</text>
+        </svg>
+      </div>
+      <p>Fayda: rough copy mein kuch bhi toot jaaye, fair copy (aapki live website) safe rehti hai.</p>
+      <div class="try">
+        <span class="label">Khud karke dekhiye</span>
+        <div class="term"><button class="copy-btn" type="button">Copy</button><pre><span class="c"># nayi rough copy banao aur usme chale jao</span>
+git switch -c rashifal-update
+
+<span class="c"># ...index.html mein badlav, phir add + commit...</span>
+git add .
+git commit -m "Is hafte ka rashifal"
+
+<span class="c"># fair copy par wapas aao aur rough copy ka kaam mila do</span>
+git switch main
+git merge rashifal-update</pre></div>
+      </div>
+      <div class="remember"><span class="label">Yaad rakhein</span><p><code>git branch</code> batata hai aap abhi kaunsi copy mein ho (star wali). Galat branch par commit karna sabse aam galti hai.</p></div>
+      <div class="quiz" data-answer="1">
+        <p class="q">Website par naya "Testimonials" section try karna hai. Sahi tareeka?</p>
+        <div class="opts">
+          <button class="opt" type="button">Seedha main par badlav karke push</button>
+          <button class="opt" type="button">Nayi branch banakar wahan try karna</button>
+          <button class="opt" type="button">Puri website ka folder copy karke "website2" banana</button>
+        </div>
+        <p class="why" hidden>Sahi! Rough copy (branch) mein try karo, pasand aaye to merge karo.</p>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="mod" id="m8" data-title="Pull Request: copy check karwana">
+      <div class="mod-head"><span class="num">8</span><h2>Pull Request: copy check karwana</h2>
+        <div class="info"><span class="tag deep">Gehraai se</span><span>25 min</span></div></div>
+      <div class="analogy"><b>Teacher se copy check:</b> Pull Request (PR) ek request hai: "meri rough copy dekh lijiye, theek lage to fair copy mein utaar dijiye." GitHub par dikhta hai kya badla, log comment kar sakte hain, aur ek button se merge hota hai.</div>
+      <h3>PR ka safar</h3>
+      <ol>
+        <li>Branch par kaam karke <code>git push -u origin rashifal-update</code></li>
+        <li>GitHub par peela banner aata hai: <b>Compare &amp; pull request</b>. Dabaiye.</li>
+        <li>Title aur chhota description likhiye: kya badla aur kyun.</li>
+        <li><b>Files changed</b> tab mein har badlav dekhiye. Laal hata, hara juda.</li>
+        <li>Sab theek ho to <b>Merge pull request</b>. Branch delete kar dijiye.</li>
+      </ol>
+      <p>Akele kaam karte hue bhi PR useful hai: merge se pehle ek baar saare badlav aaram se dekhne ka mauka milta hai. Claude Code aksar aapke liye PR banata hai, aur aap review karke merge karte ho.</p>
+      <div class="quiz" data-answer="2">
+        <p class="q">PR merge karne se pehle sabse zaroori kya hai?</p>
+        <div class="opts">
+          <button class="opt" type="button">Title lamba likhna</button>
+          <button class="opt" type="button">Jaldi se merge kar dena</button>
+          <button class="opt" type="button">"Files changed" mein badlav dekhna</button>
+        </div>
+        <p class="why" hidden>Sahi! Review hi PR ka asli kaam hai.</p>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="mod" id="m9" data-title="Galti sudhaarna aur .gitignore">
+      <div class="mod-head"><span class="num">9</span><h2>Galti sudhaarna aur .gitignore</h2>
+        <div class="info"><span class="tag deep">Gehraai se</span><span>30 min</span></div></div>
+      <p>Galti sabse hoti hai. Git ka asli jaadu yahi hai ki galti theek ho jaati hai.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Halat</th><th scope="col">Command</th></tr></thead>
+          <tbody>
+            <tr><td>File mein badlav kiya, pasand nahi aaya, commit nahi kiya</td><td><code>git restore index.html</code></td></tr>
+            <tr><td>Galat file stage par chali gayi</td><td><code>git restore --staged file</code></td></tr>
+            <tr><td>Abhi-abhi kiye commit ka message galat hai (push nahi kiya)</td><td><code>git commit --amend -m "Naya message"</code></td></tr>
+            <tr><td>Purana commit galat tha, push bhi ho chuka</td><td><code>git revert &lt;commit-id&gt;</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><code>git revert</code> sabse safe undo hai: yeh purana commit mitata nahi, uska ulta ek naya commit banata hai. Khate mein galat entry kaat-te nahi, uske neeche sudhaar ki entry likhte hain.</p>
+      <div class="remember"><span class="label">Abhi in se door rahein</span><p><code>git reset --hard</code> aur <code>git push --force</code>. Yeh kaam mita sakte hain. Inki zaroorat pade to pehle kisi se poochhiye, ya Claude ko bataiye.</p></div>
+      <h3>.gitignore: jo GitHub par kabhi nahi jaana chahiye</h3>
+      <p>Project mein <code>.gitignore</code> naam ki file banaiye. Jo naam isme likhe, Git unhe ignore karega.</p>
+      <div class="term"><button class="copy-btn" type="button">Copy</button><pre><span class="c"># .gitignore</span>
+.env
+.DS_Store
+node_modules/
+*.log</pre></div>
+      <p><mark>Passwords, API keys aur client ka data kabhi commit mat kijiye.</mark> Public repo mein yeh poori duniya dekh sakti hai, aur delete karne ke baad bhi history mein reh jaata hai.</p>
+      <div class="quiz" data-answer="0">
+        <p class="q">Kal ka commit galat tha aur GitHub par push ho chuka hai. Kya karein?</p>
+        <div class="opts">
+          <button class="opt" type="button">git revert</button>
+          <button class="opt" type="button">git push --force</button>
+          <button class="opt" type="button">Repo delete karke naya banayein</button>
+        </div>
+        <p class="why" hidden>Sahi! Revert history ko surakshit rakhte hue galti ulta deta hai.</p>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="mod" id="m10" data-title="GitHub ke kaam ke features">
+      <div class="mod-head"><span class="num">10</span><h2>GitHub ke kaam ke features</h2>
+        <div class="info"><span class="tag know">Basic pata ho</span><span>25 min</span></div></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Feature</th><th scope="col">Kya hai</th><th scope="col">Aapke liye</th></tr></thead>
+          <tbody>
+            <tr><td><b>README.md</b></td><td>Project ka parichay, repo ke front page par dikhta hai</td><td>Har project mein ek: kya hai, kaise chalayein</td></tr>
+            <tr><td><b>Issues</b></td><td>To-do list aur bug list</td><td>"Rashifal har somvaar update karna" jaise kaam</td></tr>
+            <tr><td><b>GitHub Pages</b></td><td>Free website hosting</td><td>Dishā Vaastu site yahin live hogi</td></tr>
+            <tr><td><b>Public / Private</b></td><td>Kaun repo dekh sakta hai</td><td>Free Pages ke liye Public chahiye</td></tr>
+            <tr><td><b>Collaborators</b></td><td>Doosre logon ko access dena</td><td>Koi designer ya dost madad kare tab</td></tr>
+            <tr><td><b>Actions</b></td><td>Automatic kaam (test, deploy)</td><td>Baad mein seekhein</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>GitHub Pages: aapki website live karna</h3>
+      <ol>
+        <li>Repo <b>Public</b> ho, aur usme <code>index.html</code> ho.</li>
+        <li><b>Settings → Pages → Deploy from a branch → main → / (root) → Save</b></li>
+        <li>2 minute baad: <code>https://curiousmish11.github.io/dishavaastu/</code></li>
+      </ol>
+      <p>Iske baad har <code>git push</code> par website apne aap update ho jaati hai. Upload ka jhanjhat khatam.</p>
+      <div class="quiz" data-answer="1">
+        <p class="q">Free GitHub Pages ke liye repo kaisa hona chahiye?</p>
+        <div class="opts">
+          <button class="opt" type="button">Private</button>
+          <button class="opt" type="button">Public</button>
+          <button class="opt" type="button">Koi farak nahi padta</button>
+        </div>
+        <p class="why" hidden>Sahi! Free plan par Pages sirf public repo se chalta hai.</p>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="mod" id="m11" data-title="Har project mein Git + Claude">
+      <div class="mod-head"><span class="num">11</span><h2>Har project mein Git + Claude</h2>
+        <div class="info"><span class="tag deep">Gehraai se</span><span>20 min</span></div></div>
+      <p>Aage aap jo bhi banayenge, website, app, ya documents, sab ka tareeka yahi rahega.</p>
+      <h3>Har naye project ka niyam</h3>
+      <ol>
+        <li>Naya folder, phir <code>git init</code> (ya Claude se boliye "is folder ko git repo bana do")</li>
+        <li><code>.gitignore</code> aur <code>README.md</code> banaiye</li>
+        <li>GitHub par repo banaiye aur push kijiye</li>
+        <li>Har naya kaam nayi branch par</li>
+        <li>Kaam poora hone par PR, review, merge</li>
+      </ol>
+      <h3>Claude Code ke saath kaise kaam hota hai</h3>
+      <p>Claude Code Git ki commands aapke liye chala sakta hai. Aapko commands yaad karne ki zaroorat kam padti hai, par <b>samajhna zaroori hai</b> taaki aap jaanch sakein ki kya ho raha hai.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Aap Claude se boliye</th><th scope="col">Claude kya karega</th></tr></thead>
+          <tbody>
+            <tr><td>"Yeh badlav commit kar do"</td><td><code>git add</code> + <code>git commit</code> achhe message ke saath</td></tr>
+            <tr><td>"Naye feature ke liye branch bana do"</td><td><code>git switch -c ...</code></td></tr>
+            <tr><td>"PR bana do"</td><td>push + GitHub par Pull Request</td></tr>
+            <tr><td>"Kya badla hai dikhao"</td><td><code>git status</code> aur <code>git diff</code> samjha kar</td></tr>
+            <tr><td>"Pichhla commit undo karo"</td><td><code>git revert</code> (safe tareeka)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="remember"><span class="label">Aapka role</span><p>Claude kaam karega, aap <b>reviewer</b> ho. Merge se pehle "Files changed" dekhiye, aur push ya merge ki permission soch samajh kar dijiye.</p></div>
+      <div class="quiz" data-answer="2">
+        <p class="q">Claude ne PR banaya. Aapka kaam kya hai?</p>
+        <div class="opts">
+          <button class="opt" type="button">Bina dekhe merge karna</button>
+          <button class="opt" type="button">PR band kar dena</button>
+          <button class="opt" type="button">Badlav review karke merge karna</button>
+        </div>
+        <p class="why" hidden>Sahi! Aap project ke maalik ho. Aakhri faisla aapka.</p>
+      </div>
+    </section>
+
+    <section class="mod" id="cheat" aria-labelledby="cheat-h">
+      <h2 id="cheat-h">Cheat sheet</h2>
+      <p>Ise bookmark kar lijiye. Shuru ke 3 mahine yahi 14 commands kaafi hain.</p>
+      <div class="table-wrap">
+        <table class="cheat">
+          <thead><tr><th scope="col">Command</th><th scope="col">Matlab</th></tr></thead>
+          <tbody>
+            <tr><td><code>git status</code></td><td>Abhi kya haal hai?</td></tr>
+            <tr><td><code>git add .</code></td><td>Saare badlav stage par</td></tr>
+            <tr><td><code>git commit -m "..."</code></td><td>Save point banao</td></tr>
+            <tr><td><code>git log --oneline</code></td><td>History dekho</td></tr>
+            <tr><td><code>git diff</code></td><td>Kya-kya badla, line by line</td></tr>
+            <tr><td><code>git push</code></td><td>GitHub par bhejo</td></tr>
+            <tr><td><code>git pull</code></td><td>GitHub se lao</td></tr>
+            <tr><td><code>git clone &lt;url&gt;</code></td><td>Project laptop par copy karo</td></tr>
+            <tr><td><code>git switch -c naam</code></td><td>Nayi branch (rough copy)</td></tr>
+            <tr><td><code>git switch main</code></td><td>Fair copy par wapas</td></tr>
+            <tr><td><code>git branch</code></td><td>Main kaunsi branch par hoon?</td></tr>
+            <tr><td><code>git merge naam</code></td><td>Branch ka kaam milao</td></tr>
+            <tr><td><code>git restore file</code></td><td>Bina commit wala badlav hatao</td></tr>
+            <tr><td><code>git revert &lt;id&gt;</code></td><td>Purana commit safe tareeke se ulta karo</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="copy-foot">
+      <p>Aapki progress isi browser mein save hoti hai. Koi module samajh na aaye to Claude se poochhiye: "Module 7 phir se samjhao, aur aasaan bhasha mein."</p>
+    </footer>
+  </main>
+</div>
+
+<script>
+const STORE = "git-seekho-done";
+const mods = [...document.querySelectorAll("section.mod[id^='m']")];
+let done = new Set();
+try { done = new Set(JSON.parse(localStorage.getItem(STORE) || "[]")); } catch {}
+
+function save() { try { localStorage.setItem(STORE, JSON.stringify([...done])); } catch {} }
+
+const list = document.getElementById("index-list");
+mods.forEach((m, i) => {
+  const li = document.createElement("li");
+  li.innerHTML = `<a href="#${m.id}"><span class="n">${i + 1}</span><span class="t">${m.dataset.title}</span></a>`;
+  list.append(li);
+
+  const row = document.createElement("label");
+  row.className = "done-row";
+  row.setAttribute("for", `done-${m.id}`);
+  row.innerHTML = `<input type="checkbox" id="done-${m.id}"> Yeh module ho gaya`;
+  const box = row.querySelector("input");
+  box.checked = done.has(m.id);
+  box.addEventListener("change", () => {
+    box.checked ? done.add(m.id) : done.delete(m.id);
+    save(); render();
+  });
+  m.append(row);
+});
+const cheatLi = document.createElement("li");
+cheatLi.innerHTML = `<a href="#cheat"><span class="n">★</span><span class="t">Cheat sheet</span></a>`;
+list.append(cheatLi);
+
+function render() {
+  const n = mods.filter(m => done.has(m.id)).length;
+  document.getElementById("bar").style.width = `${(n / mods.length) * 100}%`;
+  document.getElementById("progress-text").textContent = `${n} / ${mods.length} modules complete`;
+  mods.forEach(m => list.querySelector(`a[href="#${m.id}"]`).classList.toggle("done", done.has(m.id)));
+}
+render();
+
+document.querySelectorAll(".quiz").forEach(q => {
+  const right = Number(q.dataset.answer);
+  const why = q.querySelector(".why");
+  const rightText = why.textContent;
+  q.querySelectorAll(".opt").forEach((b, i) => b.addEventListener("click", () => {
+    q.querySelectorAll(".opt").forEach(o => o.classList.remove("right", "wrong"));
+    b.classList.add(i === right ? "right" : "wrong");
+    why.textContent = i === right ? rightText : "Ek baar phir sochiye. Upar ka analogy dobara padhiye.";
+    why.hidden = false;
+  }));
+});
+
+document.querySelectorAll(".copy-btn").forEach(btn => btn.addEventListener("click", () => {
+  const pre = btn.parentElement.querySelector("pre");
+  const text = pre.innerText;
+  const ok = () => { btn.textContent = "Copied"; setTimeout(() => { btn.textContent = "Copy"; }, 1500); };
+  const fallback = () => {
+    const r = document.createRange(); r.selectNodeContents(pre);
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+    btn.textContent = "Selected, ⌘C dabayein";
+  };
+  try { navigator.clipboard.writeText(text).then(ok, fallback); } catch { fallback(); }
+}));
+
+if (location.hash) document.querySelector(location.hash)?.scrollIntoView();
+</script>
+
