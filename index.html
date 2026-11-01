@@ -258,7 +258,7 @@ footer .wrap { padding-block: 26px; display: flex; justify-content: space-betwee
 .f-serif h4 { display: flex; align-items: center; gap: 12px; text-transform: none; letter-spacing: .04em; font-size: 16px; font-weight: 500; }
 .f-serif h4::after { content: ""; flex: 1; height: 1px; background: var(--s); }
 .f-serif .sk span { background: transparent; padding: 0; }
-.f-serif .sk span:not(:last-child)::after { content: " ¬∑"; }
+.f-serif .sk span:not(:last-child)::after { content: " ·"; }
 
 .f-time { padding: 56px 64px; }
 .f-time .hdr { display: grid; grid-template-columns: auto 1fr; gap: 0 20px; align-items: center; }
@@ -303,7 +303,7 @@ footer .wrap { padding-block: 26px; display: flex; justify-content: space-betwee
   <section class="hero">
     <div class="wrap">
       <div>
-        <span class="kicker">Resume designs ¬∑ built with AI</span>
+        <span class="kicker">Resume designs · built with AI</span>
         <h1>Your resume, but make it <mark>slay</mark>.</h1>
         <p class="lede">28 designs that look good to humans and read clean to the AI that screens applications. Fill one form, let AI polish your words, download in seconds.</p>
         <div class="actions">
@@ -352,7 +352,7 @@ footer .wrap { padding-block: 26px; display: flex; justify-content: space-betwee
           <div class="ai-card ai-only" data-ai="off" id="ai-card">
             <h3>Let <mark>AI</mark> write it for you</h3>
             <p class="note">Paste your old resume or just describe yourself: studies, jobs, internships, projects, skills. AI only uses what you tell it.</p>
-            <label for="ai-notes">About you<textarea id="ai-notes" rows="5" placeholder="Final year BBA from Jaipur, 2 months marketing internship at a D2C skincare brand where I ran Instagram reels, college fest sponsorship head, good at Canva and Excel‚Ä¶"></textarea></label>
+            <label for="ai-notes">About you<textarea id="ai-notes" rows="5" placeholder="Final year BBA from Jaipur, 2 months marketing internship at a D2C skincare brand where I ran Instagram reels, college fest sponsorship head, good at Canva and Excel…"></textarea></label>
             <label for="ai-role">Job you're applying for<input id="ai-role" placeholder="Marketing Executive"></label>
             <button class="btn solid" type="button" id="ai-go">Generate my resume</button>
             <p class="status" id="ai-status" aria-live="polite"></p>
@@ -377,7 +377,7 @@ footer .wrap { padding-block: 26px; display: flex; justify-content: space-betwee
           <fieldset>
             <legend>About you</legend>
             <label for="f-summary">Summary<textarea id="f-summary" data-k="summary" rows="3"></textarea></label>
-            <div><button class="ai-mini ai-only" data-ai="off" type="button" id="ai-summary">‚ú® Write with AI</button></div>
+            <div><button class="ai-mini ai-only" data-ai="off" type="button" id="ai-summary">✨ Write with AI</button></div>
           </fieldset>
 
           <fieldset>
@@ -430,18 +430,18 @@ footer .wrap { padding-block: 26px; display: flex; justify-content: space-betwee
       <div class="plans">
         <div class="plan">
           <span class="kicker">Free</span>
-          <div class="amt">‚Çπ0</div>
+          <div class="amt">₹0</div>
           <ul><li>8 free designs</li><li>Builder and AI writing</li><li>PDF, Word and text downloads</li></ul>
         </div>
         <div class="plan star">
           <span class="kicker">Most picked</span>
-          <div class="amt">‚Çπ49 <small>per design</small></div>
+          <div class="amt">₹49 <small>per design</small></div>
           <ul><li>Any Pro design</li><li>Unlimited edits and downloads</li><li>Matching cover letter</li></ul>
           <button class="btn solid" type="button" data-order="One Pro design" data-price="49">Get a Pro design</button>
         </div>
         <div class="plan">
           <span class="kicker">All access</span>
-          <div class="amt">‚Çπ199 <small>one-time</small></div>
+          <div class="amt">₹199 <small>one-time</small></div>
           <ul><li>All 28 designs, forever</li><li>Every new design we add</li><li>Cover letters for all</li></ul>
           <button class="btn" type="button" data-order="All access" data-price="199">Get all access</button>
         </div>
@@ -465,7 +465,7 @@ footer .wrap { padding-block: 26px; display: flex; justify-content: space-betwee
 
 <footer>
   <div class="wrap">
-    <span>¬© SlayCV ¬∑ slaycv.com</span>
+    <span>© SlayCV · slaycv.com</span>
     <span>Sample people and companies in the designs are fictional.</span>
   </div>
 </footer>
@@ -474,7 +474,7 @@ footer .wrap { padding-block: 26px; display: flex; justify-content: space-betwee
   <div class="panel" role="dialog" aria-modal="true" aria-labelledby="ov-title">
     <div class="big" id="ov-big"><div class="sheet" id="ov-sheet"></div></div>
     <div class="side">
-      <button class="close" type="button" id="ov-close">Close ‚úï</button>
+      <button class="close" type="button" id="ov-close">Close ✕</button>
       <span class="kicker" id="ov-kind"></span>
       <h2 id="ov-title"></h2>
       <ul id="ov-points"></ul>
@@ -538,23 +538,23 @@ const FAM_LABEL = { solo: "Single column", serif: "Classic serif", bold: "Big na
 const SAMPLES = {
   fresher: { name: "Aanya Kapoor", title: "Marketing Graduate", email: "aanya@example.com", phone: "+91 90000 00000", city: "Jaipur", link: "linkedin.com/in/aanya-example",
     summary: "BBA graduate who loves turning ideas into content people share. Looking to start as a marketing executive at a consumer brand.",
-    experience: [{ role: "Marketing Intern", company: "D2C skincare brand", dates: "Jun ‚Äì Aug 2026", bullets: ["Planned and posted 30 Instagram reels in 8 weeks", "Grew followers from 4k to 9k", "Wrote product copy for 12 listings"] }],
-    education: [{ degree: "BBA, Marketing", school: "University in Jaipur", year: "2023 ‚Äì 2026", score: "8.6 CGPA" }, { degree: "Class XII, Commerce", school: "CBSE school, Jaipur", year: "2023", score: "92%" }],
-    projects: [{ name: "College fest sponsorships", desc: "Led a team of 5 that raised ‚Çπ3.2 lakh from 14 sponsors" }],
+    experience: [{ role: "Marketing Intern", company: "D2C skincare brand", dates: "Jun – Aug 2026", bullets: ["Planned and posted 30 Instagram reels in 8 weeks", "Grew followers from 4k to 9k", "Wrote product copy for 12 listings"] }],
+    education: [{ degree: "BBA, Marketing", school: "University in Jaipur", year: "2023 – 2026", score: "8.6 CGPA" }, { degree: "Class XII, Commerce", school: "CBSE school, Jaipur", year: "2023", score: "92%" }],
+    projects: [{ name: "College fest sponsorships", desc: "Led a team of 5 that raised ₹3.2 lakh from 14 sponsors" }],
     skills: ["Content strategy", "Instagram", "Canva", "Excel", "Copywriting", "Market research"], extras: ["Google Digital Marketing certificate", "English, Hindi"] },
   pro: { name: "Rohan Mehta", title: "Product Manager", email: "rohan@example.com", phone: "+91 90000 00000", city: "Bengaluru", link: "linkedin.com/in/rohan-example",
     summary: "Product manager with 6 years in consumer apps. I ship features users love and can prove it with numbers.",
     experience: [
-      { role: "Product Manager", company: "Fintech app, Bengaluru", dates: "2023 ‚Äì Present", bullets: ["Own payments checkout used by 2M users a month", "Raised checkout success from 91% to 96%"] },
-      { role: "Associate Product Manager", company: "Food delivery app, Gurugram", dates: "2020 ‚Äì 2023", bullets: ["Launched order scheduling, now 8% of orders", "Ran 40+ A/B tests with design and data teams"] }],
+      { role: "Product Manager", company: "Fintech app, Bengaluru", dates: "2023 – Present", bullets: ["Own payments checkout used by 2M users a month", "Raised checkout success from 91% to 96%"] },
+      { role: "Associate Product Manager", company: "Food delivery app, Gurugram", dates: "2020 – 2023", bullets: ["Launched order scheduling, now 8% of orders", "Ran 40+ A/B tests with design and data teams"] }],
     education: [{ degree: "MBA", school: "Business school, Ahmedabad", year: "2020", score: "" }, { degree: "B.Tech, Mechanical", school: "Engineering college, Pune", year: "2017", score: "" }],
     projects: [],
     skills: ["Product strategy", "A/B testing", "SQL", "Figma", "Roadmapping", "Stakeholder management"], extras: ["Certified Scrum Product Owner", "English, Hindi, Gujarati"] },
   tech: { name: "Ishaan Rao", title: "Backend Engineer", email: "ishaan@example.com", phone: "+91 90000 00000", city: "Hyderabad", link: "github.com/ishaan-example",
     summary: "Backend engineer with 4 years building payment and order systems. I like owning a service from design to on-call.",
     experience: [
-      { role: "Software Engineer II", company: "Payments company, Hyderabad", dates: "2024 ‚Äì Present", bullets: ["Own the refunds service, 2 lakh requests a day", "Cut p95 latency from 900 ms to 250 ms"] },
-      { role: "Software Engineer", company: "E-commerce company, Bengaluru", dates: "2022 ‚Äì 2024", bullets: ["Built order tracking APIs for the mobile app", "Mentored 3 interns"] }],
+      { role: "Software Engineer II", company: "Payments company, Hyderabad", dates: "2024 – Present", bullets: ["Own the refunds service, 2 lakh requests a day", "Cut p95 latency from 900 ms to 250 ms"] },
+      { role: "Software Engineer", company: "E-commerce company, Bengaluru", dates: "2022 – 2024", bullets: ["Built order tracking APIs for the mobile app", "Mentored 3 interns"] }],
     education: [{ degree: "B.Tech, Computer Science", school: "Engineering college, Chennai", year: "2022", score: "8.4 CGPA" }],
     projects: [{ name: "UPI mock server", desc: "Open-source test server used by 4 internal teams" }],
     skills: ["Go", "Java", "PostgreSQL", "Kafka", "AWS", "Docker", "System design"], extras: ["AWS Certified Developer"] },
@@ -569,7 +569,7 @@ const contactList = d => [d.email, d.phone, d.city, d.link].filter(has).map(esc)
 function sections(d, fam) {
   const H = t => `<h4>${t}</h4>`;
   const exp = (d.experience || []).filter(e => has(e.role) || has(e.company)).map(e => `<div class="it"><div class="ih"><b>${esc(e.role)}</b><span class="dt">${esc(e.dates)}</span></div><div class="io">${esc(e.company)}</div>${(e.bullets || []).filter(has).length ? `<ul>${e.bullets.filter(has).map(b => `<li>${esc(b)}</li>`).join("")}</ul>` : ""}</div>`).join("");
-  const edu = (d.education || []).filter(e => has(e.degree) || has(e.school)).map(e => `<div class="it"><div class="ih"><b>${esc(e.degree)}</b><span class="dt">${esc(e.year)}</span></div><div class="io">${esc(e.school)}${has(e.score) ? ` ¬∑ ${esc(e.score)}` : ""}</div></div>`).join("");
+  const edu = (d.education || []).filter(e => has(e.degree) || has(e.school)).map(e => `<div class="it"><div class="ih"><b>${esc(e.degree)}</b><span class="dt">${esc(e.year)}</span></div><div class="io">${esc(e.school)}${has(e.score) ? ` · ${esc(e.score)}` : ""}</div></div>`).join("");
   const proj = (d.projects || []).filter(p => has(p.name)).map(p => `<div class="it"><b>${esc(p.name)}</b><div class="io">${esc(p.desc)}</div></div>`).join("");
   const skills = (d.skills || []).filter(has);
   const extras = (d.extras || []).filter(has);
@@ -589,7 +589,7 @@ function renderResume(d, th) {
   const S = sections(d, th.fam);
   const ct = contactList(d);
   const nm = esc(d.name || "Your Name"), ti = esc(d.title || "");
-  const ctLine = ct.join("  ¬∑  ");
+  const ctLine = ct.join("  ·  ");
   const ctCol = `<div class="side-ct">${ct.map(c => `<div>${c}</div>`).join("")}</div>`;
   switch (th.fam) {
     case "solo": case "mono":
@@ -702,7 +702,7 @@ function renderList(key) {
   box.innerHTML = (state.data[key] || []).map((item, i) => `<div class="entry">
       <div class="row2">${cfg.fields.filter(f => !f[2]).map(([f, label]) => `<label for="${key}-${i}-${f}">${label}<input id="${key}-${i}-${f}" data-list="${key}" data-i="${i}" data-f="${f}" value="${esc(item[f] || "")}"></label>`).join("")}</div>
       ${cfg.fields.filter(f => f[2]).map(([f, label]) => `<label for="${key}-${i}-${f}">${label}<textarea id="${key}-${i}-${f}" data-list="${key}" data-i="${i}" data-f="${f}" rows="3">${esc(f === "bullets" ? (item[f] || []).join("\n") : (item[f] || ""))}</textarea></label>`).join("")}
-      <div class="entry-acts">${cfg.ai ? `<button class="ai-mini ai-only" data-ai="${AI ? "on" : "off"}" type="button" data-polish="${i}">‚ú® Polish with AI</button>` : "<span></span>"}<button class="linkbtn" type="button" data-remove="${key}" data-i="${i}">Remove</button></div>
+      <div class="entry-acts">${cfg.ai ? `<button class="ai-mini ai-only" data-ai="${AI ? "on" : "off"}" type="button" data-polish="${i}">✨ Polish with AI</button>` : "<span></span>"}<button class="linkbtn" type="button" data-remove="${key}" data-i="${i}">Remove</button></div>
     </div>`).join("");
 }
 form.addEventListener("click", e => {
@@ -717,7 +717,7 @@ document.getElementById("clear-sample").addEventListener("click", () => { state.
 
 // design pickers
 const pick = document.getElementById("design-pick");
-pick.innerHTML = THEMES.map(t => `<option value="${t.id}">${t.name}${t.tier === "pro" ? " ¬∑ Pro" : " ¬∑ Free"}</option>`).join("");
+pick.innerHTML = THEMES.map(t => `<option value="${t.id}">${t.name}${t.tier === "pro" ? " · Pro" : " · Free"}</option>`).join("");
 const strip = document.getElementById("strip");
 strip.innerHTML = THEMES.map(t => `<button type="button" data-theme="${t.id}"><i style="background:${t.a}"></i>${t.name}</button>`).join("");
 function setTheme(id) {
@@ -749,10 +749,10 @@ function openOrder(title, price) {
   lastFocus = document.activeElement; ovTheme = null;
   document.getElementById("ov-big").hidden = true;
   document.getElementById("ov-kind").textContent = "Order";
-  document.getElementById("ov-title").textContent = `${title} ¬∑ ‚Çπ${price}`;
+  document.getElementById("ov-title").textContent = `${title} · ₹${price}`;
   document.getElementById("ov-points").innerHTML = "";
   document.getElementById("ov-use").hidden = true;
-  document.getElementById("ov-order-title").textContent = `Pay ‚Çπ${price} for ${title}`;
+  document.getElementById("ov-order-title").textContent = `Pay ₹${price} for ${title}`;
   document.getElementById("ov-order").hidden = false;
   document.getElementById("ov-owner").hidden = false;
   ov.hidden = false; document.getElementById("ov-close").focus();
@@ -819,11 +819,11 @@ async function buildDocx(d, th) {
   const exp = (d.experience || []).filter(e => has(e.role) || has(e.company));
   if (exp.length) { kids.push(head("Experience")); exp.forEach(e => { kids.push(new Paragraph({ spacing: { before: 120 }, children: [new TextRun({ text: e.role, bold: true }), new TextRun({ text: has(e.dates) ? `   ${e.dates}` : "", color: "666666" })] }), new Paragraph({ children: [new TextRun({ text: e.company, italics: true, color: "555555" })] })); (e.bullets || []).filter(has).forEach(b => kids.push(new Paragraph({ text: b, bullet: { level: 0 } }))); }); }
   const pr = (d.projects || []).filter(p => has(p.name));
-  if (pr.length) { kids.push(head("Projects")); pr.forEach(p => kids.push(new Paragraph({ children: [new TextRun({ text: p.name, bold: true }), new TextRun({ text: has(p.desc) ? ` ‚Äì ${p.desc}` : "" })] }))); }
+  if (pr.length) { kids.push(head("Projects")); pr.forEach(p => kids.push(new Paragraph({ children: [new TextRun({ text: p.name, bold: true }), new TextRun({ text: has(p.desc) ? ` – ${p.desc}` : "" })] }))); }
   const ed = (d.education || []).filter(e => has(e.degree) || has(e.school));
-  if (ed.length) { kids.push(head("Education")); ed.forEach(e => kids.push(new Paragraph({ spacing: { before: 80 }, children: [new TextRun({ text: e.degree, bold: true }), new TextRun({ text: has(e.year) ? `   ${e.year}` : "", color: "666666" })] }), new Paragraph({ children: [new TextRun({ text: [e.school, e.score].filter(has).join(" ¬∑ "), color: "555555" })] }))); }
-  if ((d.skills || []).length) kids.push(head("Skills"), new Paragraph({ text: d.skills.join(" ¬∑ ") }));
-  if ((d.extras || []).length) kids.push(head("Certifications & more"), new Paragraph({ text: d.extras.join(" ¬∑ ") }));
+  if (ed.length) { kids.push(head("Education")); ed.forEach(e => kids.push(new Paragraph({ spacing: { before: 80 }, children: [new TextRun({ text: e.degree, bold: true }), new TextRun({ text: has(e.year) ? `   ${e.year}` : "", color: "666666" })] }), new Paragraph({ children: [new TextRun({ text: [e.school, e.score].filter(has).join(" · "), color: "555555" })] }))); }
+  if ((d.skills || []).length) kids.push(head("Skills"), new Paragraph({ text: d.skills.join(" · ") }));
+  if ((d.extras || []).length) kids.push(head("Certifications & more"), new Paragraph({ text: d.extras.join(" · ") }));
   const doc = new Document({ creator: "SlayCV", title: `${d.name || "Resume"}`, styles: { default: { document: { run: { font: "Calibri", size: 21 } } } }, sections: [{ properties: { page: { margin: { top: 720, bottom: 720, left: 900, right: 900 } } }, children: kids }] });
   return Packer.toBlob(doc);
 }
@@ -835,7 +835,7 @@ document.getElementById("dl-txt").addEventListener("click", () => {
 document.getElementById("dl-docx").addEventListener("click", async e => {
   if (paywalled()) return openOrder(theme().name, 49);
   if (!window.docx) { note.textContent = "Word export is still loading. Try again in a moment."; return; }
-  e.target.disabled = true; note.textContent = "Making your Word file‚Ä¶";
+  e.target.disabled = true; note.textContent = "Making your Word file…";
   try { await saveFile(fileBase() + ".docx", await buildDocx(state.data, theme())); }
   catch { note.textContent = "Couldn't make the Word file. Try again."; }
   finally { e.target.disabled = false; }
@@ -880,9 +880,9 @@ document.getElementById("ai-go").addEventListener("click", async e => {
   const role = document.getElementById("ai-role").value.trim();
   aiStatus.classList.remove("err");
   if (notes.length < 30) { aiStatus.classList.add("err"); aiStatus.textContent = "Tell AI a little more about yourself first (a few lines is enough)."; return; }
-  e.target.disabled = true; aiStatus.textContent = "Writing your resume‚Ä¶";
+  e.target.disabled = true; aiStatus.textContent = "Writing your resume…";
   try {
-    const r = await AI.json(`You write resumes for job seekers in India. Turn the notes into a resume as JSON with exactly this shape: ${SCHEMA}\n${RULES}\nSummary: 2‚Äì3 sentences aimed at the target job. 2‚Äì4 bullets per job. Up to 10 skills, most relevant first.\nTarget job: ${role || "not given"}\nNotes:\n"""${notes}"""`, { modelTier: "default" });
+    const r = await AI.json(`You write resumes for job seekers in India. Turn the notes into a resume as JSON with exactly this shape: ${SCHEMA}\n${RULES}\nSummary: 2–3 sentences aimed at the target job. 2–4 bullets per job. Up to 10 skills, most relevant first.\nTarget job: ${role || "not given"}\nNotes:\n"""${notes}"""`, { modelTier: "default" });
     state.data = cleanResume(r || {}, state.data);
     if (!state.data.experience.length) state.data.experience = [LISTS.experience.blank()];
     if (!state.data.education.length) state.data.education = [LISTS.education.blank()];
@@ -893,24 +893,24 @@ document.getElementById("ai-go").addEventListener("click", async e => {
 });
 
 document.getElementById("ai-summary").addEventListener("click", async e => {
-  const d = state.data; e.target.disabled = true; e.target.textContent = "Writing‚Ä¶";
+  const d = state.data; e.target.disabled = true; e.target.textContent = "Writing…";
   try {
-    const res = await AI(`Write a 2‚Äì3 sentence resume summary in first person without "I" at the start of every sentence. Use only these facts. ${RULES}\nReply with the summary text only.\n${JSON.stringify({ title: d.title, experience: d.experience, education: d.education, skills: d.skills, current_summary: d.summary })}`, { modelTier: "quick" });
+    const res = await AI(`Write a 2–3 sentence resume summary in first person without "I" at the start of every sentence. Use only these facts. ${RULES}\nReply with the summary text only.\n${JSON.stringify({ title: d.title, experience: d.experience, education: d.education, skills: d.skills, current_summary: d.summary })}`, { modelTier: "quick" });
     d.summary = res.text.trim(); document.getElementById("f-summary").value = d.summary; persist(); renderLive();
   } catch (err) { aiError(err, aiStatus); }
-  finally { e.target.disabled = false; e.target.textContent = "‚ú® Write with AI"; }
+  finally { e.target.disabled = false; e.target.textContent = "✨ Write with AI"; }
 });
 
 form.addEventListener("click", async e => {
   const b = e.target.closest("[data-polish]"); if (!b || !AI) return;
   const i = +b.dataset.polish; const job = state.data.experience[i];
-  b.disabled = true; b.textContent = "Polishing‚Ä¶";
+  b.disabled = true; b.textContent = "Polishing…";
   try {
-    const out = await AI.json(`Rewrite these notes about one job as 2‚Äì4 resume bullet points. Reply with a JSON array of strings. ${RULES}\nRole: ${job.role}\nCompany: ${job.company}\nNotes:\n${(job.bullets || []).join("\n")}`, { modelTier: "quick" });
+    const out = await AI.json(`Rewrite these notes about one job as 2–4 resume bullet points. Reply with a JSON array of strings. ${RULES}\nRole: ${job.role}\nCompany: ${job.company}\nNotes:\n${(job.bullets || []).join("\n")}`, { modelTier: "quick" });
     job.bullets = arr(out).map(str).filter(Boolean);
     document.getElementById(`experience-${i}-bullets`).value = job.bullets.join("\n"); persist(); renderLive();
   } catch (err) { aiError(err, aiStatus); }
-  finally { b.disabled = false; b.textContent = "‚ú® Polish with AI"; }
+  finally { b.disabled = false; b.textContent = "✨ Polish with AI"; }
 });
 
 // ---------- start ----------
