@@ -1,742 +1,929 @@
-<title>Git Seekho</title>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Make a job-ready CV in minutes. 28 AI-readable resume designs, free builder, PDF and Word downloads.">
+<style>
+:root { color-scheme: light; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+img { max-width: 100%; }
+</style>
+<title>SlayCV</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Mukta:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Manrope:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=DM+Serif+Display&family=IBM+Plex+Mono:wght@400;600&family=Syne:wght@600;700;800&family=Outfit:wght@400;500;600;700&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
 <style>
-/* Layout: a school copy (notebook) — red margin line down the lesson column, a module index on the side, rough-copy/fair-copy as the running metaphor. */
+/* Layout: a highlighter-on-paper storefront: big grotesk type, real A4 sheets as the product, and a builder where the preview sheet updates as you type. */
 :root {
-  --paper: #FBFBF8;
-  --page: #F1F2EE;
-  --ink: #18234F;          /* fountain-pen blue-black */
-  --muted: #5B6180;
-  --rule: #D5D9E6;
-  --pen: #2340B0;          /* blue pen */
-  --margin: #CF3B32;       /* red margin line */
-  --highlight: #FFE98A;    /* highlighter */
-  --ok: #1E7A45;
-  --ok-soft: #DDF1E4;
-  --bad-soft: #FBE1DE;
-  --code-bg: #EEF0F7;
-  --font-display: "Baloo 2", "Trebuchet MS", sans-serif;
-  --font-body: "Mukta", "Segoe UI", system-ui, sans-serif;
-  --font-code: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  --bg: #F6F7FA;
+  --surface: #FFFFFF;
+  --ink: #121218;
+  --muted: #5C5F6E;
+  --line: #DADCE5;
+  --hi: #D9FF4A;          /* highlighter */
+  --hi-ink: #121218;
+  --pro: #6A4BFF;
+  --ok: #157A4A;
+  --shadow: 0 1px 2px rgba(18,18,24,.06), 0 10px 30px rgba(18,18,24,.10);
+  --font-display: "Bricolage Grotesque", "Arial Black", sans-serif;
+  --font-body: "Manrope", "Segoe UI", system-ui, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #1B2030; --page: #141824; --ink: #E8EAF4; --muted: #A2A8C4; --rule: #2E3550;
-    --pen: #8EA6FF; --margin: #F07368; --highlight: #5C4E12; --ok: #6FD39A; --ok-soft: #173826;
-    --bad-soft: #42201D; --code-bg: #232A3F;
+    --bg: #111116; --surface: #1B1B23; --ink: #F1F1F5; --muted: #A7A9B8; --line: #2E2F3B;
+    --hi: #D9FF4A; --hi-ink: #121218; --pro: #A898FF; --ok: #5FD39A;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.45);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --paper: #1B2030; --page: #141824; --ink: #E8EAF4; --muted: #A2A8C4; --rule: #2E3550;
-  --pen: #8EA6FF; --margin: #F07368; --highlight: #5C4E12; --ok: #6FD39A; --ok-soft: #173826;
-  --bad-soft: #42201D; --code-bg: #232A3F;
+  --bg: #111116; --surface: #1B1B23; --ink: #F1F1F5; --muted: #A7A9B8; --line: #2E2F3B;
+  --hi: #D9FF4A; --hi-ink: #121218; --pro: #A898FF; --ok: #5FD39A;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.45);
   color-scheme: dark;
 }
-
 * { box-sizing: border-box; }
-body { background: var(--page); color: var(--ink); font-family: var(--font-body); font-size: 1.0625rem; line-height: 1.65; }
-.shell {
-  max-width: 1180px; margin: 0 auto;
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: 32px 64px;
-  display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 32px; align-items: start;
-}
-h1, h2, h3 { font-family: var(--font-display); line-height: 1.15; margin: 0; text-wrap: balance; }
-h1 { font-size: clamp(2.4rem, 6vw, 3.6rem); font-weight: 700; }
-h2 { font-size: 1.85rem; font-weight: 700; }
-h3 { font-size: 1.2rem; font-weight: 600; margin-top: 8px; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 1rem; line-height: 1.55; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { font-family: var(--font-display); margin: 0; line-height: 1.02; text-wrap: balance; letter-spacing: -.02em; }
 p { margin: 0; }
-a { color: var(--pen); }
-:focus-visible { outline: 3px solid var(--pen); outline-offset: 2px; }
-code { font-family: var(--font-code); font-size: 0.88em; background: var(--code-bg); padding: 1px 6px; border-radius: 3px; }
-mark { background: var(--highlight); color: var(--ink); padding: 0 3px; }
-.label { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--pro); outline-offset: 2px; }
+mark { background: var(--hi); color: var(--hi-ink); padding: 0 .12em; }
+.kicker { font-size: .78rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.btn { font: 700 .95rem var(--font-body); border-radius: 999px; padding: 11px 18px; cursor: pointer; border: 2px solid var(--ink); background: transparent; color: var(--ink); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+.btn.solid { background: var(--ink); color: var(--bg); }
+.btn.hi { background: var(--hi); color: var(--hi-ink); border-color: var(--hi); }
+.btn.sm { padding: 7px 13px; font-size: .85rem; border-width: 1.5px; }
+.btn:disabled { opacity: .5; cursor: progress; }
 
-/* Side index */
-.index { position: sticky; top: calc(16px + env(safe-area-inset-top, 0px)); display: grid; gap: 14px; }
-.progress { background: var(--paper); border: 1px solid var(--rule); padding: 14px 16px; display: grid; gap: 8px; }
-.bar { height: 8px; background: var(--rule); border-radius: 4px; overflow: hidden; }
-.bar span { display: block; height: 100%; width: 0; background: var(--ok); transition: width .3s; }
-.progress p { font-size: 0.9rem; color: var(--muted); font-variant-numeric: tabular-nums; }
-.index ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
-.index a {
-  display: grid; grid-template-columns: 26px 1fr; gap: 6px; align-items: baseline;
-  text-decoration: none; color: var(--ink); padding: 5px 8px; border-radius: 4px; font-size: 0.95rem; line-height: 1.3;
+/* Header */
+.top .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 16px; flex-wrap: wrap; }
+.logo { font: 800 1.6rem var(--font-display); text-decoration: none; letter-spacing: -.04em; }
+.logo i { font-style: normal; background: var(--hi); color: var(--hi-ink); padding: 0 6px; border-radius: 6px; margin-left: 2px; }
+.top nav { display: flex; gap: 20px; flex-wrap: wrap; font-weight: 600; font-size: .95rem; }
+.top nav a { text-decoration: none; color: var(--muted); }
+.top nav a:hover { color: var(--ink); }
+
+/* Hero */
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 32px; padding-block: 36px 40px; align-items: center; }
+.hero h1 { font-size: clamp(2.8rem, 7.5vw, 5.6rem); font-weight: 800; }
+.hero .lede { font-size: 1.15rem; color: var(--muted); max-width: 44ch; margin-top: 18px; }
+.hero .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+.proof { display: flex; gap: 22px; flex-wrap: wrap; margin-top: 26px; font-size: .9rem; color: var(--muted); }
+.proof b { display: block; font: 800 1.5rem var(--font-display); color: var(--ink); }
+.fan { position: relative; height: 380px; }
+.fan .sheet { position: absolute; width: 46%; top: 20px; left: 27%; }
+.fan .sheet:nth-child(1) { transform: rotate(-9deg) translate(-58%, 18px); }
+.fan .sheet:nth-child(3) { transform: rotate(8deg) translate(58%, 22px); }
+.fan .sheet:nth-child(2) { z-index: 1; }
+
+/* Sheets (scaled A4) */
+.sheet { position: relative; aspect-ratio: 794 / 1123; max-width: 100%; background: #fff; box-shadow: var(--shadow); overflow: hidden; border-radius: 3px; }
+.sheet > .paper { position: absolute; top: 0; left: 0; width: 794px; height: 1123px; transform-origin: 0 0; }
+
+/* Gallery */
+.gallery .wrap { padding-block: 40px 64px; display: grid; gap: 22px; }
+.sec-head { display: flex; justify-content: space-between; align-items: end; gap: 16px; flex-wrap: wrap; }
+.sec-head h2 { font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 800; }
+.filters { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip { font: 600 .88rem var(--font-body); padding: 7px 14px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 30px 22px; }
+.card { display: grid; gap: 10px; align-content: start; min-width: 0; }
+.card .sheet { cursor: pointer; transition: transform .2s; }
+.card .sheet:hover { transform: translateY(-4px) rotate(-.6deg); }
+.tier { position: absolute; bottom: 10px; right: 10px; font: 800 .7rem var(--font-body); letter-spacing: .08em; padding: 3px 8px; border-radius: 4px; }
+.tier.free { background: var(--hi); color: var(--hi-ink); }
+.tier.pro { background: #6A4BFF; color: #fff; }
+.card-meta { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.card h3 { font-size: 1.15rem; letter-spacing: -.01em; }
+.tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.tag { font-size: .72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; border: 1px solid var(--line); color: var(--muted); }
+.card .acts { display: flex; gap: 8px; }
+
+/* Builder */
+.builder { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.builder > .wrap { padding-block: 48px 56px; display: grid; gap: 24px; }
+.b-grid { display: grid; grid-template-columns: minmax(0, 440px) minmax(0, 1fr); gap: 32px; align-items: start; }
+.form { display: grid; gap: 14px; min-width: 0; }
+.ai-card { border: 2px solid var(--ink); border-radius: 14px; padding: 18px; display: grid; gap: 10px; background: var(--bg); }
+.ai-card h3 { font-size: 1.35rem; }
+.ai-card h3 mark { border-radius: 4px; }
+.status { font-size: .88rem; color: var(--muted); min-height: 1.3em; }
+.status.err { color: #C2372B; }
+fieldset { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px 16px; margin: 0; display: grid; gap: 10px; min-width: 0; }
+legend { font: 800 1.05rem var(--font-display); padding: 0 6px; }
+.row2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+label { display: grid; gap: 4px; font-size: .8rem; font-weight: 700; color: var(--muted); }
+input, textarea, select { font: 500 .95rem var(--font-body); color: var(--ink); background: var(--bg); border: 1.5px solid var(--line); border-radius: 8px; padding: 9px 11px; width: 100%; }
+textarea { resize: vertical; min-height: 76px; }
+input:focus, textarea:focus, select:focus { border-color: var(--ink); outline: none; }
+.entry { border-top: 1px dashed var(--line); padding-top: 10px; display: grid; gap: 8px; }
+.entry:first-of-type { border-top: 0; padding-top: 0; }
+.entry-acts { display: flex; gap: 8px; justify-content: space-between; flex-wrap: wrap; }
+.linkbtn { background: none; border: 0; font: 700 .82rem var(--font-body); color: var(--muted); cursor: pointer; padding: 2px 0; text-decoration: underline; }
+.ai-mini { background: none; border: 1.5px solid var(--line); border-radius: 999px; font: 700 .8rem var(--font-body); color: var(--ink); padding: 4px 10px; cursor: pointer; }
+.ai-mini:hover { border-color: var(--ink); }
+.ai-only[data-ai="off"] { display: none; }
+
+.preview { position: sticky; top: calc(16px + env(safe-area-inset-top, 0px)); display: grid; gap: 12px; min-width: 0; }
+.p-bar { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.p-bar select { width: auto; min-width: 200px; }
+.strip { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
+.strip button { flex: none; font: 700 .78rem var(--font-body); padding: 6px 10px; border-radius: 8px; border: 1.5px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; display: inline-flex; gap: 6px; align-items: center; }
+.strip button i { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.strip button[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--bg); }
+.preview .sheet { max-width: 620px; width: 100%; justify-self: center; }
+.dl { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.dl-note { font-size: .82rem; color: var(--muted); text-align: center; }
+
+/* Pricing, FAQ */
+.plain .wrap { padding-block: 56px; display: grid; gap: 24px; }
+.plain h2 { font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 800; }
+.plans { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.plan { background: var(--surface); border: 1.5px solid var(--line); border-radius: 16px; padding: 22px; display: grid; gap: 10px; align-content: start; }
+.plan.star { border: 2.5px solid var(--ink); }
+.plan .amt { font: 800 2.4rem var(--font-display); font-variant-numeric: tabular-nums; }
+.plan .amt small { font-size: 1rem; color: var(--muted); font-weight: 600; }
+.plan ul { margin: 0; padding-left: 18px; color: var(--muted); }
+.faq { display: grid; gap: 10px; max-width: 780px; }
+details { background: var(--surface); border: 1.5px solid var(--line); border-radius: 12px; padding: 14px 18px; }
+summary { font-weight: 700; cursor: pointer; }
+details p { color: var(--muted); margin-top: 8px; }
+footer .wrap { padding-block: 26px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; color: var(--muted); font-size: .9rem; border-top: 1px solid var(--line); }
+
+/* Overlay */
+.overlay { position: fixed; inset: 0; z-index: 30; background: rgba(10,10,16,.62); display: grid; place-items: center; padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.panel { background: var(--surface); border-radius: 16px; width: min(100%, 960px); max-height: 100%; overflow: auto; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
+.panel .big { background: var(--bg); padding: 20px; }
+.panel .side { padding: 24px; display: grid; gap: 12px; align-content: start; }
+.panel .side h2 { font-size: 2rem; }
+.panel .side ul { margin: 0; padding-left: 18px; color: var(--muted); }
+.close { justify-self: end; background: none; border: 0; font: 700 .95rem var(--font-body); color: var(--muted); cursor: pointer; }
+.order { background: var(--bg); border-radius: 10px; padding: 14px; display: grid; gap: 6px; font-size: .92rem; }
+.ph { border-bottom: 2px dashed var(--pro); }
+.note { font-size: .8rem; color: var(--muted); }
+
+#print-root { display: none; }
+
+@media (max-width: 1080px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .b-grid { grid-template-columns: minmax(0, 1fr); } .preview { position: static; } }
+@media (max-width: 760px) {
+  .hero .wrap { grid-template-columns: minmax(0, 1fr); }
+  .fan { height: 300px; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 14px; }
+  .plans { grid-template-columns: minmax(0, 1fr); }
+  .panel { grid-template-columns: minmax(0, 1fr); }
+  .card .acts { flex-direction: column; }
 }
-.index a:hover { background: var(--paper); }
-.index a .n { font-family: var(--font-display); font-weight: 700; color: var(--margin); font-variant-numeric: tabular-nums; }
-.index a.done .t { text-decoration: line-through; text-decoration-color: var(--ok); color: var(--muted); }
-
-/* Notebook column */
-.copy { background: var(--paper); border: 1px solid var(--rule); min-width: 0; position: relative; }
-.copy::before { content: ""; position: absolute; top: 0; bottom: 0; left: 56px; width: 2px; background: var(--margin); opacity: .55; }
-.copy > * { padding: 40px 48px 40px 84px; border-bottom: 1px dashed var(--rule); }
-.copy > *:last-child { border-bottom: 0; }
-
-.hero { display: grid; gap: 18px; }
-.hero .lede { font-size: 1.25rem; max-width: 56ch; color: var(--muted); }
-.meta { display: flex; gap: 10px 28px; flex-wrap: wrap; font-size: 0.95rem; }
-.meta b { font-family: var(--font-display); font-size: 1.4rem; display: block; line-height: 1.1; }
-
-.depth { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.depth > div { border-top: 4px solid var(--rule); padding-top: 12px; display: grid; gap: 6px; align-content: start; }
-.depth .deep { border-color: var(--margin); }
-.depth .know { border-color: var(--pen); }
-.depth ul { margin: 0; padding-left: 18px; font-size: 0.95rem; }
-.tag { display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 1px 8px; border-radius: 999px; border: 1.5px solid currentColor; }
-.tag.deep { color: var(--margin); }
-.tag.know { color: var(--pen); }
-.tag.later { color: var(--muted); }
-
-/* Module */
-.mod { display: grid; gap: 16px; }
-.mod-head { display: grid; gap: 6px; position: relative; }
-.mod-head .num {
-  position: absolute; left: -72px; top: -2px; width: 44px; text-align: right;
-  font-family: var(--font-display); font-weight: 700; font-size: 1.9rem; color: var(--margin); line-height: 1;
-}
-.mod-head .info { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; font-size: 0.9rem; color: var(--muted); }
-.mod p, .mod li { max-width: 66ch; }
-.mod ul, .mod ol { margin: 0; padding-left: 22px; display: grid; gap: 4px; }
-.analogy { background: var(--highlight); padding: 12px 16px; max-width: 66ch; }
-.analogy b { font-family: var(--font-display); }
-
-.term { position: relative; background: var(--code-bg); border-left: 3px solid var(--pen); overflow-x: auto; }
-.term pre { margin: 0; padding: 14px 16px; padding-right: 72px; font-family: var(--font-code); font-size: 0.88rem; line-height: 1.7; }
-.term .c { color: var(--muted); }
-.copy-btn {
-  position: absolute; top: 8px; right: 8px; font: 600 0.78rem var(--font-body); color: var(--pen);
-  background: var(--paper); border: 1px solid var(--rule); border-radius: 4px; padding: 3px 10px; cursor: pointer;
-}
-.try { border: 1.5px solid var(--pen); padding: 16px 18px; display: grid; gap: 10px; }
-.try > .label { color: var(--pen); }
-.remember { border-left: 4px solid var(--margin); padding: 4px 0 4px 16px; display: grid; gap: 4px; }
-.remember .label { color: var(--margin); }
-
-.table-wrap { overflow-x: auto; }
-table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 0.95rem; }
-th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
-thead th { font-size: 0.75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-td code { white-space: nowrap; }
-
-.diagram { overflow-x: auto; }
-.diagram svg { display: block; min-width: 620px; width: 100%; height: auto; }
-.d-box { fill: var(--paper); stroke: var(--ink); stroke-width: 1.5; }
-.d-cloud { fill: var(--code-bg); stroke: var(--pen); stroke-width: 1.5; }
-.d-title { font: 700 15px var(--font-display); fill: var(--ink); }
-.d-sub { font: 13px var(--font-body); fill: var(--muted); }
-.d-cmd { font: 600 13px var(--font-code); fill: var(--pen); }
-.d-line { stroke: var(--ink); stroke-width: 1.5; fill: none; }
-.d-pen { stroke: var(--pen); stroke-width: 1.5; fill: none; }
-.d-red { stroke: var(--margin); stroke-width: 2.5; fill: none; }
-.d-dot { fill: var(--ink); }
-.d-dot-red { fill: var(--margin); }
-.d-arrow { fill: var(--ink); }
-.d-arrow-pen { fill: var(--pen); }
-
-/* Quiz */
-.quiz { background: var(--page); padding: 16px 18px; display: grid; gap: 10px; }
-.quiz .q { font-weight: 700; }
-.opts { display: grid; gap: 6px; }
-.opt {
-  font: inherit; text-align: left; color: var(--ink); background: var(--paper);
-  border: 1px solid var(--rule); border-radius: 4px; padding: 8px 12px; cursor: pointer;
-}
-.opt:hover { border-color: var(--pen); }
-.opt.right { background: var(--ok-soft); border-color: var(--ok); }
-.opt.wrong { background: var(--bad-soft); border-color: var(--margin); }
-.why { font-size: 0.95rem; }
-
-.done-row { display: flex; align-items: center; gap: 10px; font-weight: 600; }
-.done-row input { width: 20px; height: 20px; accent-color: var(--ok); }
-
-.cheat td:first-child { white-space: nowrap; }
-footer.copy-foot { font-size: 0.9rem; color: var(--muted); }
-
-@media (max-width: 920px) {
-  .shell { grid-template-columns: minmax(0, 1fr); }
-  .index { position: static; }
-  .index ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (max-width: 640px) {
-  .copy::before { left: 22px; }
-  .copy > * { padding: 28px 16px 28px 40px; }
-  .mod-head .num { position: static; width: auto; text-align: left; font-size: 1.5rem; }
-  .depth { grid-template-columns: minmax(0, 1fr); }
-  .index ol { grid-template-columns: minmax(0, 1fr); }
-}
+@media (max-width: 420px) { .row2 { grid-template-columns: minmax(0, 1fr); } .fan { height: 240px; } }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+@media print {
+  @page { size: A4; margin: 0; }
+  body > *:not(#print-root) { display: none !important; }
+  body { background: #fff; }
+  #print-root { display: block; }
+  #print-root .paper { width: 210mm; min-height: 297mm; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* ===== Resume designs. Printed on white paper, coloured from each design's own variables. ===== */
+.paper { background: #fff; color: var(--k); font-family: var(--bf); font-size: 13.5px; line-height: 1.5; overflow: hidden; }
+.paper * { box-sizing: border-box; }
+.paper h4 { margin: 20px 0 8px; font-family: var(--hf); color: var(--a); font-size: 13px; letter-spacing: .14em; text-transform: uppercase; }
+.paper .nm { font-family: var(--hf); font-weight: 700; line-height: 1.05; }
+.paper .ti { font-weight: 600; opacity: .85; }
+.paper .ct { font-size: 12.5px; opacity: .78; }
+.paper ul { margin: 4px 0 0; padding-left: 18px; }
+.paper li { margin: 2px 0; }
+.paper .it { margin-bottom: 12px; break-inside: avoid; }
+.paper .ih { display: flex; justify-content: space-between; gap: 12px; }
+.paper .dt { white-space: nowrap; opacity: .7; font-size: 12.5px; }
+.paper .io { opacity: .75; }
+.paper .sk { display: flex; flex-wrap: wrap; gap: 6px; }
+.paper .sk span { background: var(--s); padding: 2px 9px; border-radius: 4px; font-size: 12.5px; }
+.paper .sum { margin: 0; }
+.paper .side-ct div { margin-bottom: 3px; font-size: 12.5px; word-break: break-word; }
+
+.f-solo { padding: 56px 64px; }
+.f-solo .nm { font-size: 38px; color: var(--a); }
+.f-solo .ti { font-size: 16px; margin-top: 4px; }
+.f-solo .ct { margin-top: 8px; }
+.f-solo h4 { border-bottom: 1.5px solid var(--s); padding-bottom: 4px; }
+
+.f-rail, .f-railr { display: grid; height: 100%; }
+.f-rail { grid-template-columns: 262px 1fr; }
+.f-railr { grid-template-columns: 1fr 238px; }
+.f-rail .sb { background: var(--a); color: var(--on); padding: 52px 28px; }
+.f-rail .sb h4 { color: var(--on); opacity: .85; }
+.f-rail .sb .sk span { background: rgba(255,255,255,.16); color: var(--on); }
+.f-rail .nm { font-size: 32px; color: var(--on); }
+.f-rail .ti { color: var(--on); margin-top: 6px; }
+.f-rail .mn, .f-railr .mn { padding: 52px 40px; }
+.f-railr .sb { background: var(--s); padding: 52px 26px; }
+.f-railr .nm { font-size: 36px; color: var(--a); }
+.f-railr .ti { margin-top: 6px; font-size: 15px; }
+.f-railr .sb .sk span { background: #fff; }
+.f-rail .mn > h4:first-child, .f-railr .mn > .hdr + h4, .f-railr .sb > h4:first-child { margin-top: 0; }
+
+.f-band .hd { background: var(--band, var(--a)); color: var(--on); padding: 48px 60px 38px; }
+.f-band .nm { font-size: 40px; }
+.f-band .ti { margin-top: 6px; font-size: 16px; }
+.f-band .ct { margin-top: 10px; opacity: .92; }
+.f-band .bd { padding: 26px 60px 40px; }
+
+.f-split { padding: 52px 60px; }
+.f-split .hd { display: flex; justify-content: space-between; align-items: end; gap: 24px; border-bottom: 4px solid var(--a); padding-bottom: 14px; }
+.f-split .nm { font-size: 40px; }
+.f-split .ti { margin-top: 4px; color: var(--a); }
+.f-split .hd .side-ct { text-align: right; }
+.f-split .bd { display: grid; grid-template-columns: 1fr 210px; gap: 34px; }
+.f-split .bd > div:last-child { border-left: 1px solid var(--s); padding-left: 22px; }
+
+.f-mono { padding: 54px 62px; }
+.f-mono .nm { font-size: 32px; }
+.f-mono .ti { color: var(--a); font-family: var(--hf); margin-top: 4px; }
+.f-mono .ct { font-family: var(--hf); font-size: 12px; margin-top: 6px; }
+.f-mono h4 { text-transform: none; letter-spacing: 0; font-size: 14px; }
+.f-mono h4::before { content: "// "; opacity: .45; }
+.f-mono .sk span { background: transparent; border: 1px solid var(--a); color: var(--a); font-family: var(--hf); font-size: 12px; }
+
+.f-serif { padding: 62px 76px; }
+.f-serif .hdr { text-align: center; }
+.f-serif .nm { font-size: 40px; font-weight: 500; letter-spacing: .02em; }
+.f-serif .ti { font-style: italic; margin-top: 4px; color: var(--a); font-weight: 400; }
+.f-serif .ct { margin-top: 8px; }
+.f-serif h4 { display: flex; align-items: center; gap: 12px; text-transform: none; letter-spacing: .04em; font-size: 16px; font-weight: 500; }
+.f-serif h4::after { content: ""; flex: 1; height: 1px; background: var(--s); }
+.f-serif .sk span { background: transparent; padding: 0; }
+.f-serif .sk span:not(:last-child)::after { content: " ¬∑"; }
+
+.f-time { padding: 56px 64px; }
+.f-time .hdr { display: grid; grid-template-columns: auto 1fr; gap: 0 20px; align-items: center; }
+.f-time .mono-av { grid-row: span 3; width: 72px; height: 72px; border-radius: 50%; background: var(--s); color: var(--a); display: grid; place-items: center; font: 700 26px var(--hf); }
+.f-time .nm { font-size: 34px; }
+.f-time .ti { color: var(--a); }
+.f-time .tl .it { position: relative; padding-left: 22px; border-left: 2px solid var(--s); margin-bottom: 0; padding-bottom: 14px; }
+.f-time .tl .it::before { content: ""; position: absolute; left: -7px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--a); }
+
+.f-bold .hd { padding: 54px 60px 20px; }
+.f-bold .nm { font-size: 60px; font-weight: 800; letter-spacing: -.03em; line-height: .92; }
+.f-bold .nm span { background: linear-gradient(transparent 58%, var(--s) 58%); }
+.f-bold .ti { margin-top: 12px; font-size: 18px; color: var(--a); }
+.f-bold .ct { margin-top: 8px; }
+.f-bold .bd { display: grid; grid-template-columns: 1fr 216px; gap: 34px; padding: 6px 60px 40px; }
+.f-bold h4 { font-size: 18px; text-transform: none; letter-spacing: -.01em; font-weight: 800; }
+.f-bold .bd > div:last-child { background: var(--s); padding: 4px 18px 18px; border-radius: 10px; align-self: start; }
+.f-bold .bd > div:last-child .sk span { background: #fff; }
+
+.f-compact { padding: 44px 50px; font-size: 12.5px; }
+.f-compact .hd { display: flex; justify-content: space-between; align-items: end; gap: 16px; background: var(--s); margin: -44px -50px 0; padding: 36px 50px 20px; }
+.f-compact .nm { font-size: 30px; color: var(--a); }
+.f-compact .bd { display: grid; grid-template-columns: 1.4fr 1fr; gap: 28px; }
+.f-compact h4 { font-size: 12px; margin-top: 16px; }
 </style>
 
-<div class="shell">
-  <aside class="index" aria-label="Course modules">
-    <div class="progress">
-      <span class="label">Aapki progress</span>
-      <div class="bar"><span id="bar"></span></div>
-      <p id="progress-text">0 / 11 modules complete</p>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#designs">slay<i>CV</i></a>
+    <nav aria-label="Sections">
+      <a href="#designs">Designs</a>
+      <a href="#build">Build with AI</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <span class="kicker">Resume designs ¬∑ built with AI</span>
+        <h1>Your resume, but make it <mark>slay</mark>.</h1>
+        <p class="lede">28 designs that look good to humans and read clean to the AI that screens applications. Fill one form, let AI polish your words, download in seconds.</p>
+        <div class="actions">
+          <a class="btn hi" href="#build">Build mine with AI</a>
+          <a class="btn" href="#designs">See all designs</a>
+        </div>
+        <div class="proof">
+          <div><b>28</b>designs</div>
+          <div><b>8 free</b>no sign-up</div>
+          <div><b>Word + PDF</b>downloads</div>
+        </div>
+      </div>
+      <div class="fan" id="fan" aria-hidden="true"></div>
     </div>
-    <ol id="index-list"></ol>
-  </aside>
+  </section>
 
-  <main class="copy">
-    <header class="hero">
-      <span class="label">Zero se shuru · Simple Hinglish mein</span>
-      <h1>Git Seekho</h1>
-      <p class="lede">Git aur GitHub ko aasaan bhasha mein samjhiye, apne Dishā Vaastu website ke example ke saath. Har module mein ek chhota sa kaam hai aur ek quiz.</p>
-      <div class="meta">
-        <div><b>11</b>modules</div>
-        <div><b>~20 min</b>har module</div>
-        <div><b>2 hafte</b>roz ek module</div>
+  <section class="gallery" id="designs">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Pick your vibe</h2>
+        <div class="filters" id="filters" role="group" aria-label="Filter designs">
+          <button class="chip" type="button" data-f="all" aria-pressed="true">All 28</button>
+          <button class="chip" type="button" data-f="free" aria-pressed="false">Free</button>
+          <button class="chip" type="button" data-f="fresher" aria-pressed="false">Freshers</button>
+          <button class="chip" type="button" data-f="pro" aria-pressed="false">Professional</button>
+          <button class="chip" type="button" data-f="creative" aria-pressed="false">Creative</button>
+          <button class="chip" type="button" data-f="tech" aria-pressed="false">Tech</button>
+          <button class="chip" type="button" data-f="ats" aria-pressed="false">ATS-safe</button>
+        </div>
       </div>
-    </header>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
 
-    <section aria-labelledby="depth-h" class="mod">
-      <h2 id="depth-h">Kya kitna gehra seekhna hai</h2>
-      <p>Git mein sau se zyada commands hain. Aapko shuru mein sirf 10–12 chahiye. Yeh list batati hai kis par zyada time lagana hai.</p>
-      <div class="depth">
-        <div class="deep">
-          <span class="tag deep">Gehraai se</span>
-          <ul>
-            <li>commit (save point)</li>
-            <li>status aur diff</li>
-            <li>push aur pull</li>
-            <li>branch aur merge</li>
-            <li>Pull Request</li>
-            <li>.gitignore</li>
-            <li>galti undo karna</li>
-          </ul>
-        </div>
-        <div class="know">
-          <span class="tag know">Basic pata ho</span>
-          <ul>
-            <li>clone</li>
-            <li>log (history dekhna)</li>
-            <li>README</li>
-            <li>Issues</li>
-            <li>GitHub Pages</li>
-            <li>Public vs Private</li>
-          </ul>
-        </div>
+  <section class="builder" id="build">
+    <div class="wrap">
+      <div class="sec-head">
         <div>
-          <span class="tag later">Baad mein</span>
-          <ul>
-            <li>rebase</li>
-            <li>stash</li>
-            <li>GitHub Actions</li>
-            <li>tags aur releases</li>
-            <li>cherry-pick</li>
-          </ul>
+          <span class="kicker">Builder</span>
+          <h2>Fill it in. Watch it slay.</h2>
+        </div>
+        <button class="btn sm" type="button" id="clear-sample">Start blank</button>
+      </div>
+      <div class="b-grid">
+        <form class="form" id="form" novalidate>
+          <div class="ai-card ai-only" data-ai="off" id="ai-card">
+            <h3>Let <mark>AI</mark> write it for you</h3>
+            <p class="note">Paste your old resume or just describe yourself: studies, jobs, internships, projects, skills. AI only uses what you tell it.</p>
+            <label for="ai-notes">About you<textarea id="ai-notes" rows="5" placeholder="Final year BBA from Jaipur, 2 months marketing internship at a D2C skincare brand where I ran Instagram reels, college fest sponsorship head, good at Canva and Excel‚Ä¶"></textarea></label>
+            <label for="ai-role">Job you're applying for<input id="ai-role" placeholder="Marketing Executive"></label>
+            <button class="btn solid" type="button" id="ai-go">Generate my resume</button>
+            <p class="status" id="ai-status" aria-live="polite"></p>
+          </div>
+
+          <fieldset>
+            <legend>Basics</legend>
+            <div class="row2">
+              <label for="f-name">Full name<input id="f-name" data-k="name" autocomplete="name"></label>
+              <label for="f-title">Job title<input id="f-title" data-k="title"></label>
+            </div>
+            <div class="row2">
+              <label for="f-email">Email<input id="f-email" data-k="email" type="email" autocomplete="email"></label>
+              <label for="f-phone">Phone<input id="f-phone" data-k="phone" autocomplete="tel"></label>
+            </div>
+            <div class="row2">
+              <label for="f-city">City<input id="f-city" data-k="city"></label>
+              <label for="f-link">LinkedIn or portfolio<input id="f-link" data-k="link"></label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>About you</legend>
+            <label for="f-summary">Summary<textarea id="f-summary" data-k="summary" rows="3"></textarea></label>
+            <div><button class="ai-mini ai-only" data-ai="off" type="button" id="ai-summary">‚ú® Write with AI</button></div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Experience</legend>
+            <div id="list-experience"></div>
+            <button class="btn sm" type="button" data-add="experience">+ Add job or internship</button>
+          </fieldset>
+
+          <fieldset>
+            <legend>Education</legend>
+            <div id="list-education"></div>
+            <button class="btn sm" type="button" data-add="education">+ Add education</button>
+          </fieldset>
+
+          <fieldset>
+            <legend>Projects</legend>
+            <div id="list-projects"></div>
+            <button class="btn sm" type="button" data-add="projects">+ Add project</button>
+          </fieldset>
+
+          <fieldset>
+            <legend>Skills and extras</legend>
+            <label for="f-skills">Skills (comma separated)<input id="f-skills" data-k="skills" data-list="1"></label>
+            <label for="f-extras">Certifications, languages, achievements (comma separated)<input id="f-extras" data-k="extras" data-list="1"></label>
+          </fieldset>
+        </form>
+
+        <div class="preview" id="preview">
+          <div class="p-bar">
+            <label for="design-pick" style="min-width:0">Design
+              <select id="design-pick"></select>
+            </label>
+          </div>
+          <div class="strip" id="strip" aria-label="Quick design switch"></div>
+          <div class="sheet" id="live"></div>
+          <div class="dl">
+            <button class="btn solid" type="button" id="dl-pdf">Download PDF</button>
+            <button class="btn" type="button" id="dl-docx">Word (.docx)</button>
+            <button class="btn" type="button" id="dl-txt">Plain text for portals</button>
+          </div>
+          <p class="dl-note" id="dl-note" aria-live="polite">PDF keeps the exact design with real, selectable text. Word is fully editable.</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- 1 -->
-    <section class="mod" id="m1" data-title="Git kyun chahiye?">
-      <div class="mod-head"><span class="num">1</span><h2>Git kyun chahiye?</h2>
-        <div class="info"><span class="tag know">Samajh</span><span>15 min</span></div></div>
-      <p>Kya aapne kabhi files aise save ki hain?</p>
-      <div class="term"><pre>website.html
-website_final.html
-website_final_v2.html
-website_final_PAKKA.html
-website_final_PAKKA_sahi_wala.html</pre></div>
-      <p>Thodi der baad yaad hi nahi rehta ki kaunsi file sahi hai, kal kya badla tha, aur purana wala version kaise wapas laayein. <b>Git yahi problem solve karta hai.</b></p>
-      <div class="analogy"><b>Dukaan ka khata:</b> Jaise dukaandar har lena-dena date ke saath khate mein likhta hai, waise hi Git aapke project ka har badlav likh kar rakhta hai: kya badla, kab badla, kisne badla. Ek hi file rehti hai, par uski poori history Git ke paas hoti hai.</div>
-      <h3>Git aapko 4 cheezein deta hai</h3>
-      <ul>
-        <li><b>History:</b> har save point ki list, kabhi bhi dekh sakte hain.</li>
-        <li><b>Undo:</b> kuch toot gaya? Pichhle achhe version par wapas.</li>
-        <li><b>Backup:</b> GitHub par copy, laptop kharab ho jaaye tab bhi code safe.</li>
-        <li><b>Teamwork:</b> kai log ek saath ek project par kaam kar sakte hain.</li>
-      </ul>
-      <div class="quiz" data-answer="1">
-        <p class="q">Git ka sabse bada fayda kya hai?</p>
-        <div class="opts">
-          <button class="opt" type="button">Website ko sundar banana</button>
-          <button class="opt" type="button">Har badlav ki history rakhna aur undo karne dena</button>
-          <button class="opt" type="button">Internet speed badhana</button>
+  <section class="plain" id="pricing">
+    <div class="wrap">
+      <h2>Pricing that won't hurt your stipend</h2>
+      <div class="plans">
+        <div class="plan">
+          <span class="kicker">Free</span>
+          <div class="amt">‚Çπ0</div>
+          <ul><li>8 free designs</li><li>Builder and AI writing</li><li>PDF, Word and text downloads</li></ul>
         </div>
-        <p class="why" hidden>Sahi! Git ek khata hai jo har badlav yaad rakhta hai, taaki aap kabhi bhi peeche ja sakein.</p>
-      </div>
-    </section>
-
-    <!-- 2 -->
-    <section class="mod" id="m2" data-title="Git aur GitHub mein farak">
-      <div class="mod-head"><span class="num">2</span><h2>Git aur GitHub mein farak</h2>
-        <div class="info"><span class="tag deep">Gehraai se</span><span>15 min</span></div></div>
-      <p>Log aksar dono ko ek samajh lete hain. Yeh do alag cheezein hain jo saath kaam karti hain.</p>
-      <div class="analogy"><b>Diary aur bank locker:</b> Git aapki <i>diary</i> hai jo aapke laptop par rehti hai. GitHub ek <i>bank locker</i> hai internet par, jahan aap diary ki copy safe rakhte ho, aur chaho to doosron ko bhi dikha sakte ho.</div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th scope="col"></th><th scope="col">Git</th><th scope="col">GitHub</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">Kya hai</th><td>Ek software (tool)</td><td>Ek website / service</td></tr>
-            <tr><th scope="row">Kahan chalta hai</th><td>Aapke laptop par</td><td>Internet par (github.com)</td></tr>
-            <tr><th scope="row">Internet chahiye?</th><td>Nahi</td><td>Haan</td></tr>
-            <tr><th scope="row">Kaam</th><td>History rakhna, save points banana</td><td>Backup, sharing, teamwork, website hosting</td></tr>
-            <tr><th scope="row">Kharcha</th><td>Free</td><td>Free plan kaafi hai</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p>GitHub jaisi aur services bhi hain (GitLab, Bitbucket), par sabse zyada log GitHub use karte hain, isliye hum wahi seekhenge.</p>
-      <div class="quiz" data-answer="0">
-        <p class="q">Bina internet ke kya chalega?</p>
-        <div class="opts">
-          <button class="opt" type="button">Git</button>
-          <button class="opt" type="button">GitHub</button>
-          <button class="opt" type="button">Dono nahi chalenge</button>
+        <div class="plan star">
+          <span class="kicker">Most picked</span>
+          <div class="amt">‚Çπ49 <small>per design</small></div>
+          <ul><li>Any Pro design</li><li>Unlimited edits and downloads</li><li>Matching cover letter</li></ul>
+          <button class="btn solid" type="button" data-order="One Pro design" data-price="49">Get a Pro design</button>
         </div>
-        <p class="why" hidden>Sahi! Git laptop par chalta hai. Sirf GitHub par bhejne (push) ke liye internet chahiye.</p>
-      </div>
-    </section>
-
-    <!-- 3 -->
-    <section class="mod" id="m3" data-title="Mac par setup">
-      <div class="mod-head"><span class="num">3</span><h2>Mac par setup</h2>
-        <div class="info"><span class="tag know">Ek baar ka kaam</span><span>30 min</span></div></div>
-      <p>Yeh sirf ek baar karna hai. Commands <b>Terminal</b> app mein chalani hain (Spotlight mein "Terminal" search karein). Har line copy karke paste karein aur Enter dabayein.</p>
-      <h3>Step 1: Git install karein</h3>
-      <div class="term"><button class="copy-btn" type="button">Copy</button><pre>xcode-select --install</pre></div>
-      <p>Ek pop-up aayega, <b>Install</b> dabayein. 5–10 minute lagenge. Check karne ke liye <code>git --version</code> chalayein.</p>
-      <h3>Step 2: Git ko apna naam batayein</h3>
-      <div class="term"><button class="copy-btn" type="button">Copy</button><pre>git config --global user.name "Aapka Naam"
-git config --global user.email "aapka-email@example.com"
-git config --global init.defaultBranch main</pre></div>
-      <p>Har save point par yahi naam likha jaayega. Email wahi rakhein jo GitHub account mein hai.</p>
-      <h3>Step 3: GitHub account</h3>
-      <p>Aapka account <code>CuriousMish11</code> pehle se bana hua hai. Bas <a href="https://github.com" target="_blank" rel="noopener">github.com</a> par sign in rehna hai.</p>
-      <h3>Step 4: GitHub CLI (laptop aur GitHub ko jodne ke liye)</h3>
-      <p>Pehle Homebrew (Mac ka app-store jaisa tool), phir GitHub CLI, phir login:</p>
-      <div class="term"><button class="copy-btn" type="button">Copy</button><pre>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-brew install gh
-gh auth login</pre></div>
-      <p>Homebrew install aapka Mac password maangega. <code>gh auth login</code> mein yeh chunein: <b>GitHub.com → HTTPS → Yes → Login with a web browser</b>. Browser mein code daal kar approve karein.</p>
-      <div class="remember"><span class="label">Yaad rakhein</span><p>Password aur login hamesha aap khud karte hain. Claude ya koi bhi aur aapki taraf se password nahi daalta.</p></div>
-      <div class="quiz" data-answer="2">
-        <p class="q"><code>git config user.name</code> kyun set karte hain?</p>
-        <div class="opts">
-          <button class="opt" type="button">GitHub ka password set karne ke liye</button>
-          <button class="opt" type="button">Website ka naam rakhne ke liye</button>
-          <button class="opt" type="button">Taaki har save point par likha ho ki badlav kisne kiya</button>
+        <div class="plan">
+          <span class="kicker">All access</span>
+          <div class="amt">‚Çπ199 <small>one-time</small></div>
+          <ul><li>All 28 designs, forever</li><li>Every new design we add</li><li>Cover letters for all</li></ul>
+          <button class="btn" type="button" data-order="All access" data-price="199">Get all access</button>
         </div>
-        <p class="why" hidden>Sahi! Jaise khate mein entry ke saath naam likha hota hai, waise hi har commit par aapka naam judta hai.</p>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- 4 -->
-    <section class="mod" id="m4" data-title="Pehla repository">
-      <div class="mod-head"><span class="num">4</span><h2>Pehla repository</h2>
-        <div class="info"><span class="tag deep">Gehraai se</span><span>20 min</span></div></div>
-      <p><b>Repository</b> (chhota naam: <b>repo</b>) matlab woh folder jiski history Git rakh raha hai. Har project = ek repo.</p>
-      <div class="analogy"><b>Naya khata kholna:</b> <code>git init</code> ek folder ko bolta hai, "aaj se tumhara hisaab-kitaab rakha jaayega." Folder ke andar ek chhupa hua <code>.git</code> folder ban jaata hai. Wahi khata hai. Use kabhi haath mat lagaiye.</div>
-      <div class="try">
-        <span class="label">Khud karke dekhiye</span>
-        <div class="term"><button class="copy-btn" type="button">Copy</button><pre><span class="c"># apne website folder mein jaayein</span>
-cd ~/"Claude work/vaastu-website"
+  <section class="plain" id="faq">
+    <div class="wrap">
+      <h2>FAQ</h2>
+      <div class="faq">
+        <details><summary>What does "AI-friendly" mean?</summary><p>Many companies screen resumes with software (ATS) and, more and more, AI. Every design here uses real text, standard headings like Experience and Education, and a clear reading order, so those tools read your details correctly. Designs tagged ATS-safe use a single column, the safest choice for big company portals.</p></details>
+        <details><summary>Does the AI make things up?</summary><p>It's told to use only what you write. If a number would make a point stronger, it leaves a marker like [add number] for you to fill in. Always read the result before you send it.</p></details>
+        <details><summary>Which file should I send?</summary><p>Send the PDF when you email or upload a resume. Use Word if a portal asks for .docx or you want to edit offline. Use plain text when a portal asks you to paste your resume into a box.</p></details>
+        <details><summary>Can I make it on my phone?</summary><p>Yes. The builder works on any phone browser, and downloads open in Google Docs, Word or any PDF viewer.</p></details>
+        <details><summary>Is my data saved anywhere?</summary><p>Your details stay in your own browser so you can come back later. Clear them anytime with Start blank.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
 
-<span class="c"># khata kholein</span>
-git init
+<footer>
+  <div class="wrap">
+    <span>¬© SlayCV ¬∑ slaycv.com</span>
+    <span>Sample people and companies in the designs are fictional.</span>
+  </div>
+</footer>
 
-<span class="c"># dekhein Git kya soch raha hai</span>
-git status</pre></div>
-        <p><code>git status</code> laal rang mein files dikhayega: "Untracked files". Matlab Git ne files dekhi hain par abhi unka hisaab nahi rakh raha.</p>
+<div class="overlay" id="ov" hidden>
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="ov-title">
+    <div class="big" id="ov-big"><div class="sheet" id="ov-sheet"></div></div>
+    <div class="side">
+      <button class="close" type="button" id="ov-close">Close ‚úï</button>
+      <span class="kicker" id="ov-kind"></span>
+      <h2 id="ov-title"></h2>
+      <ul id="ov-points"></ul>
+      <button class="btn hi" type="button" id="ov-use">Use this design</button>
+      <div class="order" id="ov-order" hidden>
+        <b id="ov-order-title"></b>
+        <span>UPI: <span class="ph">add your UPI ID</span></span>
+        <span>WhatsApp: <span class="ph">add your number</span></span>
+        <span class="note">Pay and send the screenshot on WhatsApp. We unlock your design within a few hours.</span>
       </div>
-      <div class="remember"><span class="label">Sabse kaam ki command</span><p><code>git status</code> ko apna dost bana lijiye. Jab bhi confuse ho, yahi chalaiye. Yeh batata hai abhi kya badla hai aur aage kya karna hai.</p></div>
-      <div class="quiz" data-answer="1">
-        <p class="q">Repository kya hai?</p>
-        <div class="opts">
-          <button class="opt" type="button">GitHub ka password</button>
-          <button class="opt" type="button">Ek project folder jiski history Git rakhta hai</button>
-          <button class="opt" type="button">Ek tarah ka virus</button>
-        </div>
-        <p class="why" hidden>Sahi! Repo = project folder + uska khata (.git).</p>
-      </div>
-    </section>
-
-    <!-- 5 -->
-    <section class="mod" id="m5" data-title="Save point: add aur commit">
-      <div class="mod-head"><span class="num">5</span><h2>Save point: add aur commit</h2>
-        <div class="info"><span class="tag deep">Gehraai se</span><span>30 min · sabse zaroori</span></div></div>
-      <p>Git mein save karna do steps mein hota hai. Yeh course ka sabse important module hai.</p>
-      <div class="analogy"><b>Shaadi ki group photo:</b> Pehle photographer logon ko stage par khada karta hai (<code>git add</code>). Phir "cheese!" bol kar photo kheenchta hai (<code>git commit</code>). Jo stage par nahi tha, woh photo mein nahi aayega. Photo album mein hamesha ke liye lag jaati hai.</div>
-      <div class="diagram" role="img" aria-label="Files move from your folder to staging with git add, to history with git commit, and to GitHub with git push. git pull brings changes back.">
-        <svg viewBox="0 0 760 190">
-          <defs>
-            <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" class="d-arrow"/></marker>
-            <marker id="ahp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10z" class="d-arrow-pen"/></marker>
-          </defs>
-          <rect class="d-box" x="10" y="30" width="150" height="80" rx="4"/>
-          <text class="d-title" x="85" y="62" text-anchor="middle">Aapka folder</text>
-          <text class="d-sub" x="85" y="84" text-anchor="middle">jahan kaam hota hai</text>
-          <rect class="d-box" x="210" y="30" width="150" height="80" rx="4"/>
-          <text class="d-title" x="285" y="62" text-anchor="middle">Staging</text>
-          <text class="d-sub" x="285" y="84" text-anchor="middle">stage par khade log</text>
-          <rect class="d-box" x="410" y="30" width="150" height="80" rx="4"/>
-          <text class="d-title" x="485" y="62" text-anchor="middle">History</text>
-          <text class="d-sub" x="485" y="84" text-anchor="middle">photo album (laptop)</text>
-          <rect class="d-cloud" x="610" y="30" width="140" height="80" rx="18"/>
-          <text class="d-title" x="680" y="62" text-anchor="middle">GitHub</text>
-          <text class="d-sub" x="680" y="84" text-anchor="middle">internet par</text>
-          <line class="d-line" x1="160" y1="70" x2="208" y2="70" marker-end="url(#ah)"/>
-          <text class="d-cmd" x="184" y="22" text-anchor="middle">git add</text>
-          <line class="d-line" x1="360" y1="70" x2="408" y2="70" marker-end="url(#ah)"/>
-          <text class="d-cmd" x="384" y="22" text-anchor="middle">git commit</text>
-          <line class="d-pen" x1="560" y1="62" x2="608" y2="62" marker-end="url(#ahp)"/>
-          <text class="d-cmd" x="584" y="22" text-anchor="middle">git push</text>
-          <path class="d-pen" d="M680 110 V150 H85 V112" marker-end="url(#ahp)"/>
-          <text class="d-cmd" x="382" y="174" text-anchor="middle">git pull (GitHub se naye badlav laptop par)</text>
-        </svg>
-      </div>
-      <div class="try">
-        <span class="label">Khud karke dekhiye</span>
-        <div class="term"><button class="copy-btn" type="button">Copy</button><pre><span class="c"># sab badli hui files ko stage par laayein</span>
-git add .
-
-<span class="c"># photo kheenchein, saath mein ek chhota sa message</span>
-git commit -m "Pehla version: Vaastu website"
-
-<span class="c"># album dekhein</span>
-git log --oneline</pre></div>
-        <p>Ab <code>index.html</code> mein koi chhota badlav karein, phir <code>git diff</code> chalayein. Yeh dikhata hai kaunsi line hati (laal) aur kaunsi judi (hari).</p>
-      </div>
-      <h3>Achha commit message kaise likhein</h3>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th scope="col">Kharab</th><th scope="col">Achha</th></tr></thead>
-          <tbody>
-            <tr><td>"changes"</td><td>"Kundli booking form joda"</td></tr>
-            <tr><td>"fix"</td><td>"Mobile par room table ka overflow theek kiya"</td></tr>
-            <tr><td>"final final"</td><td>"Rashifal ka 9–15 Nov wala text daala"</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="remember"><span class="label">Yaad rakhein</span><p>Chhote-chhote commits karein, har ek kaam ke baad ek. 6 mahine baad aap khud ko dhanyavaad denge.</p></div>
-      <div class="quiz" data-answer="2">
-        <p class="q"><code>git add</code> ke baad bina <code>git commit</code> kiye laptop band kar diya. Save point bana?</p>
-        <div class="opts">
-          <button class="opt" type="button">Haan, add se save ho jaata hai</button>
-          <button class="opt" type="button">Haan, GitHub par chala gaya</button>
-          <button class="opt" type="button">Nahi, log stage par khade hain par photo nahi kheenchi</button>
-        </div>
-        <p class="why" hidden>Sahi! Save point sirf commit se banta hai. Add sirf taiyaari hai.</p>
-      </div>
-    </section>
-
-    <!-- 6 -->
-    <section class="mod" id="m6" data-title="GitHub par bhejna: push, pull, clone">
-      <div class="mod-head"><span class="num">6</span><h2>GitHub par bhejna: push, pull, clone</h2>
-        <div class="info"><span class="tag deep">Gehraai se</span><span>25 min</span></div></div>
-      <p>Ab tak sab kuch laptop par tha. Ab copy GitHub ke locker mein rakhte hain.</p>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th scope="col">Command</th><th scope="col">Matlab</th><th scope="col">Kab</th></tr></thead>
-          <tbody>
-            <tr><td><code>git push</code></td><td>Laptop ke naye commits GitHub par bhejo</td><td>Kaam khatam karke</td></tr>
-            <tr><td><code>git pull</code></td><td>GitHub ke naye commits laptop par lao</td><td>Kaam shuru karne se pehle</td></tr>
-            <tr><td><code>git clone</code></td><td>GitHub ke project ki poori copy laptop par lao</td><td>Naye laptop par, ya kisi aur ka project</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="try">
-        <span class="label">Khud karke dekhiye</span>
-        <div class="term"><button class="copy-btn" type="button">Copy</button><pre><span class="c"># GitHub par naya repo banao aur sab bhej do (ek command mein)</span>
-gh repo create dishavaastu --public --source=. --push
-
-<span class="c"># aage se, har baar kaam ke baad</span>
-git push</pre></div>
-        <p>Phir <code>github.com/CuriousMish11/dishavaastu</code> kholiye. Aapki files wahan dikhengi.</p>
-      </div>
-      <div class="analogy"><b>Roz ka niyam:</b> Subah chai ke saath <code>git pull</code>, shaam ko band karne se pehle <code>git push</code>.</div>
-      <div class="quiz" data-answer="0">
-        <p class="q">Aapne naye laptop par kaam shuru karna hai. Pehli command?</p>
-        <div class="opts">
-          <button class="opt" type="button">git clone</button>
-          <button class="opt" type="button">git push</button>
-          <button class="opt" type="button">git init</button>
-        </div>
-        <p class="why" hidden>Sahi! Clone poora project history ke saath le aata hai. Init naya khaali khata kholta hai.</p>
-      </div>
-    </section>
-
-    <!-- 7 -->
-    <section class="mod" id="m7" data-title="Branch: rough copy, fair copy">
-      <div class="mod-head"><span class="num">7</span><h2>Branch: rough copy, fair copy</h2>
-        <div class="info"><span class="tag deep">Gehraai se</span><span>30 min</span></div></div>
-      <div class="analogy"><b>School wali yaad:</b> Sawaal pehle <i>rough copy</i> mein karte the, sahi ho jaaye to <i>fair copy</i> mein utaarte the. Git mein fair copy ka naam hai <code>main</code> branch. Har naye kaam ke liye ek rough copy (nayi branch) banaiye.</div>
-      <div class="diagram" role="img" aria-label="The main branch continues while a branch called rashifal splits off, gets two commits, and merges back into main.">
-        <svg viewBox="0 0 640 150">
-          <line class="d-line" x1="30" y1="50" x2="610" y2="50"/>
-          <path class="d-red" d="M170 50 C 210 50, 210 110, 250 110 L 410 110 C 450 110, 450 50, 490 50"/>
-          <circle class="d-dot" cx="60" cy="50" r="8"/><circle class="d-dot" cx="170" cy="50" r="8"/>
-          <circle class="d-dot" cx="330" cy="50" r="8"/>
-          <circle class="d-dot-red" cx="280" cy="110" r="8"/><circle class="d-dot-red" cx="380" cy="110" r="8"/>
-          <circle class="d-dot" cx="490" cy="50" r="9"/><circle class="d-dot" cx="590" cy="50" r="8"/>
-          <text class="d-title" x="30" y="30">main (fair copy)</text>
-          <text class="d-cmd" x="330" y="140" text-anchor="middle">rashifal (rough copy)</text>
-          <text class="d-sub" x="490" y="30" text-anchor="middle">merge</text>
-        </svg>
-      </div>
-      <p>Fayda: rough copy mein kuch bhi toot jaaye, fair copy (aapki live website) safe rehti hai.</p>
-      <div class="try">
-        <span class="label">Khud karke dekhiye</span>
-        <div class="term"><button class="copy-btn" type="button">Copy</button><pre><span class="c"># nayi rough copy banao aur usme chale jao</span>
-git switch -c rashifal-update
-
-<span class="c"># ...index.html mein badlav, phir add + commit...</span>
-git add .
-git commit -m "Is hafte ka rashifal"
-
-<span class="c"># fair copy par wapas aao aur rough copy ka kaam mila do</span>
-git switch main
-git merge rashifal-update</pre></div>
-      </div>
-      <div class="remember"><span class="label">Yaad rakhein</span><p><code>git branch</code> batata hai aap abhi kaunsi copy mein ho (star wali). Galat branch par commit karna sabse aam galti hai.</p></div>
-      <div class="quiz" data-answer="1">
-        <p class="q">Website par naya "Testimonials" section try karna hai. Sahi tareeka?</p>
-        <div class="opts">
-          <button class="opt" type="button">Seedha main par badlav karke push</button>
-          <button class="opt" type="button">Nayi branch banakar wahan try karna</button>
-          <button class="opt" type="button">Puri website ka folder copy karke "website2" banana</button>
-        </div>
-        <p class="why" hidden>Sahi! Rough copy (branch) mein try karo, pasand aaye to merge karo.</p>
-      </div>
-    </section>
-
-    <!-- 8 -->
-    <section class="mod" id="m8" data-title="Pull Request: copy check karwana">
-      <div class="mod-head"><span class="num">8</span><h2>Pull Request: copy check karwana</h2>
-        <div class="info"><span class="tag deep">Gehraai se</span><span>25 min</span></div></div>
-      <div class="analogy"><b>Teacher se copy check:</b> Pull Request (PR) ek request hai: "meri rough copy dekh lijiye, theek lage to fair copy mein utaar dijiye." GitHub par dikhta hai kya badla, log comment kar sakte hain, aur ek button se merge hota hai.</div>
-      <h3>PR ka safar</h3>
-      <ol>
-        <li>Branch par kaam karke <code>git push -u origin rashifal-update</code></li>
-        <li>GitHub par peela banner aata hai: <b>Compare &amp; pull request</b>. Dabaiye.</li>
-        <li>Title aur chhota description likhiye: kya badla aur kyun.</li>
-        <li><b>Files changed</b> tab mein har badlav dekhiye. Laal hata, hara juda.</li>
-        <li>Sab theek ho to <b>Merge pull request</b>. Branch delete kar dijiye.</li>
-      </ol>
-      <p>Akele kaam karte hue bhi PR useful hai: merge se pehle ek baar saare badlav aaram se dekhne ka mauka milta hai. Claude Code aksar aapke liye PR banata hai, aur aap review karke merge karte ho.</p>
-      <div class="quiz" data-answer="2">
-        <p class="q">PR merge karne se pehle sabse zaroori kya hai?</p>
-        <div class="opts">
-          <button class="opt" type="button">Title lamba likhna</button>
-          <button class="opt" type="button">Jaldi se merge kar dena</button>
-          <button class="opt" type="button">"Files changed" mein badlav dekhna</button>
-        </div>
-        <p class="why" hidden>Sahi! Review hi PR ka asli kaam hai.</p>
-      </div>
-    </section>
-
-    <!-- 9 -->
-    <section class="mod" id="m9" data-title="Galti sudhaarna aur .gitignore">
-      <div class="mod-head"><span class="num">9</span><h2>Galti sudhaarna aur .gitignore</h2>
-        <div class="info"><span class="tag deep">Gehraai se</span><span>30 min</span></div></div>
-      <p>Galti sabse hoti hai. Git ka asli jaadu yahi hai ki galti theek ho jaati hai.</p>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th scope="col">Halat</th><th scope="col">Command</th></tr></thead>
-          <tbody>
-            <tr><td>File mein badlav kiya, pasand nahi aaya, commit nahi kiya</td><td><code>git restore index.html</code></td></tr>
-            <tr><td>Galat file stage par chali gayi</td><td><code>git restore --staged file</code></td></tr>
-            <tr><td>Abhi-abhi kiye commit ka message galat hai (push nahi kiya)</td><td><code>git commit --amend -m "Naya message"</code></td></tr>
-            <tr><td>Purana commit galat tha, push bhi ho chuka</td><td><code>git revert &lt;commit-id&gt;</code></td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p><code>git revert</code> sabse safe undo hai: yeh purana commit mitata nahi, uska ulta ek naya commit banata hai. Khate mein galat entry kaat-te nahi, uske neeche sudhaar ki entry likhte hain.</p>
-      <div class="remember"><span class="label">Abhi in se door rahein</span><p><code>git reset --hard</code> aur <code>git push --force</code>. Yeh kaam mita sakte hain. Inki zaroorat pade to pehle kisi se poochhiye, ya Claude ko bataiye.</p></div>
-      <h3>.gitignore: jo GitHub par kabhi nahi jaana chahiye</h3>
-      <p>Project mein <code>.gitignore</code> naam ki file banaiye. Jo naam isme likhe, Git unhe ignore karega.</p>
-      <div class="term"><button class="copy-btn" type="button">Copy</button><pre><span class="c"># .gitignore</span>
-.env
-.DS_Store
-node_modules/
-*.log</pre></div>
-      <p><mark>Passwords, API keys aur client ka data kabhi commit mat kijiye.</mark> Public repo mein yeh poori duniya dekh sakti hai, aur delete karne ke baad bhi history mein reh jaata hai.</p>
-      <div class="quiz" data-answer="0">
-        <p class="q">Kal ka commit galat tha aur GitHub par push ho chuka hai. Kya karein?</p>
-        <div class="opts">
-          <button class="opt" type="button">git revert</button>
-          <button class="opt" type="button">git push --force</button>
-          <button class="opt" type="button">Repo delete karke naya banayein</button>
-        </div>
-        <p class="why" hidden>Sahi! Revert history ko surakshit rakhte hue galti ulta deta hai.</p>
-      </div>
-    </section>
-
-    <!-- 10 -->
-    <section class="mod" id="m10" data-title="GitHub ke kaam ke features">
-      <div class="mod-head"><span class="num">10</span><h2>GitHub ke kaam ke features</h2>
-        <div class="info"><span class="tag know">Basic pata ho</span><span>25 min</span></div></div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th scope="col">Feature</th><th scope="col">Kya hai</th><th scope="col">Aapke liye</th></tr></thead>
-          <tbody>
-            <tr><td><b>README.md</b></td><td>Project ka parichay, repo ke front page par dikhta hai</td><td>Har project mein ek: kya hai, kaise chalayein</td></tr>
-            <tr><td><b>Issues</b></td><td>To-do list aur bug list</td><td>"Rashifal har somvaar update karna" jaise kaam</td></tr>
-            <tr><td><b>GitHub Pages</b></td><td>Free website hosting</td><td>Dishā Vaastu site yahin live hogi</td></tr>
-            <tr><td><b>Public / Private</b></td><td>Kaun repo dekh sakta hai</td><td>Free Pages ke liye Public chahiye</td></tr>
-            <tr><td><b>Collaborators</b></td><td>Doosre logon ko access dena</td><td>Koi designer ya dost madad kare tab</td></tr>
-            <tr><td><b>Actions</b></td><td>Automatic kaam (test, deploy)</td><td>Baad mein seekhein</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <h3>GitHub Pages: aapki website live karna</h3>
-      <ol>
-        <li>Repo <b>Public</b> ho, aur usme <code>index.html</code> ho.</li>
-        <li><b>Settings → Pages → Deploy from a branch → main → / (root) → Save</b></li>
-        <li>2 minute baad: <code>https://curiousmish11.github.io/dishavaastu/</code></li>
-      </ol>
-      <p>Iske baad har <code>git push</code> par website apne aap update ho jaati hai. Upload ka jhanjhat khatam.</p>
-      <div class="quiz" data-answer="1">
-        <p class="q">Free GitHub Pages ke liye repo kaisa hona chahiye?</p>
-        <div class="opts">
-          <button class="opt" type="button">Private</button>
-          <button class="opt" type="button">Public</button>
-          <button class="opt" type="button">Koi farak nahi padta</button>
-        </div>
-        <p class="why" hidden>Sahi! Free plan par Pages sirf public repo se chalta hai.</p>
-      </div>
-    </section>
-
-    <!-- 11 -->
-    <section class="mod" id="m11" data-title="Har project mein Git + Claude">
-      <div class="mod-head"><span class="num">11</span><h2>Har project mein Git + Claude</h2>
-        <div class="info"><span class="tag deep">Gehraai se</span><span>20 min</span></div></div>
-      <p>Aage aap jo bhi banayenge, website, app, ya documents, sab ka tareeka yahi rahega.</p>
-      <h3>Har naye project ka niyam</h3>
-      <ol>
-        <li>Naya folder, phir <code>git init</code> (ya Claude se boliye "is folder ko git repo bana do")</li>
-        <li><code>.gitignore</code> aur <code>README.md</code> banaiye</li>
-        <li>GitHub par repo banaiye aur push kijiye</li>
-        <li>Har naya kaam nayi branch par</li>
-        <li>Kaam poora hone par PR, review, merge</li>
-      </ol>
-      <h3>Claude Code ke saath kaise kaam hota hai</h3>
-      <p>Claude Code Git ki commands aapke liye chala sakta hai. Aapko commands yaad karne ki zaroorat kam padti hai, par <b>samajhna zaroori hai</b> taaki aap jaanch sakein ki kya ho raha hai.</p>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th scope="col">Aap Claude se boliye</th><th scope="col">Claude kya karega</th></tr></thead>
-          <tbody>
-            <tr><td>"Yeh badlav commit kar do"</td><td><code>git add</code> + <code>git commit</code> achhe message ke saath</td></tr>
-            <tr><td>"Naye feature ke liye branch bana do"</td><td><code>git switch -c ...</code></td></tr>
-            <tr><td>"PR bana do"</td><td>push + GitHub par Pull Request</td></tr>
-            <tr><td>"Kya badla hai dikhao"</td><td><code>git status</code> aur <code>git diff</code> samjha kar</td></tr>
-            <tr><td>"Pichhla commit undo karo"</td><td><code>git revert</code> (safe tareeka)</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="remember"><span class="label">Aapka role</span><p>Claude kaam karega, aap <b>reviewer</b> ho. Merge se pehle "Files changed" dekhiye, aur push ya merge ki permission soch samajh kar dijiye.</p></div>
-      <div class="quiz" data-answer="2">
-        <p class="q">Claude ne PR banaya. Aapka kaam kya hai?</p>
-        <div class="opts">
-          <button class="opt" type="button">Bina dekhe merge karna</button>
-          <button class="opt" type="button">PR band kar dena</button>
-          <button class="opt" type="button">Badlav review karke merge karna</button>
-        </div>
-        <p class="why" hidden>Sahi! Aap project ke maalik ho. Aakhri faisla aapka.</p>
-      </div>
-    </section>
-
-    <section class="mod" id="cheat" aria-labelledby="cheat-h">
-      <h2 id="cheat-h">Cheat sheet</h2>
-      <p>Ise bookmark kar lijiye. Shuru ke 3 mahine yahi 14 commands kaafi hain.</p>
-      <div class="table-wrap">
-        <table class="cheat">
-          <thead><tr><th scope="col">Command</th><th scope="col">Matlab</th></tr></thead>
-          <tbody>
-            <tr><td><code>git status</code></td><td>Abhi kya haal hai?</td></tr>
-            <tr><td><code>git add .</code></td><td>Saare badlav stage par</td></tr>
-            <tr><td><code>git commit -m "..."</code></td><td>Save point banao</td></tr>
-            <tr><td><code>git log --oneline</code></td><td>History dekho</td></tr>
-            <tr><td><code>git diff</code></td><td>Kya-kya badla, line by line</td></tr>
-            <tr><td><code>git push</code></td><td>GitHub par bhejo</td></tr>
-            <tr><td><code>git pull</code></td><td>GitHub se lao</td></tr>
-            <tr><td><code>git clone &lt;url&gt;</code></td><td>Project laptop par copy karo</td></tr>
-            <tr><td><code>git switch -c naam</code></td><td>Nayi branch (rough copy)</td></tr>
-            <tr><td><code>git switch main</code></td><td>Fair copy par wapas</td></tr>
-            <tr><td><code>git branch</code></td><td>Main kaunsi branch par hoon?</td></tr>
-            <tr><td><code>git merge naam</code></td><td>Branch ka kaam milao</td></tr>
-            <tr><td><code>git restore file</code></td><td>Bina commit wala badlav hatao</td></tr>
-            <tr><td><code>git revert &lt;id&gt;</code></td><td>Purana commit safe tareeke se ulta karo</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <footer class="copy-foot">
-      <p>Aapki progress isi browser mein save hoti hai. Koi module samajh na aaye to Claude se poochhiye: "Module 7 phir se samjhao, aur aasaan bhasha mein."</p>
-    </footer>
-  </main>
+      <p class="note" id="ov-owner" hidden>Store owner: replace the UPI and WhatsApp placeholders, or add a Razorpay or Instamojo link.</p>
+    </div>
+  </div>
 </div>
 
+<div id="print-root"></div>
+
 <script>
-const STORE = "git-seekho-done";
-const mods = [...document.querySelectorAll("section.mod[id^='m']")];
-let done = new Set();
-try { done = new Set(JSON.parse(localStorage.getItem(STORE) || "[]")); } catch {}
+// Owner setting: when true, Pro designs ask for payment before download.
+const PAYWALL = false;
 
-function save() { try { localStorage.setItem(STORE, JSON.stringify([...done])); } catch {} }
+const F = {
+  man: '"Manrope", Arial, sans-serif', grot: '"Bricolage Grotesque", Arial, sans-serif', work: '"Work Sans", Arial, sans-serif',
+  play: '"Playfair Display", Georgia, serif', serif: '"Source Serif 4", Georgia, serif', dms: '"DM Serif Display", Georgia, serif',
+  mono: '"IBM Plex Mono", Menlo, monospace', syne: '"Syne", Arial, sans-serif', out: '"Outfit", Arial, sans-serif',
+};
+// fam: layout family. a: accent, s: soft tint, k: ink, on: text on accent.
+const THEMES = [
+  { id: "clean-girl", name: "Clean Girl", fam: "solo", a: "#5E7F6A", s: "#E3ECE5", k: "#1F2A24", on: "#fff", hf: F.man, bf: F.man, tier: "free", cats: ["fresher", "ats"] },
+  { id: "old-money", name: "Old Money", fam: "serif", a: "#1E2D4F", s: "#C9A55C", k: "#1A1A1A", on: "#fff", hf: F.play, bf: F.serif, tier: "pro", cats: ["pro", "ats"] },
+  { id: "main-character", name: "Main Character", fam: "bold", a: "#E5432F", s: "#FFE0D9", k: "#17131F", on: "#fff", hf: F.syne, bf: F.out, tier: "pro", cats: ["creative"] },
+  { id: "soft-launch", name: "Soft Launch", fam: "solo", a: "#6E52BD", s: "#ECE6FA", k: "#231D33", on: "#fff", hf: F.out, bf: F.out, tier: "free", cats: ["fresher", "ats"] },
+  { id: "corporate-baddie", name: "Corporate Baddie", fam: "rail", a: "#4A1D3F", s: "#F3E3EE", k: "#22151F", on: "#fff", hf: F.grot, bf: F.man, tier: "pro", cats: ["pro"] },
+  { id: "matcha", name: "Matcha", fam: "railr", a: "#557A2E", s: "#E8F0DA", k: "#1F2616", on: "#fff", hf: F.out, bf: F.work, tier: "free", cats: ["fresher"] },
+  { id: "big-fit", name: "Big Fit", fam: "band", a: "#2346D8", s: "#E2E8FF", k: "#121833", on: "#fff", hf: F.grot, bf: F.man, tier: "pro", cats: ["pro"] },
+  { id: "brat", name: "Brat", fam: "bold", a: "#4E7A00", s: "#D9F99D", k: "#000", on: "#000", hf: F.syne, bf: F.work, tier: "pro", cats: ["creative"] },
+  { id: "dark-academia", name: "Dark Academia", fam: "serif", a: "#6B1E2B", s: "#D9C3B5", k: "#241A17", on: "#fff", hf: F.dms, bf: F.serif, tier: "pro", cats: ["pro", "ats"] },
+  { id: "coastal", name: "Coastal", fam: "time", a: "#1C7C8C", s: "#D6EEF1", k: "#13282C", on: "#fff", hf: F.man, bf: F.man, tier: "free", cats: ["fresher", "ats"] },
+  { id: "mocha-mousse", name: "Mocha Mousse", fam: "band", a: "#8A6352", s: "#F0E6E0", k: "#2B201B", on: "#fff", hf: F.play, bf: F.work, tier: "pro", cats: ["pro"] },
+  { id: "y2k", name: "Y2K", fam: "bold", a: "#3A5BFF", s: "#FFD6F5", k: "#111", on: "#fff", hf: F.syne, bf: F.out, tier: "pro", cats: ["creative"] },
+  { id: "minimalist-era", name: "Minimalist Era", fam: "solo", a: "#111111", s: "#E2E2E2", k: "#111", on: "#fff", hf: F.work, bf: F.work, tier: "free", cats: ["pro", "ats"] },
+  { id: "terminal", name: "Terminal", fam: "mono", a: "#0A7D4F", s: "#DDF3E8", k: "#10201A", on: "#fff", hf: F.mono, bf: F.work, tier: "pro", cats: ["tech", "ats"] },
+  { id: "butter", name: "Butter", fam: "split", a: "#A97C00", s: "#FFEFB0", k: "#2A2410", on: "#fff", hf: F.grot, bf: F.man, tier: "pro", cats: ["creative", "pro"] },
+  { id: "cherry-cola", name: "Cherry Cola", fam: "rail", a: "#7D0F1F", s: "#F7DDE0", k: "#210A0E", on: "#fff", hf: F.out, bf: F.out, tier: "pro", cats: ["pro"] },
+  { id: "quiet-luxury", name: "Quiet Luxury", fam: "serif", a: "#7C6E5D", s: "#DCD3C6", k: "#2A2622", on: "#fff", hf: F.play, bf: F.serif, tier: "pro", cats: ["pro", "ats"] },
+  { id: "blueberry-milk", name: "Blueberry Milk", fam: "time", a: "#5865C9", s: "#E3E6FA", k: "#1B1E3A", on: "#fff", hf: F.out, bf: F.man, tier: "pro", cats: ["fresher", "ats"] },
+  { id: "grindset", name: "Grindset", fam: "compact", a: "#334155", s: "#E2E8F0", k: "#0F172A", on: "#fff", hf: F.man, bf: F.man, tier: "free", cats: ["pro"] },
+  { id: "sunset-mode", name: "Sunset Mode", fam: "band", a: "#D9452F", band: "linear-gradient(120deg, #D9452F, #EE8F3A)", s: "#FFE3D4", k: "#2A140F", on: "#fff", hf: F.syne, bf: F.out, tier: "pro", cats: ["creative"] },
+  { id: "cottagecore", name: "Cottagecore", fam: "railr", a: "#4F6B3A", s: "#EEF0E2", k: "#232A1C", on: "#fff", hf: F.dms, bf: F.work, tier: "pro", cats: ["creative"] },
+  { id: "clean-code", name: "Clean Code", fam: "mono", a: "#4338CA", s: "#E6E7FB", k: "#16163A", on: "#fff", hf: F.mono, bf: F.man, tier: "pro", cats: ["tech", "ats"] },
+  { id: "gallery", name: "Gallery", fam: "split", a: "#111111", s: "#E4E4E4", k: "#111", on: "#fff", hf: F.dms, bf: F.work, tier: "pro", cats: ["creative", "pro"] },
+  { id: "desi-modern", name: "Desi Modern", fam: "band", a: "#8C1C3A", s: "#FBE7B5", k: "#2A1218", on: "#FFE3A3", hf: F.play, bf: F.man, tier: "pro", cats: ["pro"] },
+  { id: "midnight", name: "Midnight", fam: "rail", a: "#0F1E3D", s: "#DCE7FA", k: "#0F1E3D", on: "#E6EEFF", hf: F.grot, bf: F.work, tier: "pro", cats: ["tech", "pro"] },
+  { id: "pastel-pop", name: "Pastel Pop", fam: "bold", a: "#C93A82", s: "#CFF5E7", k: "#241A22", on: "#fff", hf: F.out, bf: F.out, tier: "pro", cats: ["creative", "fresher"] },
+  { id: "fresher-era", name: "Fresher Era", fam: "solo", a: "#1D6FC0", s: "#DCEBFA", k: "#13263A", on: "#fff", hf: F.man, bf: F.man, tier: "free", cats: ["fresher", "ats"] },
+  { id: "hustle", name: "Hustle", fam: "compact", a: "#047857", s: "#D5F2E7", k: "#0B231B", on: "#fff", hf: F.grot, bf: F.man, tier: "free", cats: ["pro", "tech"] },
+];
+const FAM_LABEL = { solo: "Single column", serif: "Classic serif", bold: "Big name", rail: "Sidebar", railr: "Right panel", band: "Colour header", split: "Editorial split", mono: "Code style", time: "Timeline", compact: "Compact" };
 
-const list = document.getElementById("index-list");
-mods.forEach((m, i) => {
-  const li = document.createElement("li");
-  li.innerHTML = `<a href="#${m.id}"><span class="n">${i + 1}</span><span class="t">${m.dataset.title}</span></a>`;
-  list.append(li);
+// Fictional example people shown on the gallery sheets.
+const SAMPLES = {
+  fresher: { name: "Aanya Kapoor", title: "Marketing Graduate", email: "aanya@example.com", phone: "+91 90000 00000", city: "Jaipur", link: "linkedin.com/in/aanya-example",
+    summary: "BBA graduate who loves turning ideas into content people share. Looking to start as a marketing executive at a consumer brand.",
+    experience: [{ role: "Marketing Intern", company: "D2C skincare brand", dates: "Jun ‚Äì Aug 2026", bullets: ["Planned and posted 30 Instagram reels in 8 weeks", "Grew followers from 4k to 9k", "Wrote product copy for 12 listings"] }],
+    education: [{ degree: "BBA, Marketing", school: "University in Jaipur", year: "2023 ‚Äì 2026", score: "8.6 CGPA" }, { degree: "Class XII, Commerce", school: "CBSE school, Jaipur", year: "2023", score: "92%" }],
+    projects: [{ name: "College fest sponsorships", desc: "Led a team of 5 that raised ‚Çπ3.2 lakh from 14 sponsors" }],
+    skills: ["Content strategy", "Instagram", "Canva", "Excel", "Copywriting", "Market research"], extras: ["Google Digital Marketing certificate", "English, Hindi"] },
+  pro: { name: "Rohan Mehta", title: "Product Manager", email: "rohan@example.com", phone: "+91 90000 00000", city: "Bengaluru", link: "linkedin.com/in/rohan-example",
+    summary: "Product manager with 6 years in consumer apps. I ship features users love and can prove it with numbers.",
+    experience: [
+      { role: "Product Manager", company: "Fintech app, Bengaluru", dates: "2023 ‚Äì Present", bullets: ["Own payments checkout used by 2M users a month", "Raised checkout success from 91% to 96%"] },
+      { role: "Associate Product Manager", company: "Food delivery app, Gurugram", dates: "2020 ‚Äì 2023", bullets: ["Launched order scheduling, now 8% of orders", "Ran 40+ A/B tests with design and data teams"] }],
+    education: [{ degree: "MBA", school: "Business school, Ahmedabad", year: "2020", score: "" }, { degree: "B.Tech, Mechanical", school: "Engineering college, Pune", year: "2017", score: "" }],
+    projects: [],
+    skills: ["Product strategy", "A/B testing", "SQL", "Figma", "Roadmapping", "Stakeholder management"], extras: ["Certified Scrum Product Owner", "English, Hindi, Gujarati"] },
+  tech: { name: "Ishaan Rao", title: "Backend Engineer", email: "ishaan@example.com", phone: "+91 90000 00000", city: "Hyderabad", link: "github.com/ishaan-example",
+    summary: "Backend engineer with 4 years building payment and order systems. I like owning a service from design to on-call.",
+    experience: [
+      { role: "Software Engineer II", company: "Payments company, Hyderabad", dates: "2024 ‚Äì Present", bullets: ["Own the refunds service, 2 lakh requests a day", "Cut p95 latency from 900 ms to 250 ms"] },
+      { role: "Software Engineer", company: "E-commerce company, Bengaluru", dates: "2022 ‚Äì 2024", bullets: ["Built order tracking APIs for the mobile app", "Mentored 3 interns"] }],
+    education: [{ degree: "B.Tech, Computer Science", school: "Engineering college, Chennai", year: "2022", score: "8.4 CGPA" }],
+    projects: [{ name: "UPI mock server", desc: "Open-source test server used by 4 internal teams" }],
+    skills: ["Go", "Java", "PostgreSQL", "Kafka", "AWS", "Docker", "System design"], extras: ["AWS Certified Developer"] },
+};
+const sampleFor = t => t.cats.includes("tech") ? SAMPLES.tech : (t.cats.includes("fresher") || t.cats.includes("creative")) ? SAMPLES.fresher : SAMPLES.pro;
 
-  const row = document.createElement("label");
-  row.className = "done-row";
-  row.setAttribute("for", `done-${m.id}`);
-  row.innerHTML = `<input type="checkbox" id="done-${m.id}"> Yeh module ho gaya`;
-  const box = row.querySelector("input");
-  box.checked = done.has(m.id);
-  box.addEventListener("change", () => {
-    box.checked ? done.add(m.id) : done.delete(m.id);
-    save(); render();
-  });
-  m.append(row);
-});
-const cheatLi = document.createElement("li");
-cheatLi.innerHTML = `<a href="#cheat"><span class="n">★</span><span class="t">Cheat sheet</span></a>`;
-list.append(cheatLi);
+// ---------- rendering ----------
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const has = v => Array.isArray(v) ? v.length > 0 : String(v ?? "").trim() !== "";
+const contactList = d => [d.email, d.phone, d.city, d.link].filter(has).map(esc);
 
-function render() {
-  const n = mods.filter(m => done.has(m.id)).length;
-  document.getElementById("bar").style.width = `${(n / mods.length) * 100}%`;
-  document.getElementById("progress-text").textContent = `${n} / ${mods.length} modules complete`;
-  mods.forEach(m => list.querySelector(`a[href="#${m.id}"]`).classList.toggle("done", done.has(m.id)));
-}
-render();
-
-document.querySelectorAll(".quiz").forEach(q => {
-  const right = Number(q.dataset.answer);
-  const why = q.querySelector(".why");
-  const rightText = why.textContent;
-  q.querySelectorAll(".opt").forEach((b, i) => b.addEventListener("click", () => {
-    q.querySelectorAll(".opt").forEach(o => o.classList.remove("right", "wrong"));
-    b.classList.add(i === right ? "right" : "wrong");
-    why.textContent = i === right ? rightText : "Ek baar phir sochiye. Upar ka analogy dobara padhiye.";
-    why.hidden = false;
-  }));
-});
-
-document.querySelectorAll(".copy-btn").forEach(btn => btn.addEventListener("click", () => {
-  const pre = btn.parentElement.querySelector("pre");
-  const text = pre.innerText;
-  const ok = () => { btn.textContent = "Copied"; setTimeout(() => { btn.textContent = "Copy"; }, 1500); };
-  const fallback = () => {
-    const r = document.createRange(); r.selectNodeContents(pre);
-    const s = getSelection(); s.removeAllRanges(); s.addRange(r);
-    btn.textContent = "Selected, ⌘C dabayein";
+function sections(d, fam) {
+  const H = t => `<h4>${t}</h4>`;
+  const exp = (d.experience || []).filter(e => has(e.role) || has(e.company)).map(e => `<div class="it"><div class="ih"><b>${esc(e.role)}</b><span class="dt">${esc(e.dates)}</span></div><div class="io">${esc(e.company)}</div>${(e.bullets || []).filter(has).length ? `<ul>${e.bullets.filter(has).map(b => `<li>${esc(b)}</li>`).join("")}</ul>` : ""}</div>`).join("");
+  const edu = (d.education || []).filter(e => has(e.degree) || has(e.school)).map(e => `<div class="it"><div class="ih"><b>${esc(e.degree)}</b><span class="dt">${esc(e.year)}</span></div><div class="io">${esc(e.school)}${has(e.score) ? ` ¬∑ ${esc(e.score)}` : ""}</div></div>`).join("");
+  const proj = (d.projects || []).filter(p => has(p.name)).map(p => `<div class="it"><b>${esc(p.name)}</b><div class="io">${esc(p.desc)}</div></div>`).join("");
+  const skills = (d.skills || []).filter(has);
+  const extras = (d.extras || []).filter(has);
+  const expTitle = fam === "mono" ? "experience" : "Experience";
+  const t = s => fam === "mono" ? s.toLowerCase() : s;
+  return {
+    summary: has(d.summary) ? `${H(t("Profile"))}<p class="sum">${esc(d.summary)}</p>` : "",
+    exp: exp ? `${H(expTitle)}${fam === "time" ? `<div class="tl">${exp}</div>` : exp}` : "",
+    edu: edu ? `${H(t("Education"))}${edu}` : "",
+    proj: proj ? `${H(t("Projects"))}${proj}` : "",
+    skills: skills.length ? `${H(t("Skills"))}<div class="sk">${skills.map(s => `<span>${esc(s)}</span>`).join("")}</div>` : "",
+    extras: extras.length ? `${H(t(fam === "rail" ? "Also" : "Certifications & more"))}<ul>${extras.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : "",
   };
-  try { navigator.clipboard.writeText(text).then(ok, fallback); } catch { fallback(); }
+}
+
+function renderResume(d, th) {
+  const S = sections(d, th.fam);
+  const ct = contactList(d);
+  const nm = esc(d.name || "Your Name"), ti = esc(d.title || "");
+  const ctLine = ct.join("  ¬∑  ");
+  const ctCol = `<div class="side-ct">${ct.map(c => `<div>${c}</div>`).join("")}</div>`;
+  switch (th.fam) {
+    case "solo": case "mono":
+      return `<div class="f-${th.fam}"><div class="nm">${nm}</div><div class="ti">${ti}</div><div class="ct">${ctLine}</div>${S.summary}${S.exp}${S.proj}${S.edu}${S.skills}${S.extras}</div>`;
+    case "serif":
+      return `<div class="f-serif"><div class="hdr"><div class="nm">${nm}</div><div class="ti">${ti}</div><div class="ct">${ctLine}</div></div>${S.summary}${S.exp}${S.edu}${S.proj}${S.skills}${S.extras}</div>`;
+    case "time": {
+      const ini = (d.name || "Y N").split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join("").toUpperCase();
+      return `<div class="f-time"><div class="hdr"><div class="mono-av" aria-hidden="true">${esc(ini)}</div><div class="nm">${nm}</div><div class="ti">${ti}</div><div class="ct">${ctLine}</div></div>${S.summary}${S.exp}${S.edu}${S.proj}${S.skills}${S.extras}</div>`;
+    }
+    case "rail":
+      return `<div class="f-rail"><div class="sb"><div class="nm">${nm}</div><div class="ti">${ti}</div><h4>Contact</h4>${ctCol}${S.skills}${S.extras}</div><div class="mn">${S.summary}${S.exp}${S.proj}${S.edu}</div></div>`;
+    case "railr":
+      return `<div class="f-railr"><div class="mn"><div class="hdr"><div class="nm">${nm}</div><div class="ti">${ti}</div></div>${S.summary}${S.exp}${S.proj}</div><div class="sb"><h4>Contact</h4>${ctCol}${S.edu}${S.skills}${S.extras}</div></div>`;
+    case "band":
+      return `<div class="f-band"><div class="hd"><div class="nm">${nm}</div><div class="ti">${ti}</div><div class="ct">${ctLine}</div></div><div class="bd">${S.summary}${S.exp}${S.proj}${S.edu}${S.skills}${S.extras}</div></div>`;
+    case "split":
+      return `<div class="f-split"><div class="hd"><div><div class="nm">${nm}</div><div class="ti">${ti}</div></div>${ctCol}</div><div class="bd"><div>${S.summary}${S.exp}${S.proj}</div><div>${S.edu}${S.skills}${S.extras}</div></div></div>`;
+    case "bold":
+      return `<div class="f-bold"><div class="hd"><div class="nm"><span>${nm}</span></div><div class="ti">${ti}</div><div class="ct">${ctLine}</div></div><div class="bd"><div>${S.summary}${S.exp}${S.proj}</div><div>${S.skills}${S.edu}${S.extras}</div></div></div>`;
+    case "compact":
+      return `<div class="f-compact"><div class="hd"><div><div class="nm">${nm}</div><div class="ti">${ti}</div></div>${ctCol}</div>${S.summary}<div class="bd"><div>${S.exp}${S.proj}</div><div>${S.edu}${S.skills}${S.extras}</div></div></div>`;
+  }
+  return "";
+}
+const paperStyle = th => `--a:${th.a};--s:${th.s};--k:${th.k};--on:${th.on};--hf:${th.hf};--bf:${th.bf};${th.band ? `--band:${th.band};` : ""}`;
+const paperHTML = (d, th) => `<div class="paper" style='${paperStyle(th)}'>${renderResume(d, th)}</div>`;
+
+const fit = new ResizeObserver(entries => entries.forEach(e => {
+  const p = e.target.querySelector(":scope > .paper");
+  if (p) p.style.transform = `scale(${e.contentRect.width / 794})`;
 }));
+function mountSheet(el, d, th) { el.innerHTML = paperHTML(d, th); fit.observe(el); }
 
-if (location.hash) document.querySelector(location.hash)?.scrollIntoView();
+// ---------- hero fan + gallery ----------
+const fan = document.getElementById("fan");
+["main-character", "old-money", "big-fit"].forEach(id => {
+  const th = THEMES.find(t => t.id === id);
+  const s = document.createElement("div"); s.className = "sheet"; fan.append(s); mountSheet(s, sampleFor(th), th);
+});
+
+const grid = document.getElementById("grid");
+THEMES.forEach(th => {
+  const c = document.createElement("article");
+  c.className = "card";
+  c.dataset.cats = [...th.cats, th.tier].join(" ");
+  c.innerHTML = `<div class="sheet" data-preview="${th.id}" role="button" tabindex="0" aria-label="Preview ${th.name}"></div>
+    <div class="card-meta"><h3>${th.name}</h3></div>
+    <div class="tags"><span class="tag">${FAM_LABEL[th.fam]}</span>${th.cats.includes("ats") ? '<span class="tag">ATS-safe</span>' : ""}<span class="tag">AI-readable</span></div>
+    <div class="acts"><button class="btn sm solid" type="button" data-use="${th.id}">Use this</button><button class="btn sm" type="button" data-preview="${th.id}">Preview</button></div>`;
+  grid.append(c);
+  const sheet = c.querySelector(".sheet");
+  mountSheet(sheet, sampleFor(th), th);
+  const badge = document.createElement("span");
+  badge.className = `tier ${th.tier}`; badge.textContent = th.tier === "free" ? "FREE" : "PRO";
+  sheet.append(badge);
+});
+
+document.getElementById("filters").addEventListener("click", e => {
+  const chip = e.target.closest(".chip"); if (!chip) return;
+  document.querySelectorAll("#filters .chip").forEach(c => c.setAttribute("aria-pressed", c === chip));
+  const f = chip.dataset.f;
+  grid.querySelectorAll(".card").forEach(c => { c.hidden = f !== "all" && !c.dataset.cats.split(" ").includes(f); });
+});
+
+// ---------- builder state ----------
+const STORE = "slaycv-draft";
+const blank = () => ({ name: "", title: "", email: "", phone: "", city: "", link: "", summary: "", experience: [{ role: "", company: "", dates: "", bullets: [] }], education: [{ degree: "", school: "", year: "", score: "" }], projects: [], skills: [], extras: [] });
+let state = { theme: "clean-girl", data: structuredClone(SAMPLES.fresher) };
+try { const saved = JSON.parse(localStorage.getItem(STORE) || "null"); if (saved && saved.data) state = saved; } catch {}
+const theme = () => THEMES.find(t => t.id === state.theme) || THEMES[0];
+let saveTimer;
+function persist() { clearTimeout(saveTimer); saveTimer = setTimeout(() => { try { localStorage.setItem(STORE, JSON.stringify(state)); } catch {} }, 400); }
+
+const live = document.getElementById("live");
+let renderQueued = false;
+function renderLive() {
+  if (renderQueued) return; renderQueued = true;
+  requestAnimationFrame(() => { renderQueued = false; mountSheet(live, state.data, theme()); });
+}
+
+// simple fields
+const form = document.getElementById("form");
+function fillSimple() {
+  form.querySelectorAll("[data-k]").forEach(inp => {
+    const v = state.data[inp.dataset.k];
+    inp.value = inp.dataset.list ? (v || []).join(", ") : (v || "");
+  });
+}
+form.addEventListener("input", e => {
+  const inp = e.target;
+  if (inp.dataset.k) {
+    state.data[inp.dataset.k] = inp.dataset.list ? inp.value.split(",").map(s => s.trim()).filter(Boolean) : inp.value;
+  } else if (inp.dataset.list && inp.dataset.i !== undefined) {
+    const item = state.data[inp.dataset.list][+inp.dataset.i];
+    item[inp.dataset.f] = inp.dataset.f === "bullets" ? inp.value.split("\n").map(s => s.trim()).filter(Boolean) : inp.value;
+  } else return;
+  persist(); renderLive();
+});
+
+// repeatable lists
+const LISTS = {
+  experience: { fields: [["role", "Role"], ["company", "Company"], ["dates", "Dates"], ["bullets", "What you did (one point per line)", "area"]], blank: () => ({ role: "", company: "", dates: "", bullets: [] }), ai: true },
+  education: { fields: [["degree", "Degree or class"], ["school", "College or school"], ["year", "Year"], ["score", "CGPA or %"]], blank: () => ({ degree: "", school: "", year: "", score: "" }) },
+  projects: { fields: [["name", "Project name"], ["desc", "One line about it", "area"]], blank: () => ({ name: "", desc: "" }) },
+};
+function renderList(key) {
+  const box = document.getElementById(`list-${key}`);
+  const cfg = LISTS[key];
+  box.innerHTML = (state.data[key] || []).map((item, i) => `<div class="entry">
+      <div class="row2">${cfg.fields.filter(f => !f[2]).map(([f, label]) => `<label for="${key}-${i}-${f}">${label}<input id="${key}-${i}-${f}" data-list="${key}" data-i="${i}" data-f="${f}" value="${esc(item[f] || "")}"></label>`).join("")}</div>
+      ${cfg.fields.filter(f => f[2]).map(([f, label]) => `<label for="${key}-${i}-${f}">${label}<textarea id="${key}-${i}-${f}" data-list="${key}" data-i="${i}" data-f="${f}" rows="3">${esc(f === "bullets" ? (item[f] || []).join("\n") : (item[f] || ""))}</textarea></label>`).join("")}
+      <div class="entry-acts">${cfg.ai ? `<button class="ai-mini ai-only" data-ai="${AI ? "on" : "off"}" type="button" data-polish="${i}">‚ú® Polish with AI</button>` : "<span></span>"}<button class="linkbtn" type="button" data-remove="${key}" data-i="${i}">Remove</button></div>
+    </div>`).join("");
+}
+form.addEventListener("click", e => {
+  const add = e.target.closest("[data-add]");
+  const rm = e.target.closest("[data-remove]");
+  if (add) { const k = add.dataset.add; (state.data[k] ||= []).push(LISTS[k].blank()); renderList(k); persist(); renderLive(); }
+  if (rm) { state.data[rm.dataset.remove].splice(+rm.dataset.i, 1); renderList(rm.dataset.remove); persist(); renderLive(); }
+});
+function renderForm() { fillSimple(); Object.keys(LISTS).forEach(renderList); }
+
+document.getElementById("clear-sample").addEventListener("click", () => { state.data = blank(); renderForm(); persist(); renderLive(); });
+
+// design pickers
+const pick = document.getElementById("design-pick");
+pick.innerHTML = THEMES.map(t => `<option value="${t.id}">${t.name}${t.tier === "pro" ? " ¬∑ Pro" : " ¬∑ Free"}</option>`).join("");
+const strip = document.getElementById("strip");
+strip.innerHTML = THEMES.map(t => `<button type="button" data-theme="${t.id}"><i style="background:${t.a}"></i>${t.name}</button>`).join("");
+function setTheme(id) {
+  state.theme = id; pick.value = id;
+  strip.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.theme === id));
+  persist(); renderLive();
+}
+pick.addEventListener("change", () => setTheme(pick.value));
+strip.addEventListener("click", e => { const b = e.target.closest("[data-theme]"); if (b) setTheme(b.dataset.theme); });
+
+// ---------- overlay ----------
+const ov = document.getElementById("ov");
+let ovTheme = null, lastFocus = null;
+fit.observe(document.getElementById("ov-sheet"));
+function openPreview(id) {
+  lastFocus = document.activeElement;
+  const th = THEMES.find(t => t.id === id); ovTheme = th;
+  document.getElementById("ov-big").hidden = false;
+  mountSheet(document.getElementById("ov-sheet"), sampleFor(th), th);
+  document.getElementById("ov-kind").textContent = th.tier === "free" ? "Free design" : "Pro design";
+  document.getElementById("ov-title").textContent = th.name;
+  document.getElementById("ov-points").innerHTML = [FAM_LABEL[th.fam] + " layout", th.cats.includes("ats") ? "ATS-safe single column" : "Real text that AI screeners read", "A4, PDF and Word", "Sample person is fictional"].map(x => `<li>${x}</li>`).join("");
+  document.getElementById("ov-use").hidden = false;
+  document.getElementById("ov-order").hidden = true;
+  document.getElementById("ov-owner").hidden = true;
+  ov.hidden = false; document.getElementById("ov-close").focus();
+}
+function openOrder(title, price) {
+  lastFocus = document.activeElement; ovTheme = null;
+  document.getElementById("ov-big").hidden = true;
+  document.getElementById("ov-kind").textContent = "Order";
+  document.getElementById("ov-title").textContent = `${title} ¬∑ ‚Çπ${price}`;
+  document.getElementById("ov-points").innerHTML = "";
+  document.getElementById("ov-use").hidden = true;
+  document.getElementById("ov-order-title").textContent = `Pay ‚Çπ${price} for ${title}`;
+  document.getElementById("ov-order").hidden = false;
+  document.getElementById("ov-owner").hidden = false;
+  ov.hidden = false; document.getElementById("ov-close").focus();
+}
+function closeOv() { ov.hidden = true; lastFocus?.focus(); }
+document.getElementById("ov-close").addEventListener("click", closeOv);
+ov.addEventListener("click", e => { if (e.target === ov) closeOv(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && !ov.hidden) closeOv(); });
+document.getElementById("ov-use").addEventListener("click", () => { const id = ovTheme.id; closeOv(); useDesign(id); });
+function useDesign(id) { setTheme(id); document.getElementById("build").scrollIntoView({ behavior: "smooth" }); }
+
+document.addEventListener("click", e => {
+  const use = e.target.closest("[data-use]"); if (use) return useDesign(use.dataset.use);
+  const pv = e.target.closest("[data-preview]"); if (pv && !pv.closest("#ov")) return openPreview(pv.dataset.preview);
+  const ord = e.target.closest("[data-order]"); if (ord) openOrder(ord.dataset.order, ord.dataset.price);
+});
+grid.addEventListener("keydown", e => { const s = e.target.closest(".sheet[data-preview]"); if (s && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openPreview(s.dataset.preview); } });
+
+// ---------- downloads ----------
+let DL = null, AI = null, inClaude = false;
+const note = document.getElementById("dl-note");
+const fileBase = () => (state.data.name || "resume").trim().replace(/[^\w\- ]+/g, "").replace(/\s+/g, "_") + "_Resume";
+const paywalled = () => PAYWALL && theme().tier === "pro";
+
+async function saveFile(filename, blob) {
+  if (DL) {
+    try { await DL.save({ filename, data: blob }); note.textContent = `Saved ${filename}.`; }
+    catch (err) { note.textContent = err?.code === "declined" ? "Download cancelled." : "This download isn't available here."; }
+    return;
+  }
+  const url = URL.createObjectURL(blob);
+  const a = Object.assign(document.createElement("a"), { href: url, download: filename });
+  document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+  note.textContent = `Downloaded ${filename}.`;
+}
+
+function plainText(d) {
+  const L = [];
+  L.push(d.name || "", d.title || "", contactList(d).map(s => s.replace(/&amp;/g, "&")).join(" | "), "");
+  if (has(d.summary)) L.push("PROFILE", d.summary, "");
+  const exp = (d.experience || []).filter(e => has(e.role) || has(e.company));
+  if (exp.length) { L.push("EXPERIENCE"); exp.forEach(e => { L.push(`${e.role} | ${e.company} | ${e.dates}`); (e.bullets || []).filter(has).forEach(b => L.push(`- ${b}`)); L.push(""); }); }
+  const pr = (d.projects || []).filter(p => has(p.name));
+  if (pr.length) { L.push("PROJECTS"); pr.forEach(p => L.push(`${p.name}: ${p.desc}`)); L.push(""); }
+  const ed = (d.education || []).filter(e => has(e.degree) || has(e.school));
+  if (ed.length) { L.push("EDUCATION"); ed.forEach(e => L.push([e.degree, e.school, e.year, e.score].filter(has).join(" | "))); L.push(""); }
+  if ((d.skills || []).length) L.push("SKILLS", d.skills.join(", "), "");
+  if ((d.extras || []).length) L.push("CERTIFICATIONS & MORE", d.extras.join(", "), "");
+  return L.join("\n").trim() + "\n";
+}
+
+async function buildDocx(d, th) {
+  const { Document, Packer, Paragraph, TextRun, BorderStyle } = window.docx;
+  const dark = ["#4E7A00", "#A97C00"].includes(th.a) ? th.k : th.a;
+  const color = (dark.length === 4 ? dark.replace(/#(.)(.)(.)/, "$1$1$2$2$3$3") : dark.slice(1)).toUpperCase();
+  const head = t => new Paragraph({ spacing: { before: 260, after: 80 }, border: { bottom: { style: BorderStyle.SINGLE, size: 6, color, space: 2 } }, children: [new TextRun({ text: t.toUpperCase(), bold: true, size: 22, color })] });
+  const kids = [
+    new Paragraph({ children: [new TextRun({ text: d.name || "Your Name", bold: true, size: 44, color })] }),
+    new Paragraph({ children: [new TextRun({ text: d.title || "", size: 24 })] }),
+    new Paragraph({ spacing: { after: 120 }, children: [new TextRun({ text: [d.email, d.phone, d.city, d.link].filter(has).join("  |  "), size: 19, color: "555555" })] }),
+  ];
+  if (has(d.summary)) kids.push(head("Profile"), new Paragraph({ text: d.summary }));
+  const exp = (d.experience || []).filter(e => has(e.role) || has(e.company));
+  if (exp.length) { kids.push(head("Experience")); exp.forEach(e => { kids.push(new Paragraph({ spacing: { before: 120 }, children: [new TextRun({ text: e.role, bold: true }), new TextRun({ text: has(e.dates) ? `   ${e.dates}` : "", color: "666666" })] }), new Paragraph({ children: [new TextRun({ text: e.company, italics: true, color: "555555" })] })); (e.bullets || []).filter(has).forEach(b => kids.push(new Paragraph({ text: b, bullet: { level: 0 } }))); }); }
+  const pr = (d.projects || []).filter(p => has(p.name));
+  if (pr.length) { kids.push(head("Projects")); pr.forEach(p => kids.push(new Paragraph({ children: [new TextRun({ text: p.name, bold: true }), new TextRun({ text: has(p.desc) ? ` ‚Äì ${p.desc}` : "" })] }))); }
+  const ed = (d.education || []).filter(e => has(e.degree) || has(e.school));
+  if (ed.length) { kids.push(head("Education")); ed.forEach(e => kids.push(new Paragraph({ spacing: { before: 80 }, children: [new TextRun({ text: e.degree, bold: true }), new TextRun({ text: has(e.year) ? `   ${e.year}` : "", color: "666666" })] }), new Paragraph({ children: [new TextRun({ text: [e.school, e.score].filter(has).join(" ¬∑ "), color: "555555" })] }))); }
+  if ((d.skills || []).length) kids.push(head("Skills"), new Paragraph({ text: d.skills.join(" ¬∑ ") }));
+  if ((d.extras || []).length) kids.push(head("Certifications & more"), new Paragraph({ text: d.extras.join(" ¬∑ ") }));
+  const doc = new Document({ creator: "SlayCV", title: `${d.name || "Resume"}`, styles: { default: { document: { run: { font: "Calibri", size: 21 } } } }, sections: [{ properties: { page: { margin: { top: 720, bottom: 720, left: 900, right: 900 } } }, children: kids }] });
+  return Packer.toBlob(doc);
+}
+
+document.getElementById("dl-txt").addEventListener("click", () => {
+  if (paywalled()) return openOrder(theme().name, 49);
+  saveFile(fileBase() + ".txt", new Blob([plainText(state.data)], { type: "text/plain" }));
+});
+document.getElementById("dl-docx").addEventListener("click", async e => {
+  if (paywalled()) return openOrder(theme().name, 49);
+  if (!window.docx) { note.textContent = "Word export is still loading. Try again in a moment."; return; }
+  e.target.disabled = true; note.textContent = "Making your Word file‚Ä¶";
+  try { await saveFile(fileBase() + ".docx", await buildDocx(state.data, theme())); }
+  catch { note.textContent = "Couldn't make the Word file. Try again."; }
+  finally { e.target.disabled = false; }
+});
+document.getElementById("dl-pdf").addEventListener("click", () => {
+  if (paywalled()) return openOrder(theme().name, 49);
+  const root = document.getElementById("print-root");
+  root.innerHTML = paperHTML(state.data, theme());
+  const prev = document.title; document.title = fileBase();
+  window.print();
+  document.title = prev;
+  note.textContent = inClaude
+    ? "PDF saving opens your browser's print window on the live site. In this preview, use Word or plain text."
+    : "In the print window, choose Save as PDF.";
+});
+
+// ---------- AI ----------
+const aiStatus = document.getElementById("ai-status");
+const SCHEMA = '{"name":"","title":"","email":"","phone":"","city":"","link":"","summary":"","experience":[{"role":"","company":"","dates":"","bullets":[""]}],"education":[{"degree":"","school":"","year":"","score":""}],"projects":[{"name":"","desc":""}],"skills":[""],"extras":[""]}';
+const RULES = "Rules: use only facts given; never invent employers, colleges, dates, numbers, links or contact details. Leave unknown fields as \"\" or []. Where a number would make a point stronger but none is given, write [add number]. Use simple, confident Indian English. Start bullets with a strong verb, one line each.";
+const str = v => typeof v === "string" ? v : "";
+const arr = v => Array.isArray(v) ? v : [];
+function cleanResume(r, keep) {
+  return {
+    name: str(r.name) || keep.name, title: str(r.title) || keep.title, email: str(r.email) || keep.email, phone: str(r.phone) || keep.phone,
+    city: str(r.city) || keep.city, link: str(r.link) || keep.link, summary: str(r.summary),
+    experience: arr(r.experience).map(e => ({ role: str(e?.role), company: str(e?.company), dates: str(e?.dates), bullets: arr(e?.bullets).map(str).filter(Boolean) })),
+    education: arr(r.education).map(e => ({ degree: str(e?.degree), school: str(e?.school), year: str(e?.year), score: str(e?.score) })),
+    projects: arr(r.projects).map(p => ({ name: str(p?.name), desc: str(p?.desc) })),
+    skills: arr(r.skills).map(str).filter(Boolean).slice(0, 12), extras: arr(r.extras).map(str).filter(Boolean),
+  };
+}
+function aiError(err, el) {
+  el.classList.add("err");
+  el.textContent = err?.code === "rate_limited" ? "AI is busy right now. Wait a minute and try again."
+    : err?.code === "not_granted" ? "AI writing wasn't allowed. You can still fill the form yourself."
+    : "AI couldn't finish that. Try again, or add a bit more detail.";
+}
+
+document.getElementById("ai-go").addEventListener("click", async e => {
+  const notes = document.getElementById("ai-notes").value.trim();
+  const role = document.getElementById("ai-role").value.trim();
+  aiStatus.classList.remove("err");
+  if (notes.length < 30) { aiStatus.classList.add("err"); aiStatus.textContent = "Tell AI a little more about yourself first (a few lines is enough)."; return; }
+  e.target.disabled = true; aiStatus.textContent = "Writing your resume‚Ä¶";
+  try {
+    const r = await AI.json(`You write resumes for job seekers in India. Turn the notes into a resume as JSON with exactly this shape: ${SCHEMA}\n${RULES}\nSummary: 2‚Äì3 sentences aimed at the target job. 2‚Äì4 bullets per job. Up to 10 skills, most relevant first.\nTarget job: ${role || "not given"}\nNotes:\n"""${notes}"""`, { modelTier: "default" });
+    state.data = cleanResume(r || {}, state.data);
+    if (!state.data.experience.length) state.data.experience = [LISTS.experience.blank()];
+    if (!state.data.education.length) state.data.education = [LISTS.education.blank()];
+    renderForm(); persist(); renderLive();
+    aiStatus.textContent = "Done. Check every line, fill any [add number], then pick a design.";
+  } catch (err) { aiError(err, aiStatus); }
+  finally { e.target.disabled = false; }
+});
+
+document.getElementById("ai-summary").addEventListener("click", async e => {
+  const d = state.data; e.target.disabled = true; e.target.textContent = "Writing‚Ä¶";
+  try {
+    const res = await AI(`Write a 2‚Äì3 sentence resume summary in first person without "I" at the start of every sentence. Use only these facts. ${RULES}\nReply with the summary text only.\n${JSON.stringify({ title: d.title, experience: d.experience, education: d.education, skills: d.skills, current_summary: d.summary })}`, { modelTier: "quick" });
+    d.summary = res.text.trim(); document.getElementById("f-summary").value = d.summary; persist(); renderLive();
+  } catch (err) { aiError(err, aiStatus); }
+  finally { e.target.disabled = false; e.target.textContent = "‚ú® Write with AI"; }
+});
+
+form.addEventListener("click", async e => {
+  const b = e.target.closest("[data-polish]"); if (!b || !AI) return;
+  const i = +b.dataset.polish; const job = state.data.experience[i];
+  b.disabled = true; b.textContent = "Polishing‚Ä¶";
+  try {
+    const out = await AI.json(`Rewrite these notes about one job as 2‚Äì4 resume bullet points. Reply with a JSON array of strings. ${RULES}\nRole: ${job.role}\nCompany: ${job.company}\nNotes:\n${(job.bullets || []).join("\n")}`, { modelTier: "quick" });
+    job.bullets = arr(out).map(str).filter(Boolean);
+    document.getElementById(`experience-${i}-bullets`).value = job.bullets.join("\n"); persist(); renderLive();
+  } catch (err) { aiError(err, aiStatus); }
+  finally { b.disabled = false; b.textContent = "‚ú® Polish with AI"; }
+});
+
+// ---------- start ----------
+renderForm(); setTheme(state.theme);
+
+(async () => {
+  const cl = window.claude;
+  if (!cl?.use) return;
+  inClaude = true;
+  const [dl, ai] = await Promise.all([cl.use("downloads"), cl.use("sample")]);
+  DL = dl; AI = ai;
+  if (AI) { document.querySelectorAll(".ai-only").forEach(el => { el.dataset.ai = "on"; }); }
+})();
 </script>
-
+</body>
+</html>
