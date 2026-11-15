@@ -198,7 +198,12 @@ footer .legal a { color: var(--muted); }
   body > *:not(#print-root) { display: none !important; }
   body { background: #fff; }
   #print-root { display: block; }
-  #print-root .paper { width: 210mm; min-height: 297mm; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  html, body { margin: 0 !important; padding: 0 !important; height: auto !important; }
+  #print-root { overflow: hidden; }
+  #print-root .paper { width: 210mm; height: 296mm; overflow: hidden; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  /* Safari keeps its own page margins, so shrink the sheet to fit one page there. */
+  #print-root.fit { height: 270mm; }
+  #print-root.fit .paper { zoom: .9; margin: 0 auto; }
 }
 
 /* ===== Resume designs. Printed on white paper, coloured from each design's own variables. ===== */
@@ -588,7 +593,7 @@ const CONFIG = {
 };
 // Everyone registers (free) before their first download. Sign-ups are emailed to `to` through FormSubmit.
 // The first sign-up sends an activation email to that address: click "Activate" once.
-const SIGNUP = { required: true, to: "support@slaycv.com" };
+const SIGNUP = { required: true, to: "20056b83f6a112554752933fb45ab331" };  // FormSubmit alias for support@slaycv.com
 // Pro designs ask for payment before download once a UPI ID is set above.
 const PAYWALL = CONFIG.upi.trim() !== "";
 // SHA-256 hashes of unlock codes. The codes themselves are kept privately by the owner, never in this file.
@@ -1003,6 +1008,18 @@ function refreshLockUI() {
     : "PDF keeps the exact design with real, selectable text. Word is fully editable.";
 }
 
+const isSafari = /^((?!chrome|chromium|crios|fxios|android|edg).)*safari/i.test(navigator.userAgent);
+function printPaper(html, name) {
+  const root = document.getElementById("print-root");
+  root.innerHTML = html; root.className = isSafari ? "fit" : "";
+  const prev = document.title; document.title = name;
+  window.print();
+  document.title = prev;
+  return inClaude ? "PDF saving opens your browser's print window on the live site. In this preview, use Word."
+    : isSafari ? "In the print window: open the PDF menu at the bottom, choose Save as PDF, and untick “Print headers and footers” for a clean page."
+    : "In the print window, set Destination to Save as PDF.";
+}
+
 async function saveFile(filename, blob) {
   if (DL) {
     try { await DL.save({ filename, data: blob }); note.textContent = `Saved ${filename}.`; }
@@ -1149,14 +1166,7 @@ document.getElementById("dl-docx").addEventListener("click", e => gate(async () 
   finally { b.disabled = false; }
 }));
 document.getElementById("dl-pdf").addEventListener("click", () => gate(() => {
-  const root = document.getElementById("print-root");
-  root.innerHTML = paperHTML(state.data, theme());
-  const prev = document.title; document.title = fileBase();
-  window.print();
-  document.title = prev;
-  note.textContent = inClaude
-    ? "PDF saving opens your browser's print window on the live site. In this preview, use Word or plain text."
-    : "In the print window, choose Save as PDF.";
+  note.textContent = printPaper(paperHTML(state.data, theme()), fileBase());
 }));
 
 // ---------- AI ----------
@@ -1320,10 +1330,7 @@ function buildLetterDocx(d, L, th) {
 }
 const clNote = document.getElementById("cl-note");
 document.getElementById("cl-pdf").addEventListener("click", () => gate(() => {
-  document.getElementById("print-root").innerHTML = letterHTML(state.data, state.letter, theme());
-  const prev = document.title; document.title = fileBase().replace(/_Resume$/, "_Cover_Letter");
-  window.print(); document.title = prev;
-  clNote.textContent = inClaude ? "PDF saving opens your browser's print window on the live site. In this preview, use Word." : "In the print window, choose Save as PDF.";
+  clNote.textContent = printPaper(letterHTML(state.data, state.letter, theme()), fileBase().replace(/_Resume$/, "_Cover_Letter"));
 }));
 document.getElementById("cl-docx").addEventListener("click", () => gate(async () => {
   const b = document.getElementById("cl-docx");
