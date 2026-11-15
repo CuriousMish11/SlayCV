@@ -155,17 +155,29 @@ details { background: var(--surface); border: 1.5px solid var(--line); border-ra
 summary { font-weight: 700; cursor: pointer; }
 details p { color: var(--muted); margin-top: 8px; }
 footer .wrap { padding-block: 26px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; color: var(--muted); font-size: .9rem; border-top: 1px solid var(--line); }
+footer .legal { display: flex; gap: 6px 16px; flex-wrap: wrap; }
+footer .legal a { color: var(--muted); }
 
 /* Overlay */
 .overlay { position: fixed; inset: 0; z-index: 30; background: rgba(10,10,16,.62); display: grid; place-items: center; padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
 .panel { background: var(--surface); border-radius: 16px; width: min(100%, 960px); max-height: 100%; overflow: auto; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
 .panel .big { background: var(--bg); padding: 20px; }
+.panel:has(> .big[hidden]) { grid-template-columns: minmax(0, 1fr); width: min(100%, 480px); }
 .panel .side { padding: 24px; display: grid; gap: 12px; align-content: start; }
 .panel .side h2 { font-size: 2rem; }
 .panel .side ul { margin: 0; padding-left: 18px; color: var(--muted); }
 .close { justify-self: end; background: none; border: 0; font: 700 .95rem var(--font-body); color: var(--muted); cursor: pointer; }
 .order { background: var(--bg); border-radius: 10px; padding: 14px; display: grid; gap: 6px; font-size: .92rem; }
 .ph { border-bottom: 2px dashed var(--pro); }
+.order .steps { margin: 4px 0; padding-left: 20px; display: grid; gap: 12px; }
+.order .steps li > div { margin-top: 6px; }
+.order .mono { font-family: ui-monospace, Menlo, monospace; font-weight: 600; word-break: break-all; }
+.row-acts { display: flex; gap: 8px; flex-wrap: wrap; }
+.code-row { display: flex; gap: 8px; }
+.code-row input { text-transform: uppercase; font-family: ui-monospace, Menlo, monospace; }
+.status.ok { color: var(--ok); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.unlocked-pill { font-size: .78rem; font-weight: 800; color: var(--ok); }
 .note { font-size: .8rem; color: var(--muted); }
 
 #print-root { display: none; }
@@ -283,6 +295,17 @@ footer .wrap { padding-block: 26px; display: flex; justify-content: space-betwee
 .f-compact .nm { font-size: 30px; color: var(--a); }
 .f-compact .bd { display: grid; grid-template-columns: 1.4fr 1fr; gap: 28px; }
 .f-compact h4 { font-size: 12px; margin-top: 16px; }
+
+/* Cover letter body, shared by every design */
+.builder.cover { border-top: 0; }
+.paper .lt { font-size: 14px; line-height: 1.7; }
+.paper .lt p { margin: 0 0 14px; }
+.paper .lt .lt-date { opacity: .7; margin: 28px 0 18px; }
+.paper .lt .lt-to { margin-bottom: 18px; }
+.paper .lt .lt-sign { margin-top: 26px; }
+.paper .lt .lt-sign b { font-family: var(--hf); color: var(--a); font-size: 16px; }
+.f-band .lt, .f-bold .lt { padding: 10px 60px 40px; }
+.f-rail .mn .lt .lt-date { margin-top: 0; }
 </style>
 
 </head>
@@ -293,6 +316,7 @@ footer .wrap { padding-block: 26px; display: flex; justify-content: space-betwee
     <nav aria-label="Sections">
       <a href="#designs">Designs</a>
       <a href="#build">Build with AI</a>
+      <a href="#cover">Cover letter</a>
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
     </nav>
@@ -312,7 +336,7 @@ footer .wrap { padding-block: 26px; display: flex; justify-content: space-betwee
         </div>
         <div class="proof">
           <div><b>28</b>designs</div>
-          <div><b>8 free</b>no sign-up</div>
+          <div><b>8 free</b>designs</div>
           <div><b>Word + PDF</b>downloads</div>
         </div>
       </div>
@@ -414,11 +438,49 @@ footer .wrap { padding-block: 26px; display: flex; justify-content: space-betwee
           <div class="strip" id="strip" aria-label="Quick design switch"></div>
           <div class="sheet" id="live"></div>
           <div class="dl">
-            <button class="btn solid" type="button" id="dl-pdf">Download PDF</button>
-            <button class="btn" type="button" id="dl-docx">Word (.docx)</button>
-            <button class="btn" type="button" id="dl-txt">Plain text for portals</button>
+            <button class="btn solid" type="button" id="dl-pdf" data-label="Download PDF">Download PDF</button>
+            <button class="btn" type="button" id="dl-docx" data-label="Word (.docx)">Word (.docx)</button>
+            <button class="btn" type="button" id="dl-txt" data-label="Plain text for portals">Plain text for portals</button>
           </div>
           <p class="dl-note" id="dl-note" aria-live="polite">PDF keeps the exact design with real, selectable text. Word is fully editable.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="builder cover" id="cover">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="kicker">Cover letter</span>
+          <h2>A letter that matches your resume.</h2>
+        </div>
+      </div>
+      <div class="b-grid">
+        <form class="form" id="cl-form" novalidate>
+          <fieldset>
+            <legend>The job</legend>
+            <div class="row2">
+              <label for="cl-company">Company<input id="cl-company" data-c="company" placeholder="Nykaa"></label>
+              <label for="cl-role">Role you're applying for<input id="cl-role" data-c="role" placeholder="Marketing Executive"></label>
+            </div>
+            <label for="cl-manager">Hiring manager's name (if you know it)<input id="cl-manager" data-c="manager" placeholder="Leave blank for “Dear Hiring Manager”"></label>
+          </fieldset>
+          <fieldset>
+            <legend>Your letter</legend>
+            <div><button class="btn sm solid" type="button" id="cl-fill">Write a first draft from my resume</button></div>
+            <label for="cl-body">Letter (leave a blank line between paragraphs)<textarea id="cl-body" data-c="body" rows="12"></textarea></label>
+            <p class="note">The draft uses your name, title, latest job and top skills from the resume above. Make it yours: say why this company, in your own words.</p>
+          </fieldset>
+        </form>
+        <div class="preview">
+          <p class="note" style="text-align:center">Uses the same design as your resume: <b id="cl-design"></b></p>
+          <div class="sheet" id="cl-live"></div>
+          <div class="dl">
+            <button class="btn solid" type="button" id="cl-pdf" data-label="Download PDF">Download PDF</button>
+            <button class="btn" type="button" id="cl-docx" data-label="Word (.docx)">Word (.docx)</button>
+          </div>
+          <p class="dl-note" id="cl-note" aria-live="polite"></p>
         </div>
       </div>
     </div>
@@ -431,7 +493,7 @@ footer .wrap { padding-block: 26px; display: flex; justify-content: space-betwee
         <div class="plan">
           <span class="kicker">Free</span>
           <div class="amt">₹0</div>
-          <ul><li>8 free designs</li><li>Builder and AI writing</li><li>PDF, Word and text downloads</li></ul>
+          <ul><li>8 free designs</li><li>Builder and cover letter</li><li>PDF, Word and text downloads</li></ul>
         </div>
         <div class="plan star">
           <span class="kicker">Most picked</span>
@@ -457,7 +519,7 @@ footer .wrap { padding-block: 26px; display: flex; justify-content: space-betwee
         <details><summary>Does the AI make things up?</summary><p>It's told to use only what you write. If a number would make a point stronger, it leaves a marker like [add number] for you to fill in. Always read the result before you send it.</p></details>
         <details><summary>Which file should I send?</summary><p>Send the PDF when you email or upload a resume. Use Word if a portal asks for .docx or you want to edit offline. Use plain text when a portal asks you to paste your resume into a box.</p></details>
         <details><summary>Can I make it on my phone?</summary><p>Yes. The builder works on any phone browser, and downloads open in Google Docs, Word or any PDF viewer.</p></details>
-        <details><summary>Is my data saved anywhere?</summary><p>Your details stay in your own browser so you can come back later. Clear them anytime with Start blank.</p></details>
+        <details><summary>Is my data saved anywhere?</summary><p>Your resume details stay in your own browser so you can come back later, and are never sent to us. Clear them anytime with Start blank. To download, you register once with your name, email and (optionally) WhatsApp number, which we use only to send you SlayCV updates. See our <a href="privacy.html">privacy policy</a>.</p></details>
       </div>
     </div>
   </section>
@@ -465,8 +527,14 @@ footer .wrap { padding-block: 26px; display: flex; justify-content: space-betwee
 
 <footer>
   <div class="wrap">
-    <span>© SlayCV · slaycv.com</span>
-    <span>Sample people and companies in the designs are fictional.</span>
+    <span>© SlayCV · slaycv.com · Sample people and companies in the designs are fictional.</span>
+    <nav class="legal" aria-label="Policies">
+      <a href="contact.html">Contact</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="refund.html">Refunds</a>
+      <a href="delivery.html">Delivery</a>
+    </nav>
   </div>
 </footer>
 
@@ -479,13 +547,31 @@ footer .wrap { padding-block: 26px; display: flex; justify-content: space-betwee
       <h2 id="ov-title"></h2>
       <ul id="ov-points"></ul>
       <button class="btn hi" type="button" id="ov-use">Use this design</button>
+      <form class="order" id="ov-reg" hidden novalidate>
+        <p class="note" style="font-size:.9rem">Register once, free, to download. We'll only use this to send you updates about SlayCV.</p>
+        <label for="reg-name">Full name<input id="reg-name" name="name" autocomplete="name" required></label>
+        <label for="reg-email">Email<input id="reg-email" name="email" type="email" autocomplete="email" required></label>
+        <label for="reg-phone">WhatsApp number (optional)<input id="reg-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel"></label>
+        <input type="text" name="_honey" class="sr" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn hi" type="submit" id="reg-go">Register and download</button>
+        <p class="status" id="reg-status" aria-live="polite"></p>
+        <span class="note">By registering you agree to our <a href="terms.html">terms</a> and <a href="privacy.html">privacy policy</a>.</span>
+      </form>
       <div class="order" id="ov-order" hidden>
         <b id="ov-order-title"></b>
-        <span>UPI: <span class="ph">add your UPI ID</span></span>
-        <span>WhatsApp: <span class="ph">add your number</span></span>
-        <span class="note">Pay and send the screenshot on WhatsApp. We unlock your design within a few hours.</span>
+        <ol class="steps">
+          <li><b>Pay</b> by UPI to <span id="ov-upi" class="mono"></span> <button class="linkbtn" type="button" id="ov-copy">Copy</button>
+            <div><a class="btn sm solid" id="ov-pay" href="#">Pay with UPI app</a></div></li>
+          <li><b>Send</b> the screenshot or UPI transaction ID
+            <div class="row-acts"><a class="btn sm" id="ov-wa" href="#" target="_blank" rel="noopener">WhatsApp us</a><a class="btn sm" id="ov-mail" href="#">Email us</a></div></li>
+          <li><b>Enter</b> the unlock code we send you
+            <div class="code-row"><label for="ov-code" class="sr">Unlock code</label><input id="ov-code" placeholder="SLAY-XXXX-XXXX" autocomplete="off" autocapitalize="characters" spellcheck="false"><button class="btn sm hi" type="button" id="ov-unlock">Unlock</button></div>
+            <p class="status" id="ov-code-status" aria-live="polite"></p></li>
+        </ol>
+        <span class="note">Codes usually arrive within a few hours, always within 24. <a href="refund.html">Refund policy</a></span>
       </div>
-      <p class="note" id="ov-owner" hidden>Store owner: replace the UPI and WhatsApp placeholders, or add a Razorpay or Instamojo link.</p>
+      <p class="note" id="ov-owner" hidden>Launch offer: every design, Pro included, is free right now. Just register once, then download from the builder.</p>
+      <!-- Owner: fill in CONFIG at the top of the script (UPI ID, WhatsApp, email) to start taking payments. -->
     </div>
   </div>
 </div>
@@ -493,8 +579,20 @@ footer .wrap { padding-block: 26px; display: flex; justify-content: space-betwee
 <div id="print-root"></div>
 
 <script>
-// Owner setting: when true, Pro designs ask for payment before download.
-const PAYWALL = false;
+// ===== Owner settings: fill these in to start taking payments. =====
+const CONFIG = {
+  upi: "",          // your UPI ID, e.g. "yourname@okhdfcbank"
+  payee: "SlayCV",  // name shown in the customer's UPI app
+  whatsapp: "",     // with country code, digits only, e.g. "919876543210"
+  email: "support@slaycv.com", // support email shown to buyers
+};
+// Everyone registers (free) before their first download. Sign-ups are emailed to `to` through FormSubmit.
+// The first sign-up sends an activation email to that address: click "Activate" once.
+const SIGNUP = { required: true, to: "support@slaycv.com" };
+// Pro designs ask for payment before download once a UPI ID is set above.
+const PAYWALL = CONFIG.upi.trim() !== "";
+// SHA-256 hashes of unlock codes. The codes themselves are kept privately by the owner, never in this file.
+const CODE_HASHES = { all: ["0cbcc37a0eaef1c0dbdc102e07f65efb8923cf818a3bf3b95d9e449fcc5796fe","d214626d1a455f868f55939ccb57abb9d648c9f68e4eec210393a09a5de8fb14","52712f411e9b6f70a96e25f25a9f37a57981567aa9813ad71d1ab5b9d73d1957","620bcb534a6b0b1bbebf698c8f167884cd24ba4b018a2fe7f4bd2187ddf1d0f0","3500937468e0624f2b976689cee194795d483712a010a407cd4b0e66fd34ff57","3f4ee0c784c57d2b291bab098e618fce9b8a767b9d862d3ddd168e744068086f","69c778bbd3d3f2a4b4c27bd0d2b559a66970e35a2e65e44e3f13260661a39807","6ef6175cfe553a5fcc573e40aee71f1f60ce40d55123ee753bb59db299da9799","bf982c9a7b0cf6d0dc09d2c0e4f13ae99b78f38dc4faade6a0671420d9ec4059","9831aac38eee05181f43939d417c059e910528caabb0931ac8f6e7270a345b79","36462ff6f3bb88fa070c89be69df8667b66bd4859a0e090a5034bdf082f0c483","543ae2229cc747182b9ffbba358d5384135ba88077424bdd144c434990cd0e50","dd654c3f5c0cca4515d59521beca5f480096e36fe20320244f581e5170a53072","8a08872213310e783b68bb567b367135924af28108f118e07177a76b6295a1bd","28b907eb86acbae5e4bdab5c120d3ac2263c4f833f15ddbcb8812ee8e0f360a5","7a8605e93a2f3d5e3ff88595c0c17f47454e18ac282901a4f0e3030958d8aa5c","fad574c5ad638a4656a275b33fc91f4a2dd6a47fcd4c48dbb52338ff2a5908a1","dc7dbe98f1881048f2acce4af92bf90f965c8b7b039369e67b5758a436be8d9f","4505e2cb6c61d3dc60d76e4a6b10af82702b80784cf2946c08f5641a50711e5a","f8589ac30933a3616de368060fa58a524aa712afeade827a19df5ff63b801e28","59c97e80af80df08284679696a1434b19fac565f08386c9352a3e4563487f7f8","e527898eacdf9b9740d97f3184afb7072c13bb3a4bf0b61b604d460a21e64a71","4d0d291d484cd968a34ab61b54cdda20aeeaa6c53a1dd1b91d7cc360dc573001","9cab9bd60f92f430e073740110265b0b52b25836096ca90772cf7e3c36821d7d","5bf36ae36985eded89ba344cdcff292651084075f85c095f5a3617825f6ed5fd","c291fb287ccfba91256d01fe35852e71f7f6935e7cea5ffc66346b53429fe2d5","cf04e6ee5efe96422dce0252d99abd71f9755d5f47309541f1d5e97fa6677c92","3574766d7def3ef9b6e7ab89f8634fe161707dfa40ee951e91d88c40660ced0b","f8ccf990d1ac1990b5b92b0c88a7435b73ce5c7ab0a339568497742eb92d44d9","9dbc6cf3cf1cd35d347518d5ce27ba58a212669e4b9e6f1dc39c884c5d5ce85b","f83d2760246aa968ee94b76ba1237d18cf84654069aff810df4f5f8ff2cfff54","a252fe257805054808f4f4d6bbdd55232f804ea3a1f2f0ee81471a48af4b3fda","3e935839d7ff9aa8339e512dd7c3f23ab78f19c33a40c2f65d5a91cacc9aeda0","eef8a38d18712396d7d314bb53240febdda2f0742639fe901e263ef142322870","0782c0ff6ec5b67e79b6829c32c82267db51c8b3276f73e47d52555333f838e8","ca85f4d8afae53a6d8b85ae074e45889f468711f614fc991ecd6143197416f1b","ad506ced3d04c458fd4a2b4d234f7c5d1072dbfb4a8fab9ee6a08cb297d379e9","bfb96fae91778f7070a950ba9ab223b806483316ac69381102029cef8a0c86bd","ce696ba9ffd3f20dad07820d77250b1dc155fd6b9bc31ab4271b452c7e44679a","ed1b47d982fbab889a7328fc35062102a062aa2378e4cd997f9cf0bd6166e07e","40fdff49dfeb62ac9066b02ada844ed69f4331adbde51214235271e43575a00f","399430500503b54d222e4316c819e0aa90b510c8bfa85abbd34db7997aba471d","1893dd251361683a98dc67cc54171ac94580961976d40d6f06a82858b98e1d6e","836aac9d9ef954195d19888624068f70dbb45a88ec75ee77e9832017292ef83d","6db1b5f2ba8e3f5659d35942f29522ba97213beee455ecd984daf01206f1f549","d6114ad9847db444aeeb7fdd076e45376d118a21e8ab59baaf204278425a8563","569fba2246e8e5fa2c2abd5d798b683816a0fbc5b2b972b12644c64dce951002","46d666625a6e52f841608647f367db02bb7c33c822c980a64826fda59243c074","55d6707293b22261893f03bd9bb0c52f8dece228d55da9b46af900cfb671fb05","60a31bcc3ced7f05d6e533e4f718e26fa40a69dad0b0a9a7dacc333504df854c"], pro: ["cf671c8c6ff7b4ab457ec4fdb8eb187a822dd3afcb0b7a764e7dd8f9842c172f","6c55f3771c5a7c351fbaf7457a6d1380b6bf99becb0593fb423d96e671a6b62e","9a2e70f6cd83e1517972680c850f00a7e46be5f88e2a794131771d813345df0d","62ee3e078bd1f3f96446d51b670978994688bb9f3004d6c8e98c6ec0406c960c","583762b39988722ba531cca21bca67f6737b66fa359b0ec05cc33bc424526c1a","020968ea852686ab5577cb0e58d0f2801a42dd89512316a882f05fb2adf44229","23bff4ef69ddf305f6b6fd46f2966718c9066ee3cb750a3d826df61d89d5fc7c","aee457ad7694816b313f42105bf19acb7b678cd9f815657be5f07f5a6882a777","0fee4e6486dfb17bdea60fc2b375add83c04598cf0cb8bbd9f760710266d673e","50af22c7464d4b4cfb93ebbe05f75ee8371975817fc9d52e591cb6053299b2ac","72b4e2ba99fbfe508dfeefc321776613f142483f885dbf67e1d59b4f86a5b3e2","6a4c9fd5b8081b19e45bb771ca46e435c6aaada35649d149ca67445a12b4bcb7","6f92f0b6971fd9804ae5a4756c694a7835bb3755edf03b57d12a7e9b5ff025df","9322228f5cf04fd98c368c99e57bee19d646ef6fef777ac6e88c259021cfdd5a","6b06bc655aac5895472c2058f8a84ffd788e49f338c278bf99d1985b19c0f423","319ebb8afb7c62233c37280a3ebd69ceab07f169229b06d97f82cffd5e581dd4","333f445e3359a360a84283d48dca781d081c3aada43f8a521e630c840da27f7e","b260adae18dbf38ddfb1eaf9ce2d67a1c6c1dc886bd4ac5cbe9472f023437ba9","b300d40e50af46f66043f835492b2ff8c542ffd4745bbce201fd8e35b390f9b4","76a9eda5c8198a424f89f1a16ae8f75d16cd1617fab0bd8eb3f0e22863627a63","1a8eb2569e49af275f458c4d4db40f3f46fa75e8e716c05d9ee06e23a39ac9a9","81654c724cbe3cbf1909524f809842ed77081486079d2a36ef397fc37a3acd5e","07e1c7f08e32c8ed9a677e18bb412285ebad1a23da9714eaf4109829f9085512","e25ae4c3fbcb8df1383565449ee335741de5d4c5c8d81b056ae25d73544ad7e3","60f6c98f147cb45e6fa7e56fb55e398d39a23c0b2e813a90a103b87a17a0e656","e6b8b98f7a4495440d3fc4a9638963586c0cbf8c21331620b8cf0d4707c3a1e9","24031bfc4eb87026349dfd6012b70e765dd5f3e6910efd3c924bc7d6c41faaaf","8fdd43e3d503cf012c853a6666251a1f13d8f23289ed775112ee5a8516d3651c","e85008404ef466465f116dd39f576562ef1c99a42d8f51bc4ac07bf2d6050c86","a9f40cfdcbe34579133e40164c112d7dbc0a25f7ccdf5aebf6aaffab1146d6d6","e2304eb898f2f3ffed611b0bee454b137e6607895f1eedfe8f2b6bff418c61c3","2b2812f9ad2f6c807b8540888e0773aecdf709d75556ccc0452f8e17d59eb474","488ffdc5ffc4e91fa5a2013252721e234c4e0a27bae4de8b3edf27c1c52f3bce","35d96b38bb79081dfdd2aefbb6e3ac232ba07c51c9cf20389f59953700a72fe3","549b493271e14dcc3189847eb48fca30939c0d94b802b13a08e2b790a3f477a8","5bbbc2eb9c7c889e93ef5d2b7711d20d921da57afbe95e4e34c302bfb0305af6","6b63bf04c20e8aa44aabffb3320851f44e212b8dfaa4a1b00fb0c093624d3d43","58a202fa343aea0638a15cd320224a1fca217bf182800bbdb5b57038d7d337d0","9f482e46e5e7e6585620cb78221ec4d6d8b627b2e1213e43cc19d5e592d8bb66","fb4b0360d9a059297e401264b7a07271267e87440d7dd7482e2e4f5919435c21","b5b83b2976b2a384bd4827a7ebe208fdfd886a494f251e79379f9714eb5aa21b","60795aeeb901cbd3509e97223b917f5456df8cc9090838f669f5bc956abf7569","4c6a16f9034be290a3cfc648004f127931594d777e1c3992f26fcf6f3785ad2b","95220432aad8da2b887f8f1bbb36b6efbbbbe0501f0a69ac135c417cb872a0b0","241b7756876c5b36191b64bb3204e0cd3324cc7e6ed91e443014ef7961a19dc7","76b297f5321c59cf7e05d66cb456c491535f42c0dc66713d1bf96457ce5ca1e3","4db0a2560ec5925f5fb95f47a08689f64586fbf534d80ba00729f0e5eccd74dc","e0a392f3f13f2c6fbad4311e2a02eea61696f2b6b8dea1696ee03f8787102502","794184bd2fbab2901a650d1bc72ee4f56c9a2ae337e4bd3afbdd4606514e2c2b","a4ca01d303f75afc17a8cb15a0b1fa63a0a1b1944b8e86a768c7f3b6db18577b","c727a98b5bbdf613f9592f924486222f87feb38349fc9b000b25e0fd7b6cbbbc","d61ef32b3e1420ad1d305ec750e0320a6c799138dfc730101acc288d0c1ebcbe","3c8d9ff6f8d3be979a5723f96df4534ee3cbd8e74ade710499c75c9759fed615","457e6e64ba26bae5922636cf034052434efdf987d924f75993ab3f2f1df56a67","ab8dfcd18a906501c019f3697ba1de543c0aa315d04a9a2a0b447410b2920060","f7af8f3cee6d350620f7503ab4ae698a1f72125d5d126196a5c748e4336fcfca","8b83d4714222cc17f14ab77f7787c61407dd7ee2a7f3eadbce091ed4523099a5","55521ebb1fc544a54632aa0b6d12411f1b085649bd473e6db9e187ac74e2ffe9","2f9e0294e216603d2a78389063009fb96eb6c0858dd059d39d505e558b1d500e","7a31e01f8088e866242e722fe7c987897c6b8607c49a6bd2940c01f7c09bfbf9","2b15033a4cb48e4b4f3b33a06cad6738aebdd827f429b47ae7791050e8852e31","ea25cd7164a1e438f13c7ae695c2cd321529a6e9273a73185f43e02100274e1b","c286589b67491970341a13fea4522d88d394a47a1cecc50c75c03380a5ffb2a9","24492c67a6a1dba91936642c9bfaac85df11e97b57e9df90e3ab115bfd26d3f4","f7cff04871744ca6d12b962dbadbede84303d76c4e51769b3aefabd3cfec3b98","a9678c0bcf49fee7a3d5075be847af1b02ef8d9c71abb9a94dc920dccf625803","7b19115f7f7d67d96ff8e3e9d7df93ef2aabb82412ba5b6e2dcb1e13ca05fdf4","4e93f405ad58f708af2fd97efff037153aade903bff79239e7dd0e4a2d7598c7","dd63bd6585653acd02139d72613533e9235ddfbc748b373e26e93206efad1e62","afd1291611124a2ae0f5fa18c66b8d6482d783035f12b4f3b71efcff438879c6","20ab4f88c137133414a66d366e6b3661cc23d133a6b86771c7f6d4ef6da3e05d","15c08162b3ce6d9435bdaefa57c05d4e6462d9e4a4be46276b76829557e75fdd","20c67d0a1092cf0533e3fa425e0e1dc1aecf08776a9af3541395092ac78025df","20105b199943f949d18b1089da597abdde692550ab63552ffd5777bfe3ceb666","b166f56f2588f8014bb5a6f601b9f59382bcfad1bd9850931504d7db9e472b72","fea6f2070d728aec8f266fc8bb14e4d32042804ea08e8774f87ee093097d4020","9734dc5ae38f0f189d86d3a1e9c9eef759af051085f59fce3de6babd7b13745f","3f3c316e8d6040c66af9081fb7a67ad2d3454899fd817dfb29549fce9196b5ee","e80511c3a7692a5a9a588cf51aef190ade56964b6d66ed3afe35832e8cdb3ccb","e5c785d6a392cc5b7a71d77430640864b1509aed4a4afd0b08064980d61e7300","1eca32eac80988f27964807e46e43daa83ccc873e58e2e989f25f94c854c4f6d","86dc78b2a21151f895ae5765a7cb2b944cf15d36fe0c7af15d6a8708d1e939bc","89de623e429ed2eb2754e75e213bfa9b1f205570e594249a4ed07407e09721e5","4860449a4120b71fa5c4373efe9ea3dcc54cfde2cb4e0f7070086528c865b267","be670d903b54cadccf200921b29059841afde6c0290feb4a46ecc8a633a88f9d","9998f743240b645b85333991cf464a7e5eefb433d1db829ac03e2e117f6cec6b","295dece87673bfa1b62cea4ccbcc5b4534fca7f52510c236fa0c04eaf3fd5f13","4e9d2488c87878d2bc8d9d7e2bb28a23becacd134dc1e95e677a5e924c84676f","b3960e537a8a04864a8273c2aa32e9eb7b7ec36662446081779bff34b1e412ff","682801f4fccb43a6c394d1f0fc74a316d0ed79ff02a7051fb6a2775d835f843d","9cbeeaa5845a42acc77847178e6c38aaf373a274fdff4143952c5a718728a950","1627eb9735a29427cd9995d066b7d05c8947c72c38592887344ec0e8cc79bd62","63f41e729b763f56343ad2bcdb087545fb92cbc0964864355eaaef1442e7c831","d02f599f3e16dd7b2f4b2ff42e326237416f88b4fafda107ad5b6d0cedad5485","4b16811a532151ff7e6be681cd5809002779f0873021e867d0a6080ecb1d4460","e1e6e34d112e6ff3c75cc3399819167fccd0e60e0ae8e8936c3210e6b7c979b2","a9fa4051102c3f7453e2f445f8ea3f3d5af85c5f642814547a99d73c93f8d342","ba06a8a49624b19a1f7c14cd8a70579c089bf698aee6e32d7308290e71df6ba2","2e5d33ebb7398a09d3943f765349d1269dfe2a6df499fea87433bc7d1abe5e03","723d57eb06ae62b533d07bfb3e4147398123f5911a5666a6c25fb3183436816f"] };
 
 const F = {
   man: '"Manrope", Arial, sans-serif', grot: '"Bricolage Grotesque", Arial, sans-serif', work: '"Work Sans", Arial, sans-serif',
@@ -622,7 +720,9 @@ const fit = new ResizeObserver(entries => entries.forEach(e => {
   const p = e.target.querySelector(":scope > .paper");
   if (p) p.style.transform = `scale(${e.contentRect.width / 794})`;
 }));
-function mountSheet(el, d, th) { el.innerHTML = paperHTML(d, th); fit.observe(el); }
+// Scale the 794px A4 paper to fit its sheet now, and again whenever the sheet resizes.
+function fitNow(el) { const p = el.querySelector(":scope > .paper"); if (p && el.clientWidth) p.style.transform = `scale(${el.clientWidth / 794})`; }
+function mountSheet(el, d, th) { el.innerHTML = paperHTML(d, th); fitNow(el); fit.observe(el); }
 
 // ---------- hero fan + gallery ----------
 const fan = document.getElementById("fan");
@@ -668,7 +768,7 @@ const live = document.getElementById("live");
 let renderQueued = false;
 function renderLive() {
   if (renderQueued) return; renderQueued = true;
-  requestAnimationFrame(() => { renderQueued = false; mountSheet(live, state.data, theme()); });
+  requestAnimationFrame(() => { renderQueued = false; mountSheet(live, state.data, theme()); renderLetterLive(); });
 }
 
 // simple fields
@@ -723,7 +823,7 @@ strip.innerHTML = THEMES.map(t => `<button type="button" data-theme="${t.id}"><i
 function setTheme(id) {
   state.theme = id; pick.value = id;
   strip.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.theme === id));
-  persist(); renderLive();
+  persist(); renderLive(); refreshLockUI();
 }
 pick.addEventListener("change", () => setTheme(pick.value));
 strip.addEventListener("click", e => { const b = e.target.closest("[data-theme]"); if (b) setTheme(b.dataset.theme); });
@@ -743,20 +843,63 @@ function openPreview(id) {
   document.getElementById("ov-use").hidden = false;
   document.getElementById("ov-order").hidden = true;
   document.getElementById("ov-owner").hidden = true;
+  document.getElementById("ov-reg").hidden = true;
   ov.hidden = false; document.getElementById("ov-close").focus();
 }
-function openOrder(title, price) {
+// What the open order is for: { kind: "all" } or { kind: "pro", id }.
+let orderFor = null;
+function openOrder(title, price, designId) {
   lastFocus = document.activeElement; ovTheme = null;
+  orderFor = price >= 199 ? { kind: "all" } : { kind: "pro", id: designId || null };
+  const ref = `${title} (₹${price})`;
   document.getElementById("ov-big").hidden = true;
   document.getElementById("ov-kind").textContent = "Order";
   document.getElementById("ov-title").textContent = `${title} · ₹${price}`;
-  document.getElementById("ov-points").innerHTML = "";
+  document.getElementById("ov-points").innerHTML = orderFor.kind === "pro" && !designId
+    ? "<li>Pick the Pro design you want in the builder first. The code unlocks the design that's open there.</li>" : "";
   document.getElementById("ov-use").hidden = true;
   document.getElementById("ov-order-title").textContent = `Pay ₹${price} for ${title}`;
-  document.getElementById("ov-order").hidden = false;
-  document.getElementById("ov-owner").hidden = false;
+  document.getElementById("ov-upi").textContent = CONFIG.upi || "UPI ID not set yet";
+  const upiLink = `upi://pay?pa=${CONFIG.upi.trim()}&pn=${encodeURIComponent(CONFIG.payee)}&am=${price}&cu=INR&tn=${encodeURIComponent("SlayCV " + title)}`;
+  const pay = document.getElementById("ov-pay");
+  pay.href = CONFIG.upi ? upiLink : "#"; pay.hidden = !CONFIG.upi;
+  const msg = `Hi SlayCV, I paid ₹${price} for ${title}. My UPI transaction ID is: `;
+  const wa = document.getElementById("ov-wa");
+  wa.href = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`; wa.hidden = !CONFIG.whatsapp;
+  const mail = document.getElementById("ov-mail");
+  mail.href = `mailto:${CONFIG.email}?subject=${encodeURIComponent("SlayCV order: " + ref)}&body=${encodeURIComponent(msg)}`; mail.hidden = !CONFIG.email;
+  document.getElementById("ov-code").value = "";
+  const st = document.getElementById("ov-code-status"); st.textContent = ""; st.className = "status";
+  document.getElementById("ov-reg").hidden = true;
+  document.getElementById("ov-order").hidden = !PAYWALL;
+  document.getElementById("ov-owner").hidden = PAYWALL;
+  if (!PAYWALL) { document.getElementById("ov-title").textContent = "Free for now"; document.getElementById("ov-points").innerHTML = ""; }
   ov.hidden = false; document.getElementById("ov-close").focus();
 }
+document.getElementById("ov-copy").addEventListener("click", async e => {
+  if (!CONFIG.upi) return;
+  try { await navigator.clipboard.writeText(CONFIG.upi); e.target.textContent = "Copied"; setTimeout(() => { e.target.textContent = "Copy"; }, 1500); } catch {}
+});
+document.getElementById("ov-unlock").addEventListener("click", async () => {
+  const st = document.getElementById("ov-code-status");
+  const code = normCode(document.getElementById("ov-code").value);
+  st.className = "status";
+  if (code.length < 8) { st.classList.add("err"); st.textContent = "Type the full code, like SLAY-AB12-CD34."; return; }
+  if (!window.crypto?.subtle) { st.classList.add("err"); st.textContent = "Open the site with https:// to unlock."; return; }
+  const h = await sha256(code);
+  if (CODE_HASHES.all.includes(h)) {
+    unlocks.all = true; saveUnlocks();
+    st.classList.add("ok"); st.textContent = "All designs unlocked. Enjoy!";
+  } else if (CODE_HASHES.pro.includes(h)) {
+    const id = orderFor?.id || (theme().tier === "pro" ? theme().id : null);
+    if (!id) { st.classList.add("err"); st.textContent = "Open the Pro design you bought in the builder, then enter the code."; return; }
+    if (!unlocks.designs.includes(id)) unlocks.designs.push(id);
+    saveUnlocks();
+    st.classList.add("ok"); st.textContent = `${THEMES.find(t => t.id === id).name} unlocked. You can download now.`;
+  } else {
+    st.classList.add("err"); st.textContent = "That code didn't work. Check it, or message us.";
+  }
+});
 function closeOv() { ov.hidden = true; lastFocus?.focus(); }
 document.getElementById("ov-close").addEventListener("click", closeOv);
 ov.addEventListener("click", e => { if (e.target === ov) closeOv(); });
@@ -767,7 +910,12 @@ function useDesign(id) { setTheme(id); document.getElementById("build").scrollIn
 document.addEventListener("click", e => {
   const use = e.target.closest("[data-use]"); if (use) return useDesign(use.dataset.use);
   const pv = e.target.closest("[data-preview]"); if (pv && !pv.closest("#ov")) return openPreview(pv.dataset.preview);
-  const ord = e.target.closest("[data-order]"); if (ord) openOrder(ord.dataset.order, ord.dataset.price);
+  const ord = e.target.closest("[data-order]");
+  if (ord) {
+    const price = +ord.dataset.price, th = theme();
+    if (price < 199 && th.tier === "pro") openOrder(`${th.name} design`, price, th.id);
+    else openOrder(ord.dataset.order, price);
+  }
 });
 grid.addEventListener("keydown", e => { const s = e.target.closest(".sheet[data-preview]"); if (s && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openPreview(s.dataset.preview); } });
 
@@ -775,7 +923,85 @@ grid.addEventListener("keydown", e => { const s = e.target.closest(".sheet[data-
 let DL = null, AI = null, inClaude = false;
 const note = document.getElementById("dl-note");
 const fileBase = () => (state.data.name || "resume").trim().replace(/[^\w\- ]+/g, "").replace(/\s+/g, "_") + "_Resume";
-const paywalled = () => PAYWALL && theme().tier === "pro";
+// ---------- unlocks ----------
+const UNLOCK_STORE = "slaycv-unlocks";
+let unlocks = { all: false, designs: [] };
+try { const u = JSON.parse(localStorage.getItem(UNLOCK_STORE) || "null"); if (u) unlocks = { all: !!u.all, designs: Array.isArray(u.designs) ? u.designs : [] }; } catch {}
+const isUnlocked = th => th.tier === "free" || unlocks.all || unlocks.designs.includes(th.id);
+const paywalled = (th = theme()) => PAYWALL && !isUnlocked(th);
+function saveUnlocks() { try { localStorage.setItem(UNLOCK_STORE, JSON.stringify(unlocks)); } catch {} refreshLockUI(); }
+async function sha256(s) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+}
+const normCode = s => s.toUpperCase().replace(/[^A-Z0-9]/g, "");
+
+// ---------- registration ----------
+const REG_STORE = "slaycv-registered";
+let reg = null;
+try { reg = JSON.parse(localStorage.getItem(REG_STORE) || "null"); } catch {}
+const needSignup = () => SIGNUP.required && !reg;
+let afterReg = null;
+async function sendSignup(r) {
+  const res = await fetch(`https://formsubmit.co/ajax/${SIGNUP.to}`, {
+    method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({ name: r.name, email: r.email, phone: r.phone || "-", design: r.design, _subject: `New SlayCV sign-up: ${r.name}`, _template: "table", _captcha: "false" }),
+  });
+  if (!res.ok) throw new Error(res.status);
+}
+function openRegister(then) {
+  lastFocus = document.activeElement; ovTheme = null; afterReg = then;
+  document.getElementById("ov-big").hidden = true;
+  document.getElementById("ov-kind").textContent = "Free download";
+  document.getElementById("ov-title").textContent = "Register to download";
+  document.getElementById("ov-points").innerHTML = "";
+  document.getElementById("ov-use").hidden = true;
+  document.getElementById("ov-order").hidden = true;
+  document.getElementById("ov-owner").hidden = true;
+  const f = document.getElementById("ov-reg"); f.hidden = false;
+  const own = !/@example\.com$/i.test(state.data.email || "");   // don't prefill the sample person's details
+  if (own && !f.elements.name.value && has(state.data.name)) f.elements.name.value = state.data.name;
+  if (own && !f.elements.email.value && has(state.data.email)) f.elements.email.value = state.data.email;
+  document.getElementById("reg-status").textContent = "";
+  ov.hidden = false; f.elements.name.focus();
+}
+document.getElementById("ov-reg").addEventListener("submit", async e => {
+  e.preventDefault();
+  const f = e.target, st = document.getElementById("reg-status");
+  if (f.elements._honey.value) return;
+  const r = { name: f.elements.name.value.trim(), email: f.elements.email.value.trim(), phone: f.elements.phone.value.trim(), design: theme().name, at: new Date().toISOString() };
+  st.className = "status err";
+  if (r.name.length < 2) { st.textContent = "Please enter your name."; f.elements.name.focus(); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(r.email)) { st.textContent = "Please enter a valid email."; f.elements.email.focus(); return; }
+  if (r.phone && r.phone.replace(/\D/g, "").length < 10) { st.textContent = "Check your WhatsApp number, or leave it blank."; f.elements.phone.focus(); return; }
+  const btn = document.getElementById("reg-go"); btn.disabled = true;
+  st.className = "status"; st.textContent = "Registering…";
+  try { await sendSignup(r); r.sent = true; } catch { r.sent = false; }   // never block a download because the email service is down
+  reg = r; try { localStorage.setItem(REG_STORE, JSON.stringify(reg)); } catch {}
+  btn.disabled = false; f.hidden = true; refreshLockUI();
+  closeOv();
+  const next = afterReg; afterReg = null; if (next) next();
+});
+// Retry a sign-up that couldn't be sent last time.
+if (reg && reg.sent === false) sendSignup(reg).then(() => { reg.sent = true; try { localStorage.setItem(REG_STORE, JSON.stringify(reg)); } catch {} }).catch(() => {});
+// Runs a download, asking for registration and then payment first when needed.
+function gate(action) {
+  if (needSignup()) return openRegister(() => gate(action));
+  if (paywalled()) return openOrder(`${theme().name} design`, 49, theme().id);
+  action();
+}
+function refreshLockUI() {
+  const th = theme(), locked = paywalled(th);
+  ["dl-pdf", "dl-docx", "dl-txt", "cl-pdf", "cl-docx"].forEach(id => {
+    const b = document.getElementById(id); if (!b) return;
+    b.textContent = (locked ? "🔒 " : "") + b.dataset.label;
+  });
+  const n = document.getElementById("dl-note");
+  if (n) n.textContent = locked
+    ? `${th.name} is a Pro design. Try it free with your details, then unlock it for ₹49 to download.`
+    : needSignup() ? "Register once, free, to download your resume."
+    : "PDF keeps the exact design with real, selectable text. Word is fully editable.";
+}
 
 async function saveFile(filename, blob) {
   if (DL) {
@@ -805,43 +1031,124 @@ function plainText(d) {
   return L.join("\n").trim() + "\n";
 }
 
-async function buildDocx(d, th) {
-  const { Document, Packer, Paragraph, TextRun, BorderStyle } = window.docx;
-  const dark = ["#4E7A00", "#A97C00"].includes(th.a) ? th.k : th.a;
-  const color = (dark.length === 4 ? dark.replace(/#(.)(.)(.)/, "$1$1$2$2$3$3") : dark.slice(1)).toUpperCase();
-  const head = t => new Paragraph({ spacing: { before: 260, after: 80 }, border: { bottom: { style: BorderStyle.SINGLE, size: 6, color, space: 2 } }, children: [new TextRun({ text: t.toUpperCase(), bold: true, size: 22, color })] });
-  const kids = [
-    new Paragraph({ children: [new TextRun({ text: d.name || "Your Name", bold: true, size: 44, color })] }),
-    new Paragraph({ children: [new TextRun({ text: d.title || "", size: 24 })] }),
-    new Paragraph({ spacing: { after: 120 }, children: [new TextRun({ text: [d.email, d.phone, d.city, d.link].filter(has).join("  |  "), size: 19, color: "555555" })] }),
-  ];
-  if (has(d.summary)) kids.push(head("Profile"), new Paragraph({ text: d.summary }));
-  const exp = (d.experience || []).filter(e => has(e.role) || has(e.company));
-  if (exp.length) { kids.push(head("Experience")); exp.forEach(e => { kids.push(new Paragraph({ spacing: { before: 120 }, children: [new TextRun({ text: e.role, bold: true }), new TextRun({ text: has(e.dates) ? `   ${e.dates}` : "", color: "666666" })] }), new Paragraph({ children: [new TextRun({ text: e.company, italics: true, color: "555555" })] })); (e.bullets || []).filter(has).forEach(b => kids.push(new Paragraph({ text: b, bullet: { level: 0 } }))); }); }
-  const pr = (d.projects || []).filter(p => has(p.name));
-  if (pr.length) { kids.push(head("Projects")); pr.forEach(p => kids.push(new Paragraph({ children: [new TextRun({ text: p.name, bold: true }), new TextRun({ text: has(p.desc) ? ` – ${p.desc}` : "" })] }))); }
-  const ed = (d.education || []).filter(e => has(e.degree) || has(e.school));
-  if (ed.length) { kids.push(head("Education")); ed.forEach(e => kids.push(new Paragraph({ spacing: { before: 80 }, children: [new TextRun({ text: e.degree, bold: true }), new TextRun({ text: has(e.year) ? `   ${e.year}` : "", color: "666666" })] }), new Paragraph({ children: [new TextRun({ text: [e.school, e.score].filter(has).join(" · "), color: "555555" })] }))); }
-  if ((d.skills || []).length) kids.push(head("Skills"), new Paragraph({ text: d.skills.join(" · ") }));
-  if ((d.extras || []).length) kids.push(head("Certifications & more"), new Paragraph({ text: d.extras.join(" · ") }));
-  const doc = new Document({ creator: "SlayCV", title: `${d.name || "Resume"}`, styles: { default: { document: { run: { font: "Calibri", size: 21 } } } }, sections: [{ properties: { page: { margin: { top: 720, bottom: 720, left: 900, right: 900 } } }, children: kids }] });
+// Word export that follows the chosen design: its colours, fonts, header style and column layout.
+const hex6 = c => { const h = c.replace("#", ""); return (h.length === 3 ? h.replace(/(.)/g, "$1$1") : h).toUpperCase(); };
+const lum = c => { const h = hex6(c); const [r, g, b] = [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16) / 255); return 0.2126 * r + 0.7152 * g + 0.0722 * b; };
+function docxLook(th) {
+  const serifH = [F.play, F.dms].includes(th.hf), serifB = th.bf === F.serif, mono = th.hf === F.mono;
+  return {
+    accent: hex6(lum(th.a) > 0.45 ? th.k : th.a),   // keep text accents readable on white
+    ink: hex6(th.k), muted: "555555", on: hex6(th.on), soft: hex6(th.s), band: hex6(th.a),
+    hf: mono ? "Consolas" : serifH ? "Georgia" : "Calibri",
+    bf: serifB ? "Georgia" : "Calibri",
+    upper: !["serif", "mono", "bold"].includes(th.fam),
+  };
+}
+const NOB = () => { const { BorderStyle } = window.docx; const n = { style: BorderStyle.NONE, size: 0, color: "FFFFFF" }; return { top: n, bottom: n, left: n, right: n, insideHorizontal: n, insideVertical: n }; };
+
+// Header block: name, title, contact. Returns paragraphs or a shaded one-cell table.
+function docxHeader(d, th, L, { contactInHeader = true } = {}) {
+  const { Paragraph, TextRun, Table, TableRow, TableCell, WidthType, ShadingType, AlignmentType } = window.docx;
+  const center = th.fam === "serif";
+  const shaded = th.fam === "band" || th.fam === "compact";
+  const nameColor = th.fam === "band" ? L.on : (th.fam === "split" || th.fam === "serif" || th.fam === "time" || th.fam === "bold") ? L.ink : L.accent;
+  const size = th.fam === "bold" ? 60 : th.fam === "compact" ? 40 : 48;
+  const align = center ? AlignmentType.CENTER : AlignmentType.LEFT;
+  const ct = [d.email, d.phone, d.city, d.link].filter(has).join("  ·  ");
+  const sub = th.fam === "band" ? L.on : th.fam === "solo" || th.fam === "compact" ? L.ink : L.accent;
+  const paras = [
+    new Paragraph({ alignment: align, children: [new TextRun({ text: d.name || "Your Name", bold: true, size, color: nameColor, font: L.hf })] }),
+    has(d.title) ? new Paragraph({ alignment: align, spacing: { before: 40 }, children: [new TextRun({ text: d.title, size: 26, color: sub, italics: center, font: L.hf })] }) : null,
+    contactInHeader && ct ? new Paragraph({ alignment: align, spacing: { before: 80 }, children: [new TextRun({ text: ct, size: 19, color: th.fam === "band" ? L.on : L.muted })] }) : null,
+  ].filter(Boolean);
+  if (!shaded) {
+    if (th.fam === "split") paras.push(new Paragraph({ spacing: { after: 120 }, border: { bottom: { style: window.docx.BorderStyle.SINGLE, size: 24, color: L.accent, space: 6 } }, children: [] }));
+    return paras;
+  }
+  const fill = th.fam === "band" ? L.band : L.soft;
+  return [new Table({
+    width: { size: 100, type: WidthType.PERCENTAGE }, borders: NOB(),
+    rows: [new TableRow({ children: [new TableCell({ shading: { fill, type: ShadingType.CLEAR, color: "auto" }, margins: { top: 300, bottom: 300, left: 300, right: 300 }, children: paras })] })],
+  }), new Paragraph({ children: [] })];
+}
+
+function buildDocx(d, th) {
+  const { Document, Packer, Paragraph, TextRun, BorderStyle, Table, TableRow, TableCell, WidthType, ShadingType, VerticalAlign } = window.docx;
+  const L = docxLook(th);
+  const onSide = th.fam === "rail";              // dark sidebar: text uses the "on" colour
+  const head = (t, side) => new Paragraph({
+    spacing: { before: 260, after: 80 },
+    border: L.upper && !side ? { bottom: { style: BorderStyle.SINGLE, size: 6, color: L.soft === "FFFFFF" ? L.accent : L.soft, space: 2 } } : undefined,
+    children: [new TextRun({ text: (th.fam === "mono" ? "// " : "") + (L.upper ? t.toUpperCase() : t), bold: true, size: th.fam === "bold" ? 28 : 22, color: side && onSide ? L.on : L.accent, font: L.hf })],
+  });
+  const c = side => side && onSide ? { ink: L.on, muted: L.on } : { ink: L.ink, muted: L.muted };
+  const sec = {
+    summary: side => has(d.summary) ? [head("Profile", side), new Paragraph({ children: [new TextRun({ text: d.summary, color: c(side).ink })] })] : [],
+    exp: side => { const xs = (d.experience || []).filter(e => has(e.role) || has(e.company)); if (!xs.length) return []; const out = [head("Experience", side)];
+      xs.forEach(e => { out.push(new Paragraph({ spacing: { before: 120 }, children: [new TextRun({ text: e.role, bold: true, color: c(side).ink }), new TextRun({ text: has(e.dates) ? `   ${e.dates}` : "", color: c(side).muted })] }), new Paragraph({ children: [new TextRun({ text: e.company, italics: true, color: c(side).muted })] })); (e.bullets || []).filter(has).forEach(b => out.push(new Paragraph({ bullet: { level: 0 }, children: [new TextRun({ text: b, color: c(side).ink })] }))); });
+      return out; },
+    proj: side => { const xs = (d.projects || []).filter(p => has(p.name)); if (!xs.length) return []; return [head("Projects", side), ...xs.map(p => new Paragraph({ spacing: { before: 60 }, children: [new TextRun({ text: p.name, bold: true, color: c(side).ink }), new TextRun({ text: has(p.desc) ? ` – ${p.desc}` : "", color: c(side).ink })] }))]; },
+    edu: side => { const xs = (d.education || []).filter(e => has(e.degree) || has(e.school)); if (!xs.length) return []; const out = [head("Education", side)];
+      xs.forEach(e => out.push(new Paragraph({ spacing: { before: 80 }, children: [new TextRun({ text: e.degree, bold: true, color: c(side).ink }), new TextRun({ text: has(e.year) ? `   ${e.year}` : "", color: c(side).muted })] }), new Paragraph({ children: [new TextRun({ text: [e.school, e.score].filter(has).join(" · "), color: c(side).muted })] })));
+      return out; },
+    skills: side => (d.skills || []).length ? [head("Skills", side), ...(side ? d.skills.map(s => new Paragraph({ children: [new TextRun({ text: s, color: c(side).ink })] })) : [new Paragraph({ children: [new TextRun({ text: d.skills.join(" · "), color: c(side).ink })] })])] : [],
+    extras: side => (d.extras || []).length ? [head("Certifications & more", side), ...d.extras.map(x => new Paragraph({ bullet: { level: 0 }, children: [new TextRun({ text: x, color: c(side).ink })] }))] : [],
+    contact: side => { const xs = [d.email, d.phone, d.city, d.link].filter(has); return xs.length ? [head("Contact", side), ...xs.map(x => new Paragraph({ children: [new TextRun({ text: x, size: 19, color: c(side).ink })] }))] : []; },
+  };
+  const twoCol = { rail: 1, railr: 1, split: 1, bold: 1, compact: 1 }[th.fam];
+  let kids;
+  if (!twoCol) {
+    const order = th.fam === "serif" || th.fam === "time" ? ["summary", "exp", "edu", "proj", "skills", "extras"] : ["summary", "exp", "proj", "edu", "skills", "extras"];
+    kids = [...docxHeader(d, th, L), ...order.flatMap(k => sec[k](false))];
+  } else {
+    const contactInSide = th.fam === "rail" || th.fam === "railr";
+    let main = ["summary", "exp", "proj"], side = th.fam === "bold" ? ["skills", "edu", "extras"] : ["edu", "skills", "extras"];
+    if (th.fam === "rail") { main = ["summary", "exp", "proj", "edu"]; side = ["contact", "skills", "extras"]; }
+    if (th.fam === "railr") side = ["contact", "edu", "skills", "extras"];
+    let mainKids = main.flatMap(k => sec[k](false));
+    let sideKids = side.flatMap(k => sec[k](true));
+    let header = docxHeader(d, th, L, { contactInHeader: !contactInSide });
+    if (th.fam === "rail") {   // name and title sit at the top of the dark sidebar
+      const { Paragraph: P, TextRun: R } = window.docx;
+      sideKids = [new P({ children: [new R({ text: d.name || "Your Name", bold: true, size: 40, color: L.on, font: L.hf })] }),
+        has(d.title) ? new P({ spacing: { before: 60 }, children: [new R({ text: d.title, color: L.on, size: 24 })] }) : null,
+        ...side.flatMap(k => sec[k](true))].filter(Boolean);
+      header = [];
+    }
+    const sideFill = th.fam === "rail" ? L.band : (th.fam === "railr" || th.fam === "bold") ? L.soft : null;
+    const sideLeft = th.fam === "rail";
+    const cell = (children, w, fill) => new TableCell({
+      width: { size: w, type: WidthType.DXA }, verticalAlign: VerticalAlign.TOP,
+      margins: { top: fill ? 200 : 0, bottom: 200, left: fill || sideLeft ? 300 : 0, right: 240 },
+      shading: fill ? { fill, type: ShadingType.CLEAR, color: "auto" } : undefined,
+      children: children.length ? children : [new Paragraph({ children: [] })],
+    });
+    const SIDE = 3300, MAIN = 10106 - SIDE;
+    kids = [...header, new Table({
+      width: { size: 10106, type: WidthType.DXA }, columnWidths: sideLeft ? [SIDE, MAIN] : [MAIN, SIDE], borders: NOB(),
+      rows: [new TableRow({ children: sideLeft ? [cell(sideKids, SIDE, sideFill), cell(mainKids, MAIN, null)] : [cell(mainKids, MAIN, null), cell(sideKids, SIDE, sideFill)] })],
+    })];
+  }
+  const doc = new Document({
+    creator: "SlayCV", title: d.name || "Resume",
+    styles: { default: { document: { run: { font: L.bf, size: 21, color: L.ink } } } },
+    sections: [{ properties: { page: { margin: { top: 720, bottom: 720, left: 900, right: 900 } } }, children: kids }],
+  });
   return Packer.toBlob(doc);
 }
 
-document.getElementById("dl-txt").addEventListener("click", () => {
-  if (paywalled()) return openOrder(theme().name, 49);
+document.getElementById("dl-txt").addEventListener("click", () => gate(() => {
   saveFile(fileBase() + ".txt", new Blob([plainText(state.data)], { type: "text/plain" }));
-});
-document.getElementById("dl-docx").addEventListener("click", async e => {
-  if (paywalled()) return openOrder(theme().name, 49);
+}));
+document.getElementById("dl-docx").addEventListener("click", e => gate(async () => {
+  const b = document.getElementById("dl-docx");
   if (!window.docx) { note.textContent = "Word export is still loading. Try again in a moment."; return; }
-  e.target.disabled = true; note.textContent = "Making your Word file…";
+  b.disabled = true; note.textContent = "Making your Word file…";
   try { await saveFile(fileBase() + ".docx", await buildDocx(state.data, theme())); }
   catch { note.textContent = "Couldn't make the Word file. Try again."; }
-  finally { e.target.disabled = false; }
-});
-document.getElementById("dl-pdf").addEventListener("click", () => {
-  if (paywalled()) return openOrder(theme().name, 49);
+  finally { b.disabled = false; }
+}));
+document.getElementById("dl-pdf").addEventListener("click", () => gate(() => {
   const root = document.getElementById("print-root");
   root.innerHTML = paperHTML(state.data, theme());
   const prev = document.title; document.title = fileBase();
@@ -850,7 +1157,7 @@ document.getElementById("dl-pdf").addEventListener("click", () => {
   note.textContent = inClaude
     ? "PDF saving opens your browser's print window on the live site. In this preview, use Word or plain text."
     : "In the print window, choose Save as PDF.";
-});
+}));
 
 // ---------- AI ----------
 const aiStatus = document.getElementById("ai-status");
@@ -913,7 +1220,122 @@ form.addEventListener("click", async e => {
   finally { b.disabled = false; b.textContent = "✨ Polish with AI"; }
 });
 
+// ---------- cover letter ----------
+state.letter = Object.assign({ company: "", role: "", manager: "", body: "" }, state.letter || {});
+const longDate = () => new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
+const paras = s => String(s || "").split(/\n\s*\n/).map(x => x.trim()).filter(Boolean);
+const lowerFirst = s => s ? s[0].toLowerCase() + s.slice(1) : s;
+const noDot = s => String(s || "").trim().replace(/[.。]+$/, "");
+
+function draftLetter(d, L) {
+  const role = L.role.trim() || d.title || "this role", company = L.company.trim() || "your company";
+  const job = (d.experience || []).find(e => has(e.role));
+  const skills = (d.skills || []).slice(0, 3);
+  const skillTxt = skills.length > 1 ? `${skills.slice(0, -1).join(", ")} and ${skills.at(-1)}` : skills[0] || "";
+  const p1 = `I'm writing to apply for the ${role} role at ${company}.` +
+    (has(d.title) ? ` I'm a ${d.title}${job && has(job.company) ? ` with experience as ${job.role} at ${job.company}` : ""}.` : "") +
+    (skillTxt ? ` My strengths include ${skillTxt}.` : " I'd bring energy and a real wish to learn to your team.");
+  const bl = (job?.bullets || []).filter(has).slice(0, 2).map(b => lowerFirst(noDot(b)));
+  const proj = (d.projects || []).find(p => has(p.name));
+  const edu = (d.education || []).find(e => has(e.degree));
+  let p2 = "";
+  if (bl.length) p2 = `In my work as ${job.role}, I ${bl[0]}${bl[1] ? `, and I ${bl[1]}` : ""}. I enjoy work where results can be measured, and I'd bring the same focus to ${company}.`;
+  else if (proj) p2 = `Recently I worked on ${proj.name}${has(proj.desc) ? `: ${lowerFirst(noDot(proj.desc))}` : ""}. It taught me how to plan, work with a team and deliver on time.`;
+  else if (edu) p2 = `I studied ${edu.degree}${has(edu.school) ? ` at ${edu.school}` : ""}, where I built a strong base for this role.`;
+  const p3 = `[Add one or two lines on why you want to work at ${company} in particular.]`;
+  const p4 = `I'd love to talk about how I can help ${company}. Thank you for your time, and I look forward to hearing from you.`;
+  return [p1, p2, p3, p4].filter(Boolean).join("\n\n");
+}
+
+function letterInner(d, L) {
+  const greet = has(L.manager) ? `Dear ${esc(L.manager.trim())},` : "Dear Hiring Manager,";
+  const to = [has(L.manager) ? esc(L.manager.trim()) : "", has(L.company) ? esc(L.company.trim()) : ""].filter(Boolean).join("<br>");
+  const body = paras(L.body).map(p => `<p>${esc(p).replace(/\n/g, "<br>")}</p>`).join("") || `<p style="opacity:.5">Your letter will appear here.</p>`;
+  return `<div class="lt"><div class="lt-date">${longDate()}</div>${to ? `<div class="lt-to">${to}</div>` : ""}<p>${greet}</p>${body}<div class="lt-sign">Sincerely,<br><b>${esc(d.name || "Your Name")}</b></div></div>`;
+}
+function renderLetter(d, L, th) {
+  const ct = contactList(d), nm = esc(d.name || "Your Name"), ti = esc(d.title || "");
+  const ctLine = ct.join("  ·  "), ctCol = `<div class="side-ct">${ct.map(c => `<div>${c}</div>`).join("")}</div>`;
+  const lt = letterInner(d, L);
+  switch (th.fam) {
+    case "solo": case "mono": return `<div class="f-${th.fam}"><div class="nm">${nm}</div><div class="ti">${ti}</div><div class="ct">${ctLine}</div>${lt}</div>`;
+    case "serif": return `<div class="f-serif"><div class="hdr"><div class="nm">${nm}</div><div class="ti">${ti}</div><div class="ct">${ctLine}</div></div>${lt}</div>`;
+    case "time": { const ini = (d.name || "Y N").split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join("").toUpperCase();
+      return `<div class="f-time"><div class="hdr"><div class="mono-av" aria-hidden="true">${esc(ini)}</div><div class="nm">${nm}</div><div class="ti">${ti}</div><div class="ct">${ctLine}</div></div>${lt}</div>`; }
+    case "rail": return `<div class="f-rail"><div class="sb"><div class="nm">${nm}</div><div class="ti">${ti}</div><h4>Contact</h4>${ctCol}</div><div class="mn">${lt}</div></div>`;
+    case "railr": return `<div class="f-railr"><div class="mn"><div class="hdr"><div class="nm">${nm}</div><div class="ti">${ti}</div></div>${lt}</div><div class="sb"><h4>Contact</h4>${ctCol}</div></div>`;
+    case "band": return `<div class="f-band"><div class="hd"><div class="nm">${nm}</div><div class="ti">${ti}</div><div class="ct">${ctLine}</div></div>${lt}</div>`;
+    case "split": return `<div class="f-split"><div class="hd"><div><div class="nm">${nm}</div><div class="ti">${ti}</div></div>${ctCol}</div>${lt}</div>`;
+    case "bold": return `<div class="f-bold"><div class="hd"><div class="nm"><span>${nm}</span></div><div class="ti">${ti}</div><div class="ct">${ctLine}</div></div>${lt}</div>`;
+    case "compact": return `<div class="f-compact"><div class="hd"><div><div class="nm">${nm}</div><div class="ti">${ti}</div></div>${ctCol}</div>${lt}</div>`;
+  }
+  return "";
+}
+const letterHTML = (d, L, th) => `<div class="paper" style='${paperStyle(th)}'>${renderLetter(d, L, th)}</div>`;
+
+const clLive = document.getElementById("cl-live");
+fit.observe(clLive);
+let clQueued = false;
+function renderLetterLive() {
+  if (clQueued) return; clQueued = true;
+  requestAnimationFrame(() => { clQueued = false; clLive.innerHTML = letterHTML(state.data, state.letter, theme()); fitNow(clLive); document.getElementById("cl-design").textContent = theme().name; });
+}
+const clForm = document.getElementById("cl-form");
+function fillLetterForm() { clForm.querySelectorAll("[data-c]").forEach(i => { i.value = state.letter[i.dataset.c] || ""; }); }
+clForm.addEventListener("input", e => { const k = e.target.dataset.c; if (!k) return; state.letter[k] = e.target.value; persist(); renderLetterLive(); });
+document.getElementById("cl-fill").addEventListener("click", () => {
+  if (has(state.letter.body) && !confirmReplace()) return;
+  state.letter.body = draftLetter(state.data, state.letter);
+  document.getElementById("cl-body").value = state.letter.body; persist(); renderLetterLive();
+  const n = document.getElementById("cl-note"); n.textContent = "Draft ready. Replace the line in [brackets] with your own words.";
+});
+// Asks before overwriting a letter the user already wrote (inline, no browser dialog).
+let replaceArmed = false;
+function confirmReplace() {
+  const b = document.getElementById("cl-fill");
+  if (replaceArmed) { replaceArmed = false; b.textContent = "Write a first draft from my resume"; return true; }
+  replaceArmed = true; b.textContent = "Replace my letter? Click again";
+  setTimeout(() => { replaceArmed = false; b.textContent = "Write a first draft from my resume"; }, 4000);
+  return false;
+}
+
+function buildLetterDocx(d, L, th) {
+  const { Document, Packer, Paragraph, TextRun } = window.docx;
+  const look = docxLook(th);
+  const P = (text, o = {}) => new Paragraph({ spacing: { after: 200 }, ...o, children: [new TextRun({ text, color: look.ink, ...(o.run || {}) })] });
+  const to = [L.manager, L.company].filter(has).map(s => s.trim());
+  const kids = [
+    ...docxHeader(d, th, look),
+    P(longDate(), { spacing: { before: 400, after: 300 }, run: { color: look.muted } }),
+    ...to.map((t, i) => P(t, { spacing: { after: i === to.length - 1 ? 300 : 0 } })),
+    P(has(L.manager) ? `Dear ${L.manager.trim()},` : "Dear Hiring Manager,"),
+    ...paras(L.body).map(p => P(p)),
+    P("Sincerely,", { spacing: { before: 300, after: 0 } }),
+    P(d.name || "Your Name", { run: { bold: true, color: look.accent, font: look.hf, size: 26 } }),
+  ];
+  const doc = new Document({ creator: "SlayCV", title: `${d.name || ""} cover letter`.trim(),
+    styles: { default: { document: { run: { font: look.bf, size: 22, color: look.ink } } } },
+    sections: [{ properties: { page: { margin: { top: 900, bottom: 900, left: 1100, right: 1100 } } }, children: kids }] });
+  return Packer.toBlob(doc);
+}
+const clNote = document.getElementById("cl-note");
+document.getElementById("cl-pdf").addEventListener("click", () => gate(() => {
+  document.getElementById("print-root").innerHTML = letterHTML(state.data, state.letter, theme());
+  const prev = document.title; document.title = fileBase().replace(/_Resume$/, "_Cover_Letter");
+  window.print(); document.title = prev;
+  clNote.textContent = inClaude ? "PDF saving opens your browser's print window on the live site. In this preview, use Word." : "In the print window, choose Save as PDF.";
+}));
+document.getElementById("cl-docx").addEventListener("click", () => gate(async () => {
+  const b = document.getElementById("cl-docx");
+  if (!window.docx) { clNote.textContent = "Word export is still loading. Try again in a moment."; return; }
+  b.disabled = true; clNote.textContent = "Making your Word file…";
+  try { const blob = await buildLetterDocx(state.data, state.letter, theme()); await saveFile(fileBase().replace(/_Resume$/, "_Cover_Letter") + ".docx", blob); clNote.textContent = note.textContent; }
+  catch { clNote.textContent = "Couldn't make the Word file. Try again."; }
+  finally { b.disabled = false; }
+}));
+
 // ---------- start ----------
+fillLetterForm();
 renderForm(); setTheme(state.theme);
 
 (async () => {
