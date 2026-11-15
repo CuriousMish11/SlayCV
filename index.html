@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Make a job-ready CV in minutes. 28 AI-readable resume designs, free builder, PDF and Word downloads.">
+<meta name="description" content="Make a job-ready CV in minutes. 100 professional, AI-readable resume designs, free builder, PDF and Word downloads.">
 <style>
 :root { color-scheme: light; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
 img { max-width: 100%; }
@@ -12,7 +12,7 @@ img { max-width: 100%; }
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Manrope:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=DM+Serif+Display&family=IBM+Plex+Mono:wght@400;600&family=Syne:wght@600;700;800&family=Outfit:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Manrope:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=DM+Serif+Display&family=IBM+Plex+Mono:wght@400;600&family=Syne:wght@600;700;800&family=Outfit:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Lora:wght@400;600&family=Space+Grotesk:wght@400;500;700&display=swap">
 <script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
 <style>
 /* Layout: a highlighter-on-paper storefront: big grotesk type, real A4 sheets as the product, and a builder where the preview sheet updates as you type. */
@@ -104,6 +104,7 @@ mark { background: var(--hi); color: var(--hi-ink); padding: 0 .12em; }
 .tags { display: flex; gap: 6px; flex-wrap: wrap; }
 .tag { font-size: .72rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; border: 1px solid var(--line); color: var(--muted); }
 .card .acts { display: flex; gap: 8px; }
+.more-row { display: grid; justify-items: center; gap: 10px; }
 
 /* Builder */
 .builder { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -301,6 +302,80 @@ footer .legal a { color: var(--muted); }
 .f-compact .bd { display: grid; grid-template-columns: 1.4fr 1fr; gap: 28px; }
 .f-compact h4 { font-size: 12px; margin-top: 16px; }
 
+/* Executive: name left, contact right, double rule */
+.f-exec { padding: 58px 66px; }
+.f-exec .hd { display: flex; justify-content: space-between; align-items: flex-end; gap: 28px; padding-bottom: 16px; border-bottom: 3px double var(--a); }
+.f-exec .nm { font-size: 38px; letter-spacing: -.01em; }
+.f-exec .ti { color: var(--a); margin-top: 6px; font-size: 15px; }
+.f-exec .hd .side-ct { text-align: right; }
+.f-exec h4 { font-size: 11.5px; letter-spacing: .2em; margin-top: 22px; }
+.f-exec .it .ih b { font-size: 14px; }
+
+/* Swiss grid: section label column + content column */
+.f-swiss { padding: 62px 64px; }
+.f-swiss .nm { font-size: 50px; font-weight: 800; letter-spacing: -.04em; line-height: .95; }
+.f-swiss .ti { font-size: 16px; color: var(--a); margin-top: 10px; }
+.f-swiss .ct { margin-top: 8px; padding-bottom: 22px; border-bottom: 1.5px solid var(--k); }
+.f-swiss .sx { display: grid; grid-template-columns: 140px 1fr; gap: 26px; padding: 16px 0; border-bottom: 1px solid var(--s); }
+.f-swiss .sx h4 { margin: 3px 0 0; font-size: 10.5px; letter-spacing: .18em; }
+.f-swiss .sx .it:last-child { margin-bottom: 0; }
+
+/* Stripe: accent edge, single column */
+.f-stripe { padding: 56px 64px 56px 88px; position: relative; height: 100%; }
+.f-stripe::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 16px; background: var(--a); }
+.f-stripe .nm { font-size: 40px; color: var(--a); }
+.f-stripe .ti { font-size: 16px; margin-top: 4px; }
+.f-stripe .ct { margin-top: 8px; }
+.f-stripe h4 { display: flex; align-items: center; gap: 10px; color: var(--k); }
+.f-stripe h4::before { content: ""; width: 20px; height: 3px; background: var(--a); flex: none; }
+
+/* Top bar: accent rule, header row, main + side */
+.f-topbar { border-top: 12px solid var(--a); padding: 44px 60px; height: 100%; }
+.f-topbar .hd { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; padding-bottom: 18px; border-bottom: 1px solid var(--s); }
+.f-topbar .nm { font-size: 40px; letter-spacing: -.02em; }
+.f-topbar .ti { color: var(--a); margin-top: 4px; font-size: 15px; }
+.f-topbar .hd .side-ct { text-align: right; }
+.f-topbar .bd { display: grid; grid-template-columns: 1fr 206px; gap: 38px; }
+.f-topbar h4 { color: var(--k); }
+.f-topbar h4::after { content: ""; display: block; width: 28px; height: 3px; background: var(--a); margin-top: 6px; }
+
+/* Frame: boxed centred header */
+.f-frame { padding: 54px 66px; }
+.f-frame .hdr { border: 1.5px solid var(--a); outline: 1px solid var(--a); outline-offset: 5px; padding: 26px 22px 22px; text-align: center; margin: 6px; }
+.f-frame .nm { font-size: 32px; text-transform: uppercase; letter-spacing: .14em; font-weight: 600; }
+.f-frame .ti { color: var(--a); margin-top: 8px; font-style: italic; font-weight: 400; }
+.f-frame .ct { margin-top: 8px; }
+.f-frame h4 { text-align: center; font-size: 12px; letter-spacing: .26em; margin-top: 24px; }
+.f-frame h4::after { content: ""; display: block; width: 36px; height: 1.5px; background: var(--a); margin: 7px auto 0; }
+.f-frame .sum { text-align: center; }
+.f-frame .sk { justify-content: center; }
+
+/* Duo: two-tone header */
+.f-duo .hd { display: grid; grid-template-columns: 1.35fr 1fr; }
+.f-duo .hd > div:first-child { background: var(--a); color: var(--on); padding: 50px 36px 34px 60px; }
+.f-duo .hd > div:last-child { background: var(--s); padding: 50px 50px 34px 30px; display: flex; align-items: flex-end; }
+.f-duo .nm { font-size: 38px; }
+.f-duo .ti { margin-top: 6px; font-size: 15px; }
+.f-duo .bd, .f-duo .lt { padding: 22px 60px 40px; }
+
+/* Ledger: dates in a left column */
+.f-ledger { padding: 56px 64px; }
+.f-ledger .hdr { padding-bottom: 16px; border-bottom: 1.5px solid var(--k); }
+.f-ledger .nm { font-size: 38px; }
+.f-ledger .ti { color: var(--a); margin-top: 4px; font-size: 15px; }
+.f-ledger .ct { margin-top: 6px; }
+.f-ledger h4 { font-size: 12px; letter-spacing: .18em; border-bottom: 1px solid var(--s); padding-bottom: 6px; }
+.f-ledger .lg { display: grid; grid-template-columns: 108px 1fr; gap: 18px; margin-bottom: 12px; break-inside: avoid; }
+.f-ledger .lg .dt { font-size: 12px; padding-top: 2px; white-space: normal; color: var(--a); opacity: 1; font-weight: 600; }
+
+/* Pill: rounded accent headings */
+.f-pill { padding: 54px 60px; }
+.f-pill .nm { font-size: 42px; letter-spacing: -.02em; }
+.f-pill .ti { color: var(--a); margin-top: 6px; font-size: 16px; }
+.f-pill .ct { margin-top: 8px; }
+.f-pill h4 { display: inline-block; background: var(--a); color: var(--on); padding: 4px 13px; border-radius: 999px; font-size: 11px; letter-spacing: .14em; margin-top: 22px; }
+.f-pill .sk span { background: transparent; border: 1.5px solid var(--a); border-radius: 999px; }
+
 /* Cover letter body, shared by every design */
 .builder.cover { border-top: 0; }
 .paper .lt { font-size: 14px; line-height: 1.7; }
@@ -334,14 +409,14 @@ footer .legal a { color: var(--muted); }
       <div>
         <span class="kicker">Resume designs · built with AI</span>
         <h1>Your resume, but make it <mark>slay</mark>.</h1>
-        <p class="lede">28 designs that look good to humans and read clean to the AI that screens applications. Fill one form, let AI polish your words, download in seconds.</p>
+        <p class="lede">100 designs that look good to humans and read clean to the AI that screens applications. Fill one form, let AI polish your words, download in seconds.</p>
         <div class="actions">
           <a class="btn hi" href="#build">Build mine with AI</a>
           <a class="btn" href="#designs">See all designs</a>
         </div>
         <div class="proof">
-          <div><b>28</b>designs</div>
-          <div><b>8 free</b>designs</div>
+          <div><b>100</b>designs</div>
+          <div><b>15 free</b>designs</div>
           <div><b>Word + PDF</b>downloads</div>
         </div>
       </div>
@@ -354,7 +429,7 @@ footer .legal a { color: var(--muted); }
       <div class="sec-head">
         <h2>Pick your vibe</h2>
         <div class="filters" id="filters" role="group" aria-label="Filter designs">
-          <button class="chip" type="button" data-f="all" aria-pressed="true">All 28</button>
+          <button class="chip" type="button" data-f="all" aria-pressed="true">All 100</button>
           <button class="chip" type="button" data-f="free" aria-pressed="false">Free</button>
           <button class="chip" type="button" data-f="fresher" aria-pressed="false">Freshers</button>
           <button class="chip" type="button" data-f="pro" aria-pressed="false">Professional</button>
@@ -364,6 +439,7 @@ footer .legal a { color: var(--muted); }
         </div>
       </div>
       <div class="grid" id="grid"></div>
+      <div class="more-row"><p class="note" id="count" aria-live="polite"></p><button class="btn" type="button" id="more">Show more designs</button></div>
     </div>
   </section>
 
@@ -498,7 +574,7 @@ footer .legal a { color: var(--muted); }
         <div class="plan">
           <span class="kicker">Free</span>
           <div class="amt">₹0</div>
-          <ul><li>8 free designs</li><li>Builder and cover letter</li><li>PDF, Word and text downloads</li></ul>
+          <ul><li>15 free designs</li><li>Builder and cover letter</li><li>PDF, Word and text downloads</li></ul>
         </div>
         <div class="plan star">
           <span class="kicker">Most picked</span>
@@ -509,7 +585,7 @@ footer .legal a { color: var(--muted); }
         <div class="plan">
           <span class="kicker">All access</span>
           <div class="amt">₹199 <small>one-time</small></div>
-          <ul><li>All 28 designs, forever</li><li>Every new design we add</li><li>Cover letters for all</li></ul>
+          <ul><li>All 100 designs, forever</li><li>Every new design we add</li><li>Cover letters for all</li></ul>
           <button class="btn" type="button" data-order="All access" data-price="199">Get all access</button>
         </div>
       </div>
@@ -603,6 +679,7 @@ const F = {
   man: '"Manrope", Arial, sans-serif', grot: '"Bricolage Grotesque", Arial, sans-serif', work: '"Work Sans", Arial, sans-serif',
   play: '"Playfair Display", Georgia, serif', serif: '"Source Serif 4", Georgia, serif', dms: '"DM Serif Display", Georgia, serif',
   mono: '"IBM Plex Mono", Menlo, monospace', syne: '"Syne", Arial, sans-serif', out: '"Outfit", Arial, sans-serif',
+  fraun: '"Fraunces", Georgia, serif', lora: '"Lora", Georgia, serif', space: '"Space Grotesk", Arial, sans-serif',
 };
 // fam: layout family. a: accent, s: soft tint, k: ink, on: text on accent.
 const THEMES = [
@@ -634,8 +711,80 @@ const THEMES = [
   { id: "pastel-pop", name: "Pastel Pop", fam: "bold", a: "#C93A82", s: "#CFF5E7", k: "#241A22", on: "#fff", hf: F.out, bf: F.out, tier: "pro", cats: ["creative", "fresher"] },
   { id: "fresher-era", name: "Fresher Era", fam: "solo", a: "#1D6FC0", s: "#DCEBFA", k: "#13263A", on: "#fff", hf: F.man, bf: F.man, tier: "free", cats: ["fresher", "ats"] },
   { id: "hustle", name: "Hustle", fam: "compact", a: "#047857", s: "#D5F2E7", k: "#0B231B", on: "#fff", hf: F.grot, bf: F.man, tier: "free", cats: ["pro", "tech"] },
+  { id: "boardroom", name: "Boardroom", fam: "exec", a: "#1F3A5F", s: "#E2E5EA", k: "#141A22", on: "#fff", hf: F.play, bf: F.man, tier: "free", cats: ["pro", "ats"] },
+  { id: "partner-track", name: "Partner Track", fam: "exec", a: "#2E3440", s: "#E4E5E6", k: "#17191B", on: "#fff", hf: F.man, bf: F.man, tier: "pro", cats: ["pro", "ats"] },
+  { id: "chairperson", name: "Chairperson", fam: "exec", a: "#6A1B2A", s: "#ECE1E3", k: "#251316", on: "#fff", hf: F.fraun, bf: F.lora, tier: "pro", cats: ["pro", "ats"] },
+  { id: "oxford", name: "Oxford", fam: "exec", a: "#002147", s: "#E9DFC4", k: "#0D151D", on: "#fff", hf: F.lora, bf: F.lora, tier: "pro", cats: ["pro", "ats"] },
+  { id: "pinstripe", name: "Pinstripe", fam: "exec", a: "#23395B", s: "#E2E5EA", k: "#151A21", on: "#fff", hf: F.grot, bf: F.man, tier: "pro", cats: ["pro", "ats"] },
+  { id: "corner-office", name: "Corner Office", fam: "exec", a: "#4E342E", s: "#E8E5E4", k: "#1E1917", on: "#fff", hf: F.play, bf: F.man, tier: "pro", cats: ["pro", "ats"] },
+  { id: "merger", name: "Merger", fam: "exec", a: "#0F5257", s: "#E0E9E9", k: "#111F20", on: "#fff", hf: F.work, bf: F.work, tier: "pro", cats: ["pro", "ats"] },
+  { id: "zurich", name: "Zurich", fam: "swiss", a: "#C8102E", s: "#F8E0E4", k: "#391117", on: "#fff", hf: F.space, bf: F.work, tier: "free", cats: ["pro", "ats"] },
+  { id: "swiss-type", name: "Swiss Type", fam: "swiss", a: "#111111", s: "#E0E0E0", k: "#111111", on: "#fff", hf: F.work, bf: F.work, tier: "pro", cats: ["pro", "ats"] },
+  { id: "grid-lock", name: "Grid Lock", fam: "swiss", a: "#1E4FD8", s: "#E2E8FA", k: "#141F3D", on: "#fff", hf: F.space, bf: F.work, tier: "pro", cats: ["tech", "ats"] },
+  { id: "basel", name: "Basel", fam: "swiss", a: "#0B7A55", s: "#DFEEE9", k: "#102820", on: "#fff", hf: F.grot, bf: F.man, tier: "pro", cats: ["pro", "ats"] },
+  { id: "bauhaus-blue", name: "Bauhaus Blue", fam: "swiss", a: "#1D3FAF", s: "#FFE08A", k: "#141B34", on: "#fff", hf: F.space, bf: F.work, tier: "pro", cats: ["creative", "ats"] },
+  { id: "modernist", name: "Modernist", fam: "swiss", a: "#3E4C59", s: "#E6E8E9", k: "#1B1E21", on: "#fff", hf: F.man, bf: F.man, tier: "pro", cats: ["pro", "ats"] },
+  { id: "swiss-clay", name: "Swiss Clay", fam: "swiss", a: "#9A4A2C", s: "#F2E7E4", k: "#2F1E17", on: "#fff", hf: F.work, bf: F.work, tier: "pro", cats: ["creative", "ats"] },
+  { id: "margin-note", name: "Margin Note", fam: "stripe", a: "#155E95", s: "#E1EAF1", k: "#12222E", on: "#fff", hf: F.man, bf: F.man, tier: "free", cats: ["fresher", "ats"] },
+  { id: "bookmark", name: "Bookmark", fam: "stripe", a: "#7A1F33", s: "#EEE2E4", k: "#281418", on: "#fff", hf: F.lora, bf: F.lora, tier: "pro", cats: ["pro", "ats"] },
+  { id: "racing-line", name: "Racing Line", fam: "stripe", a: "#C1121F", s: "#F7E0E2", k: "#381114", on: "#fff", hf: F.out, bf: F.out, tier: "pro", cats: ["creative", "ats"] },
+  { id: "spine", name: "Spine", fam: "stripe", a: "#2D5A3D", s: "#E4EAE6", k: "#17211B", on: "#fff", hf: F.work, bf: F.work, tier: "pro", cats: ["pro", "ats"] },
+  { id: "chai", name: "Chai", fam: "stripe", a: "#8B5A2B", s: "#F0EAE3", k: "#2C2117", on: "#fff", hf: F.dms, bf: F.work, tier: "pro", cats: ["fresher", "ats"] },
+  { id: "monsoon", name: "Monsoon", fam: "stripe", a: "#1D5C6B", s: "#E2EAEC", k: "#142225", on: "#fff", hf: F.out, bf: F.out, tier: "pro", cats: ["fresher", "ats"] },
+  { id: "kohl", name: "Kohl", fam: "stripe", a: "#1A1A2E", s: "#E1E1E4", k: "#131317", on: "#fff", hf: F.grot, bf: F.man, tier: "pro", cats: ["pro", "ats"] },
+  { id: "headline", name: "Headline", fam: "topbar", a: "#3047A8", s: "#E4E7F4", k: "#181D32", on: "#fff", hf: F.man, bf: F.man, tier: "free", cats: ["pro"] },
+  { id: "masthead", name: "Masthead", fam: "topbar", a: "#111111", s: "#E0E0E0", k: "#111111", on: "#fff", hf: F.play, bf: F.man, tier: "pro", cats: ["pro"] },
+  { id: "skyline", name: "Skyline", fam: "topbar", a: "#1767A6", s: "#E1EBF3", k: "#122432", on: "#fff", hf: F.out, bf: F.out, tier: "pro", cats: ["tech", "pro"] },
+  { id: "signal", name: "Signal", fam: "topbar", a: "#B23A48", s: "#F5E5E7", k: "#341A1D", on: "#fff", hf: F.grot, bf: F.man, tier: "pro", cats: ["creative"] },
+  { id: "harbour", name: "Harbour", fam: "topbar", a: "#0F6E6E", s: "#E0ECEC", k: "#112525", on: "#fff", hf: F.work, bf: F.work, tier: "pro", cats: ["pro"] },
+  { id: "ocean-drive", name: "Ocean Drive", fam: "topbar", a: "#006D77", s: "#DEECED", k: "#0D2527", on: "#fff", hf: F.space, bf: F.work, tier: "pro", cats: ["tech"] },
+  { id: "pine-ridge", name: "Pine Ridge", fam: "topbar", a: "#1F4E3D", s: "#E2E8E6", k: "#141E1B", on: "#fff", hf: F.man, bf: F.man, tier: "pro", cats: ["pro"] },
+  { id: "monogram", name: "Monogram", fam: "frame", a: "#1A1A1A", s: "#E1E1E1", k: "#131313", on: "#fff", hf: F.play, bf: F.serif, tier: "pro", cats: ["pro", "ats"] },
+  { id: "heirloom", name: "Heirloom", fam: "frame", a: "#6D4C41", s: "#ECE8E6", k: "#251E1C", on: "#fff", hf: F.lora, bf: F.lora, tier: "pro", cats: ["pro", "ats"] },
+  { id: "gallery-wall", name: "Gallery Wall", fam: "frame", a: "#333333", s: "#E4E4E4", k: "#181818", on: "#fff", hf: F.dms, bf: F.work, tier: "pro", cats: ["creative", "ats"] },
+  { id: "ivory-tower", name: "Ivory Tower", fam: "frame", a: "#23395B", s: "#E9DFC4", k: "#151A21", on: "#fff", hf: F.fraun, bf: F.lora, tier: "pro", cats: ["pro", "ats"] },
+  { id: "embassy", name: "Embassy", fam: "frame", a: "#0E1A33", s: "#E0E1E4", k: "#101318", on: "#fff", hf: F.play, bf: F.serif, tier: "pro", cats: ["pro", "ats"] },
+  { id: "royal-seal", name: "Royal Seal", fam: "frame", a: "#4B2142", s: "#E8E2E6", k: "#1E151C", on: "#fff", hf: F.fraun, bf: F.man, tier: "pro", cats: ["pro", "ats"] },
+  { id: "rosewood", name: "Rosewood", fam: "frame", a: "#8E3B46", s: "#F0E6E7", k: "#2C1A1D", on: "#fff", hf: F.lora, bf: F.lora, tier: "pro", cats: ["creative", "ats"] },
+  { id: "two-tone", name: "Two Tone", fam: "duo", a: "#3F3D9E", s: "#E6E6F2", k: "#1B1B30", on: "#fff", hf: F.out, bf: F.out, tier: "pro", cats: ["creative"] },
+  { id: "colour-block", name: "Colour Block", fam: "duo", a: "#B03A2E", s: "#FFE3B3", k: "#341A17", on: "#fff", hf: F.syne, bf: F.out, tier: "pro", cats: ["creative"] },
+  { id: "dual-core", name: "Dual Core", fam: "duo", a: "#0E1A33", s: "#E0E1E4", k: "#101318", on: "#fff", hf: F.space, bf: F.work, tier: "pro", cats: ["tech"] },
+  { id: "twilight", name: "Twilight", fam: "duo", a: "#5B2A6E", s: "#EAE3EC", k: "#211625", on: "#fff", hf: F.out, bf: F.out, tier: "pro", cats: ["creative"] },
+  { id: "peacock", name: "Peacock", fam: "duo", a: "#006D77", s: "#F6E7C8", k: "#0D2527", on: "#fff", hf: F.grot, bf: F.man, tier: "pro", cats: ["pro"] },
+  { id: "jaipur-pink", name: "Jaipur Pink", fam: "duo", a: "#A2246D", s: "#FBE3EF", k: "#311525", on: "#fff", hf: F.play, bf: F.man, tier: "pro", cats: ["creative"] },
+  { id: "saffron-sky", name: "Saffron Sky", fam: "duo", a: "#A04E00", s: "#DCEBFA", k: "#301E0D", on: "#fff", hf: F.man, bf: F.man, tier: "pro", cats: ["creative", "fresher"] },
+  { id: "ledger", name: "Ledger", fam: "ledger", a: "#1F3A5F", s: "#E2E5EA", k: "#141A22", on: "#fff", hf: F.man, bf: F.man, tier: "free", cats: ["pro", "ats"] },
+  { id: "chronicle", name: "Chronicle", fam: "ledger", a: "#6A1B2A", s: "#ECE1E3", k: "#251316", on: "#fff", hf: F.lora, bf: F.lora, tier: "pro", cats: ["pro", "ats"] },
+  { id: "archive", name: "Archive", fam: "ledger", a: "#3E4C59", s: "#E6E8E9", k: "#1B1E21", on: "#fff", hf: F.work, bf: F.work, tier: "pro", cats: ["pro", "ats"] },
+  { id: "scholar", name: "Scholar", fam: "ledger", a: "#002147", s: "#DEE2E7", k: "#0D151D", on: "#fff", hf: F.fraun, bf: F.lora, tier: "pro", cats: ["fresher", "ats"] },
+  { id: "almanac", name: "Almanac", fam: "ledger", a: "#5B6B2E", s: "#EAECE4", k: "#212517", on: "#fff", hf: F.dms, bf: F.work, tier: "pro", cats: ["pro", "ats"] },
+  { id: "dossier", name: "Dossier", fam: "ledger", a: "#2E3440", s: "#E4E5E6", k: "#17191B", on: "#fff", hf: F.mono, bf: F.man, tier: "pro", cats: ["tech", "ats"] },
+  { id: "record", name: "Record", fam: "ledger", a: "#7D5A2E", s: "#EEEAE4", k: "#292117", on: "#fff", hf: F.play, bf: F.man, tier: "pro", cats: ["pro", "ats"] },
+  { id: "capsule", name: "Capsule", fam: "pill", a: "#6750A4", s: "#EBE8F3", k: "#241F31", on: "#fff", hf: F.out, bf: F.out, tier: "free", cats: ["fresher", "ats"] },
+  { id: "bubble-tea", name: "Bubble Tea", fam: "pill", a: "#8E4B26", s: "#F3E3D3", k: "#2C1E16", on: "#fff", hf: F.out, bf: F.out, tier: "pro", cats: ["creative", "fresher"] },
+  { id: "pastel-pill", name: "Pastel Pill", fam: "pill", a: "#B4235A", s: "#D7F2EA", k: "#351521", on: "#fff", hf: F.out, bf: F.out, tier: "pro", cats: ["creative"] },
+  { id: "candy", name: "Candy", fam: "pill", a: "#C2185B", s: "#F7E1EA", k: "#381321", on: "#fff", hf: F.out, bf: F.out, tier: "pro", cats: ["creative", "fresher"] },
+  { id: "matcha-latte", name: "Matcha Latte", fam: "pill", a: "#4D6B57", s: "#E8ECE9", k: "#1E2520", on: "#fff", hf: F.man, bf: F.man, tier: "pro", cats: ["fresher", "ats"] },
+  { id: "orchid", name: "Orchid", fam: "pill", a: "#7B3F8C", s: "#EEE6F0", k: "#281B2C", on: "#fff", hf: F.grot, bf: F.man, tier: "pro", cats: ["creative"] },
+  { id: "mango", name: "Mango", fam: "pill", a: "#A35F00", s: "#F3EADE", k: "#31220D", on: "#fff", hf: F.out, bf: F.out, tier: "pro", cats: ["fresher", "ats"] },
+  { id: "graphite", name: "Graphite", fam: "solo", a: "#2E3440", s: "#E4E5E6", k: "#17191B", on: "#fff", hf: F.man, bf: F.man, tier: "free", cats: ["pro", "ats"] },
+  { id: "sage-notes", name: "Sage Notes", fam: "solo", a: "#4D6B57", s: "#E8ECE9", k: "#1E2520", on: "#fff", hf: F.work, bf: F.work, tier: "pro", cats: ["fresher", "ats"] },
+  { id: "indigo-ink", name: "Indigo Ink", fam: "solo", a: "#3F3D9E", s: "#E6E6F2", k: "#1B1B30", on: "#fff", hf: F.grot, bf: F.man, tier: "pro", cats: ["pro", "ats"] },
+  { id: "ivy-league", name: "Ivy League", fam: "serif", a: "#1F4E3D", s: "#E2E8E6", k: "#141E1B", on: "#fff", hf: F.play, bf: F.serif, tier: "pro", cats: ["pro", "ats"] },
+  { id: "espresso", name: "Espresso", fam: "serif", a: "#4E342E", s: "#E8E5E4", k: "#1E1917", on: "#fff", hf: F.dms, bf: F.work, tier: "pro", cats: ["pro", "ats"] },
+  { id: "burgundy", name: "Burgundy", fam: "serif", a: "#7A1F33", s: "#EEE2E4", k: "#281418", on: "#fff", hf: F.fraun, bf: F.lora, tier: "pro", cats: ["pro", "ats"] },
+  { id: "petrol", name: "Petrol", fam: "rail", a: "#1D5C6B", s: "#E2EAEC", k: "#142225", on: "#fff", hf: F.man, bf: F.man, tier: "pro", cats: ["pro"] },
+  { id: "forest-rail", name: "Forest Rail", fam: "rail", a: "#2D5A3D", s: "#E4EAE6", k: "#17211B", on: "#fff", hf: F.out, bf: F.out, tier: "pro", cats: ["pro"] },
+  { id: "copper", name: "Copper", fam: "railr", a: "#8E4B26", s: "#F0E8E3", k: "#2C1E16", on: "#fff", hf: F.lora, bf: F.lora, tier: "pro", cats: ["creative"] },
+  { id: "lavender-haze", name: "Lavender Haze", fam: "railr", a: "#6750A4", s: "#EBE8F3", k: "#241F31", on: "#fff", hf: F.out, bf: F.out, tier: "pro", cats: ["fresher"] },
+  { id: "cobalt", name: "Cobalt", fam: "band", a: "#1E4FD8", s: "#E2E8FA", k: "#141F3D", on: "#fff", hf: F.space, bf: F.work, tier: "pro", cats: ["tech", "pro"] },
+  { id: "terracotta", name: "Terracotta", fam: "band", a: "#A94A2C", s: "#F4E7E4", k: "#321E17", on: "#fff", hf: F.grot, bf: F.man, tier: "pro", cats: ["creative"] },
+  { id: "bronze", name: "Bronze", fam: "split", a: "#7D5A2E", s: "#EEEAE4", k: "#292117", on: "#fff", hf: F.play, bf: F.serif, tier: "pro", cats: ["creative", "pro"] },
+  { id: "kernel", name: "Kernel", fam: "mono", a: "#6D28D9", s: "#ECE3FA", k: "#25163D", on: "#fff", hf: F.mono, bf: F.man, tier: "pro", cats: ["tech", "ats"] },
+  { id: "milestone", name: "Milestone", fam: "time", a: "#0B7A55", s: "#DFEEE9", k: "#102820", on: "#fff", hf: F.man, bf: F.man, tier: "pro", cats: ["fresher", "ats"] },
+  { id: "sprint", name: "Sprint", fam: "compact", a: "#1D3FAF", s: "#E2E6F5", k: "#141B34", on: "#fff", hf: F.grot, bf: F.man, tier: "pro", cats: ["pro", "tech"] },
 ];
-const FAM_LABEL = { solo: "Single column", serif: "Classic serif", bold: "Big name", rail: "Sidebar", railr: "Right panel", band: "Colour header", split: "Editorial split", mono: "Code style", time: "Timeline", compact: "Compact" };
+const FAM_LABEL = { solo: "Single column", serif: "Classic serif", bold: "Big name", rail: "Sidebar", railr: "Right panel", band: "Colour header", split: "Editorial split", mono: "Code style", time: "Timeline", compact: "Compact", exec: "Executive", swiss: "Swiss grid", stripe: "Side stripe", topbar: "Top bar", frame: "Framed", duo: "Two-tone", ledger: "Date column", pill: "Pill headings" };
 
 // Fictional example people shown on the gallery sheets.
 const SAMPLES = {
@@ -670,21 +819,27 @@ const has = v => Array.isArray(v) ? v.length > 0 : String(v ?? "").trim() !== ""
 const contactList = d => [d.email, d.phone, d.city, d.link].filter(has).map(esc);
 
 function sections(d, fam) {
-  const H = t => `<h4>${t}</h4>`;
-  const exp = (d.experience || []).filter(e => has(e.role) || has(e.company)).map(e => `<div class="it"><div class="ih"><b>${esc(e.role)}</b><span class="dt">${esc(e.dates)}</span></div><div class="io">${esc(e.company)}</div>${(e.bullets || []).filter(has).length ? `<ul>${e.bullets.filter(has).map(b => `<li>${esc(b)}</li>`).join("")}</ul>` : ""}</div>`).join("");
-  const edu = (d.education || []).filter(e => has(e.degree) || has(e.school)).map(e => `<div class="it"><div class="ih"><b>${esc(e.degree)}</b><span class="dt">${esc(e.year)}</span></div><div class="io">${esc(e.school)}${has(e.score) ? ` · ${esc(e.score)}` : ""}</div></div>`).join("");
+  const ledger = fam === "ledger";
+  const ul = bs => (bs || []).filter(has).length ? `<ul>${bs.filter(has).map(b => `<li>${esc(b)}</li>`).join("")}</ul>` : "";
+  const exp = (d.experience || []).filter(e => has(e.role) || has(e.company)).map(e => ledger
+    ? `<div class="lg"><div class="dt">${esc(e.dates)}</div><div><b>${esc(e.role)}</b><div class="io">${esc(e.company)}</div>${ul(e.bullets)}</div></div>`
+    : `<div class="it"><div class="ih"><b>${esc(e.role)}</b><span class="dt">${esc(e.dates)}</span></div><div class="io">${esc(e.company)}</div>${ul(e.bullets)}</div>`).join("");
+  const edu = (d.education || []).filter(e => has(e.degree) || has(e.school)).map(e => ledger
+    ? `<div class="lg"><div class="dt">${esc(e.year)}</div><div><b>${esc(e.degree)}</b><div class="io">${esc(e.school)}${has(e.score) ? ` · ${esc(e.score)}` : ""}</div></div></div>`
+    : `<div class="it"><div class="ih"><b>${esc(e.degree)}</b><span class="dt">${esc(e.year)}</span></div><div class="io">${esc(e.school)}${has(e.score) ? ` · ${esc(e.score)}` : ""}</div></div>`).join("");
   const proj = (d.projects || []).filter(p => has(p.name)).map(p => `<div class="it"><b>${esc(p.name)}</b><div class="io">${esc(p.desc)}</div></div>`).join("");
   const skills = (d.skills || []).filter(has);
   const extras = (d.extras || []).filter(has);
-  const expTitle = fam === "mono" ? "experience" : "Experience";
   const t = s => fam === "mono" ? s.toLowerCase() : s;
+  // Swiss puts each section in a label column + content column.
+  const sec = (title, body) => fam === "swiss" ? `<div class="sx"><h4>${t(title)}</h4><div>${body}</div></div>` : `<h4>${t(title)}</h4>${body}`;
   return {
-    summary: has(d.summary) ? `${H(t("Profile"))}<p class="sum">${esc(d.summary)}</p>` : "",
-    exp: exp ? `${H(expTitle)}${fam === "time" ? `<div class="tl">${exp}</div>` : exp}` : "",
-    edu: edu ? `${H(t("Education"))}${edu}` : "",
-    proj: proj ? `${H(t("Projects"))}${proj}` : "",
-    skills: skills.length ? `${H(t("Skills"))}<div class="sk">${skills.map(s => `<span>${esc(s)}</span>`).join("")}</div>` : "",
-    extras: extras.length ? `${H(t(fam === "rail" ? "Also" : "Certifications & more"))}<ul>${extras.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : "",
+    summary: has(d.summary) ? sec("Profile", `<p class="sum">${esc(d.summary)}</p>`) : "",
+    exp: exp ? sec("Experience", fam === "time" ? `<div class="tl">${exp}</div>` : exp) : "",
+    edu: edu ? sec("Education", edu) : "",
+    proj: proj ? sec("Projects", proj) : "",
+    skills: skills.length ? sec("Skills", `<div class="sk">${skills.map(s => `<span>${esc(s)}</span>`).join("")}</div>`) : "",
+    extras: extras.length ? sec(fam === "rail" ? "Also" : "Certifications & more", `<ul>${extras.map(x => `<li>${esc(x)}</li>`).join("")}</ul>`) : "",
   };
 }
 
@@ -715,6 +870,16 @@ function renderResume(d, th) {
       return `<div class="f-bold"><div class="hd"><div class="nm"><span>${nm}</span></div><div class="ti">${ti}</div><div class="ct">${ctLine}</div></div><div class="bd"><div>${S.summary}${S.exp}${S.proj}</div><div>${S.skills}${S.edu}${S.extras}</div></div></div>`;
     case "compact":
       return `<div class="f-compact"><div class="hd"><div><div class="nm">${nm}</div><div class="ti">${ti}</div></div>${ctCol}</div>${S.summary}<div class="bd"><div>${S.exp}${S.proj}</div><div>${S.edu}${S.skills}${S.extras}</div></div></div>`;
+    case "exec":
+      return `<div class="f-exec"><div class="hd"><div><div class="nm">${nm}</div><div class="ti">${ti}</div></div>${ctCol}</div>${S.summary}${S.exp}${S.proj}${S.edu}${S.skills}${S.extras}</div>`;
+    case "swiss": case "stripe": case "pill": case "ledger":
+      return `<div class="f-${th.fam}"><div class="hdr"><div class="nm">${nm}</div><div class="ti">${ti}</div><div class="ct">${ctLine}</div></div>${S.summary}${S.exp}${S.proj}${S.edu}${S.skills}${S.extras}</div>`;
+    case "topbar":
+      return `<div class="f-topbar"><div class="hd"><div><div class="nm">${nm}</div><div class="ti">${ti}</div></div>${ctCol}</div><div class="bd"><div>${S.summary}${S.exp}${S.proj}</div><div>${S.edu}${S.skills}${S.extras}</div></div></div>`;
+    case "frame":
+      return `<div class="f-frame"><div class="hdr"><div class="nm">${nm}</div><div class="ti">${ti}</div><div class="ct">${ctLine}</div></div>${S.summary}${S.exp}${S.edu}${S.proj}${S.skills}${S.extras}</div>`;
+    case "duo":
+      return `<div class="f-duo"><div class="hd"><div><div class="nm">${nm}</div><div class="ti">${ti}</div></div><div>${ctCol}</div></div><div class="bd">${S.summary}${S.exp}${S.proj}${S.edu}${S.skills}${S.extras}</div></div>`;
   }
   return "";
 }
@@ -737,28 +902,47 @@ const fan = document.getElementById("fan");
 });
 
 const grid = document.getElementById("grid");
+// Cards are cheap shells; the A4 preview inside each is drawn only when it scrolls near the screen.
+const lazy = new IntersectionObserver(entries => entries.forEach(e => {
+  if (!e.isIntersecting) return;
+  const sheet = e.target, th = THEMES.find(t => t.id === sheet.dataset.preview);
+  lazy.unobserve(sheet);
+  mountSheet(sheet, sampleFor(th), th);
+  const badge = document.createElement("span");
+  badge.className = `tier ${th.tier}`; badge.textContent = th.tier === "free" ? "FREE" : "PRO";
+  sheet.append(badge);
+}), { rootMargin: "600px 0px" });
 THEMES.forEach(th => {
   const c = document.createElement("article");
   c.className = "card";
   c.dataset.cats = [...th.cats, th.tier].join(" ");
   c.innerHTML = `<div class="sheet" data-preview="${th.id}" role="button" tabindex="0" aria-label="Preview ${th.name}"></div>
     <div class="card-meta"><h3>${th.name}</h3></div>
-    <div class="tags"><span class="tag">${FAM_LABEL[th.fam]}</span>${th.cats.includes("ats") ? '<span class="tag">ATS-safe</span>' : ""}<span class="tag">AI-readable</span></div>
+    <div class="tags"><span class="tag">${FAM_LABEL[th.fam]}</span>${th.cats.includes("ats") ? '<span class="tag">ATS-safe</span>' : ""}</div>
     <div class="acts"><button class="btn sm solid" type="button" data-use="${th.id}">Use this</button><button class="btn sm" type="button" data-preview="${th.id}">Preview</button></div>`;
   grid.append(c);
-  const sheet = c.querySelector(".sheet");
-  mountSheet(sheet, sampleFor(th), th);
-  const badge = document.createElement("span");
-  badge.className = `tier ${th.tier}`; badge.textContent = th.tier === "free" ? "FREE" : "PRO";
-  sheet.append(badge);
+  lazy.observe(c.querySelector(".sheet"));
 });
-
+const PAGE = 24;
+let galleryFilter = "all", galleryLimit = PAGE;
+const moreBtn = document.getElementById("more");
+function applyGallery() {
+  const cards = [...grid.querySelectorAll(".card")];
+  const match = cards.filter(c => galleryFilter === "all" || c.dataset.cats.split(" ").includes(galleryFilter));
+  cards.forEach(c => { c.hidden = true; });
+  match.slice(0, galleryLimit).forEach(c => { c.hidden = false; });
+  const left = match.length - galleryLimit;
+  moreBtn.hidden = left <= 0;
+  moreBtn.textContent = `Show ${Math.min(PAGE, left)} more designs`;
+  document.getElementById("count").textContent = `${Math.min(galleryLimit, match.length)} of ${match.length} designs`;
+}
+moreBtn.addEventListener("click", () => { galleryLimit += PAGE; applyGallery(); });
 document.getElementById("filters").addEventListener("click", e => {
   const chip = e.target.closest(".chip"); if (!chip) return;
   document.querySelectorAll("#filters .chip").forEach(c => c.setAttribute("aria-pressed", c === chip));
-  const f = chip.dataset.f;
-  grid.querySelectorAll(".card").forEach(c => { c.hidden = f !== "all" && !c.dataset.cats.split(" ").includes(f); });
+  galleryFilter = chip.dataset.f; galleryLimit = PAGE; applyGallery();
 });
+applyGallery();
 
 // ---------- builder state ----------
 const STORE = "slaycv-draft";
@@ -822,7 +1006,7 @@ document.getElementById("clear-sample").addEventListener("click", () => { state.
 
 // design pickers
 const pick = document.getElementById("design-pick");
-pick.innerHTML = THEMES.map(t => `<option value="${t.id}">${t.name}${t.tier === "pro" ? " · Pro" : " · Free"}</option>`).join("");
+pick.innerHTML = Object.keys(FAM_LABEL).map(f => `<optgroup label="${FAM_LABEL[f]}">${THEMES.filter(t => t.fam === f).map(t => `<option value="${t.id}">${t.name}${t.tier === "pro" ? " · Pro" : " · Free"}</option>`).join("")}</optgroup>`).join("");
 const strip = document.getElementById("strip");
 strip.innerHTML = THEMES.map(t => `<button type="button" data-theme="${t.id}"><i style="background:${t.a}"></i>${t.name}</button>`).join("");
 function setTheme(id) {
@@ -1052,13 +1236,13 @@ function plainText(d) {
 const hex6 = c => { const h = c.replace("#", ""); return (h.length === 3 ? h.replace(/(.)/g, "$1$1") : h).toUpperCase(); };
 const lum = c => { const h = hex6(c); const [r, g, b] = [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16) / 255); return 0.2126 * r + 0.7152 * g + 0.0722 * b; };
 function docxLook(th) {
-  const serifH = [F.play, F.dms].includes(th.hf), serifB = th.bf === F.serif, mono = th.hf === F.mono;
+  const serifH = [F.play, F.dms, F.fraun, F.lora, F.serif].includes(th.hf), serifB = [F.serif, F.lora].includes(th.bf), mono = th.hf === F.mono;
   return {
     accent: hex6(lum(th.a) > 0.45 ? th.k : th.a),   // keep text accents readable on white
     ink: hex6(th.k), muted: "555555", on: hex6(th.on), soft: hex6(th.s), band: hex6(th.a),
     hf: mono ? "Consolas" : serifH ? "Georgia" : "Calibri",
     bf: serifB ? "Georgia" : "Calibri",
-    upper: !["serif", "mono", "bold"].includes(th.fam),
+    upper: !["serif", "mono", "bold", "stripe", "topbar"].includes(th.fam),
   };
 }
 const NOB = () => { const { BorderStyle } = window.docx; const n = { style: BorderStyle.NONE, size: 0, color: "FFFFFF" }; return { top: n, bottom: n, left: n, right: n, insideHorizontal: n, insideVertical: n }; };
@@ -1066,23 +1250,24 @@ const NOB = () => { const { BorderStyle } = window.docx; const n = { style: Bord
 // Header block: name, title, contact. Returns paragraphs or a shaded one-cell table.
 function docxHeader(d, th, L, { contactInHeader = true } = {}) {
   const { Paragraph, TextRun, Table, TableRow, TableCell, WidthType, ShadingType, AlignmentType } = window.docx;
-  const center = th.fam === "serif";
-  const shaded = th.fam === "band" || th.fam === "compact";
-  const nameColor = th.fam === "band" ? L.on : (th.fam === "split" || th.fam === "serif" || th.fam === "time" || th.fam === "bold") ? L.ink : L.accent;
+  const center = th.fam === "serif" || th.fam === "frame";
+  const dark = th.fam === "band" || th.fam === "duo";
+  const shaded = dark || th.fam === "compact";
+  const nameColor = dark ? L.on : th.fam === "stripe" ? L.accent : ["exec", "swiss", "topbar", "frame", "ledger", "pill"].includes(th.fam) ? L.ink : (th.fam === "split" || th.fam === "serif" || th.fam === "time" || th.fam === "bold") ? L.ink : L.accent;
   const size = th.fam === "bold" ? 60 : th.fam === "compact" ? 40 : 48;
   const align = center ? AlignmentType.CENTER : AlignmentType.LEFT;
   const ct = [d.email, d.phone, d.city, d.link].filter(has).join("  ·  ");
-  const sub = th.fam === "band" ? L.on : th.fam === "solo" || th.fam === "compact" ? L.ink : L.accent;
+  const sub = dark ? L.on : th.fam === "solo" || th.fam === "compact" ? L.ink : L.accent;
   const paras = [
     new Paragraph({ alignment: align, children: [new TextRun({ text: d.name || "Your Name", bold: true, size, color: nameColor, font: L.hf })] }),
     has(d.title) ? new Paragraph({ alignment: align, spacing: { before: 40 }, children: [new TextRun({ text: d.title, size: 26, color: sub, italics: center, font: L.hf })] }) : null,
-    contactInHeader && ct ? new Paragraph({ alignment: align, spacing: { before: 80 }, children: [new TextRun({ text: ct, size: 19, color: th.fam === "band" ? L.on : L.muted })] }) : null,
+    contactInHeader && ct ? new Paragraph({ alignment: align, spacing: { before: 80 }, children: [new TextRun({ text: ct, size: 19, color: dark ? L.on : L.muted })] }) : null,
   ].filter(Boolean);
   if (!shaded) {
-    if (th.fam === "split") paras.push(new Paragraph({ spacing: { after: 120 }, border: { bottom: { style: window.docx.BorderStyle.SINGLE, size: 24, color: L.accent, space: 6 } }, children: [] }));
+    if (["split", "exec", "swiss", "ledger"].includes(th.fam)) paras.push(new Paragraph({ spacing: { after: 120 }, border: { bottom: { style: window.docx.BorderStyle.SINGLE, size: 24, color: L.accent, space: 6 } }, children: [] }));
     return paras;
   }
-  const fill = th.fam === "band" ? L.band : L.soft;
+  const fill = dark ? L.band : L.soft;
   return [new Table({
     width: { size: 100, type: WidthType.PERCENTAGE }, borders: NOB(),
     rows: [new TableRow({ children: [new TableCell({ shading: { fill, type: ShadingType.CLEAR, color: "auto" }, margins: { top: 300, bottom: 300, left: 300, right: 300 }, children: paras })] })],
@@ -1112,10 +1297,10 @@ function buildDocx(d, th) {
     extras: side => (d.extras || []).length ? [head("Certifications & more", side), ...d.extras.map(x => new Paragraph({ bullet: { level: 0 }, children: [new TextRun({ text: x, color: c(side).ink })] }))] : [],
     contact: side => { const xs = [d.email, d.phone, d.city, d.link].filter(has); return xs.length ? [head("Contact", side), ...xs.map(x => new Paragraph({ children: [new TextRun({ text: x, size: 19, color: c(side).ink })] }))] : []; },
   };
-  const twoCol = { rail: 1, railr: 1, split: 1, bold: 1, compact: 1 }[th.fam];
+  const twoCol = { rail: 1, railr: 1, split: 1, bold: 1, compact: 1, topbar: 1 }[th.fam];
   let kids;
   if (!twoCol) {
-    const order = th.fam === "serif" || th.fam === "time" ? ["summary", "exp", "edu", "proj", "skills", "extras"] : ["summary", "exp", "proj", "edu", "skills", "extras"];
+    const order = ["serif", "time", "frame"].includes(th.fam) ? ["summary", "exp", "edu", "proj", "skills", "extras"] : ["summary", "exp", "proj", "edu", "skills", "extras"];
     kids = [...docxHeader(d, th, L), ...order.flatMap(k => sec[k](false))];
   } else {
     const contactInSide = th.fam === "rail" || th.fam === "railr";
@@ -1278,6 +1463,10 @@ function renderLetter(d, L, th) {
     case "split": return `<div class="f-split"><div class="hd"><div><div class="nm">${nm}</div><div class="ti">${ti}</div></div>${ctCol}</div>${lt}</div>`;
     case "bold": return `<div class="f-bold"><div class="hd"><div class="nm"><span>${nm}</span></div><div class="ti">${ti}</div><div class="ct">${ctLine}</div></div>${lt}</div>`;
     case "compact": return `<div class="f-compact"><div class="hd"><div><div class="nm">${nm}</div><div class="ti">${ti}</div></div>${ctCol}</div>${lt}</div>`;
+    case "exec": case "topbar": return `<div class="f-${th.fam}"><div class="hd"><div><div class="nm">${nm}</div><div class="ti">${ti}</div></div>${ctCol}</div>${lt}</div>`;
+    case "swiss": case "stripe": case "pill": case "ledger": case "frame":
+      return `<div class="f-${th.fam}"><div class="hdr"><div class="nm">${nm}</div><div class="ti">${ti}</div><div class="ct">${ctLine}</div></div>${lt}</div>`;
+    case "duo": return `<div class="f-duo"><div class="hd"><div><div class="nm">${nm}</div><div class="ti">${ti}</div></div><div>${ctCol}</div></div>${lt}</div>`;
   }
   return "";
 }
